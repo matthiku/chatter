@@ -33,12 +33,12 @@ const app = new Vue({
     addMessage (payload) {
       // add to local list of messages
       this.messages.push(payload);
-      // push to backend
+      // persist new message to backend DB
       axios.post('/chatter/public/messages', {message: payload.message})
       .then(response => {
-        if (response.data) {
-          this.messages = response.data;
-        }          
+        if (!response.data) {
+          console.warn(response);
+        }
       });
     }
   },
@@ -53,6 +53,19 @@ const app = new Vue({
     .then(response => {
       if (response.data) {
         this.messages = response.data;
+      }
+    });
+
+    // start listening to our backend broadcast channel
+    Echo.join('chatroom')
+    .here()
+    .joining()
+    .leaving()
+    .listen('MessagePosted', (e) => {
+      if (e.message) {
+        let msg = e.message;
+        msg.user = e.user;
+        this.messages.push(msg);
       }
     });
   }

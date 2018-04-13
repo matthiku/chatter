@@ -1,5 +1,7 @@
 <?php
 
+use App\Events\MessagePosted;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,7 +15,7 @@
 
 Route::get(
     '/', function () {
-        return view('welcome');
+        return view('chat');
     }
 );
 
@@ -34,17 +36,21 @@ Route::get(
 )->middleware('auth');
 
 
-// add a new message
+// STORE a new message
 Route::post(
     '/messages', function () {
         // get user and create a message with the request payload
         $user = Auth::user();
         $message = request()->get('message');
         if (strlen($message)) {
-            $user->messages()->create(['message' => $message]);
+            $message = $user->messages()->create(['message' => $message]);
+
+            // Announce that a new message was posted
+            broadcast(new MessagePosted($message, $user))->toOthers();
+
+            // return all messages incl the new
+            return ['status' => 'OK'];
         }
-        // return all messages incl the new
-        return App\Message::with('user')->get();
     }
 )->middleware('auth');
 
