@@ -46,7 +46,7 @@ Route::post(
             $message = $user->messages()->create(['message' => $message]);
 
             // Announce that a new message was posted
-            broadcast(new MessagePosted($message, $user))->toOthers();
+            broadcast(new MessagePosted($message, $user));
 
             // return all messages incl the new
             return ['status' => 'OK'];

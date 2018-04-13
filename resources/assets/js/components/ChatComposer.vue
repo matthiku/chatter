@@ -29,6 +29,9 @@ export default {
 
   methods: {
     sendMessage () {
+      // do nothing if message text is empty
+      if (!this.messageText) return
+
       this.$emit('messagesent', {
         message: this.messageText,
         user: this.user

@@ -15,6 +15,7 @@ window.Vue = require('vue');
  */
 
 Vue.component('chat-log', require('./components/ChatLog.vue'));
+Vue.component('chat-header', require('./components/ChatHeader.vue'));
 Vue.component('chat-message', require('./components/ChatMessage.vue'));
 Vue.component('chat-composer', require('./components/ChatComposer.vue'));
 
@@ -25,14 +26,13 @@ const app = new Vue({
 
   data: {
     messages: [],
-    user: {}
+    user: {},
+    usersInRoom: []
   },
 
 
   methods: {
     addMessage (payload) {
-      // add to local list of messages
-      this.messages.push(payload);
       // persist new message to backend DB
       axios.post('/chatter/public/messages', {message: payload.message})
       .then(response => {
@@ -58,14 +58,23 @@ const app = new Vue({
 
     // start listening to our backend broadcast channel
     Echo.join('chatroom')
-    .here()
-    .joining()
-    .leaving()
+
+    .here((users) => {
+      // getting list of all users logged into this room
+      this.usersInRoom = users
+    })
+
+    .joining(user => this.usersInRoom.push(user))
+
+    .leaving(user => this.usersInRoom = this.usersInRoom.filter(u => u !== user))
+
     .listen('MessagePosted', (e) => {
       if (e.message) {
         let msg = e.message;
         msg.user = e.user;
         this.messages.push(msg);
+      } else {
+        console.warn(e);
       }
     });
   }
