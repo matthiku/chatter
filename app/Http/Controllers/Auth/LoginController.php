@@ -25,7 +25,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/chat';
 
     /**
      * Create a new controller instance.
@@ -36,4 +36,17 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+
+    /**
+     * Define the field that is used to identify a user
+     * (By default, Laravel uses the email field for authentication)
+     * 
+     * @return fieldName
+     */
+    public function username()
+    {
+        return 'username';
+    }
+
 }
