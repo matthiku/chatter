@@ -3,6 +3,7 @@
 
     <input
         type="text"
+        id="message"
         placeholder="start typing"
         @keyup.enter="sendMessage"
         v-model="messageText"
