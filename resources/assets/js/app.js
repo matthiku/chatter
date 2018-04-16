@@ -34,7 +34,7 @@ const app = new Vue({
   methods: {
     addMessage (payload) {
       // persist new message to backend DB
-      axios.post('/chatter/public/messages', {message: payload.message})
+      axios.post('/messages', {message: payload.message})
       .then(response => {
         if (!response.data) {
           console.warn(response);
@@ -49,7 +49,7 @@ const app = new Vue({
     this.user = JSON.parse(chatter_server_data.user);
 
     // get all messages from the backend
-    axios.get('/chatter/public/messages')
+    axios.get('/messages')
     .then(response => {
       if (response.data) {
         this.messages = response.data;
