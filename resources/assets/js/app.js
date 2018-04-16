@@ -46,37 +46,39 @@ const app = new Vue({
 
   created () {
     // get the user object from the global namespace (set in layouts\app.blade.php)
-    this.user = JSON.parse(chatter_server_data.user);
+    this.user = chatter_server_data.user
 
-    // get all messages from the backend
-    axios.get('/messages')
-    .then(response => {
-      if (response.data) {
-        this.messages = response.data;
-      }
-    });
-
-    // start listening to our backend broadcast channel
-    Echo.join('chatroom')
-
-    .here((users) => {
-      // getting list of all users logged into this room
-      this.usersInRoom = users
-    })
-
-    .joining(user => this.usersInRoom.push(user))
-
-    .leaving(user => this.usersInRoom = this.usersInRoom.filter(u => u !== user))
-
-    .listen('MessagePosted', (e) => {
-      if (e.message) {
-        let msg = e.message;
-        msg.user = e.user;
-        this.messages.push(msg);
-      } else {
-        console.warn(e);
-      }
-    });
+    // get all messages from the backend, but only when user was logged in
+    if (this.user.name !== 'guest') {
+      axios.get('/messages')
+      .then(response => {
+        if (response.data) {
+          this.messages = response.data;
+        }
+      });
+      
+      // start listening to our backend broadcast channel
+      Echo.join('chatroom')
+      
+      .here((users) => {
+        // getting list of all users logged into this room
+        this.usersInRoom = users
+      })
+      
+      .joining(user => this.usersInRoom.push(user))
+      
+      .leaving(user => this.usersInRoom = this.usersInRoom.filter(u => u !== user))
+      
+      .listen('MessagePosted', (e) => {
+        if (e.message) {
+          let msg = e.message;
+          msg.user = e.user;
+          this.messages.push(msg);
+        } else {
+          console.warn(e);
+        }
+      });
+    }
   }
 
 });

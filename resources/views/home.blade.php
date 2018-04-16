@@ -14,7 +14,15 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                    @auth
+                        You are logged in! 
+                        <p>
+                            Start chatting.
+                            <button class="btn btn-primary float-right">New Chat</button>
+                        </p>
+                    @else
+                        ChatterBox 2.0 - Please log in or register to participate
+                    @endauth
                 </div>
             </div>
         </div>

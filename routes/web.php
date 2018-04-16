@@ -15,7 +15,7 @@ use App\Events\MessagePosted;
 
 Route::get(
     '/', function () {
-        return view('chat');
+        return view('home');
     }
 );
 
