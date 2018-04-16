@@ -15,4 +15,12 @@ mix
   .js('resources/assets/js/app.js', 'public/js')
   .sourceMaps()
   .extract(['vue'])
+  
   .sass('resources/assets/sass/app.scss', 'public/css')
+
+  .browserSync()
+;
+
+if (mix.inProduction()) {
+  mix.version();
+}

@@ -9,7 +9,7 @@
       ></chat-message>
 
     <div class="empty" v-if="!messages.length">
-      Nothing here yet!
+      Nothing here yet! Send a message!
     </div>
 
   </div>  
