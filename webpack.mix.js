@@ -18,7 +18,9 @@ mix
   
   .sass('resources/assets/sass/app.scss', 'public/css')
 
-  .browserSync()
+  .browserSync({
+    proxy: 'chatter.oo'
+  })
 ;
 
 if (mix.inProduction()) {
