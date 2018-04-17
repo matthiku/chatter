@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
-use App\Notifications\VerifyEmail;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -24,12 +23,14 @@ class RegisterController extends Controller
 
     use RegistersUsers;
 
+
     /**
      * Where to redirect users after registration.
      *
      * @var string
      */
-    protected $redirectTo = '/chat';
+    protected $redirectTo = '/home';
+
 
 
     /**
@@ -47,26 +48,32 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param array $data login form data
+     *
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'username' => 'required|string|max:255',
-            'password' => 'required|string|min:6|confirmed',
-        ]);
+        return Validator::make(
+            $data, [
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:users',
+                'username' => 'required|string|max:255|unique:users',
+                'password' => 'required|string|min:6|confirmed',
+            ]
+        );
     }
+
+
 
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param array $data form data
+     *
      * @return \App\User
      */
-    protected function create(array $data)
+    public function create(array $data)
     {
         $user = User::create(
             [
@@ -78,8 +85,10 @@ class RegisterController extends Controller
             ]
         );
 
-        $user->notify(new VerifyEmail, $user)
+        $user->sendVerificationEmail();
 
         return $user;
     }
+
+
 }

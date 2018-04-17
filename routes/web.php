@@ -13,12 +13,28 @@ use App\Events\MessagePosted;
 |
 */
 
+
+/**
+ * Authentication Routes
+ */
+Auth::routes();
+
+Route::get(
+    'verify/{token}', 'Auth\VerifyController@verifyEmail'
+)->name('verify');
+
+
+
+/**
+ * Other Routes
+ */
+
+Route::get('/home', 'HomeController@index')->name('home');
 Route::get(
     '/', function () {
         return view('home');
     }
 );
-
 
 // get the CHAT room
 Route::get(
@@ -54,10 +70,3 @@ Route::post(
     }
 )->middleware('auth');
 
-
-
-
-Auth::routes();
-
-
-Route::get('/home', 'HomeController@index')->name('home');

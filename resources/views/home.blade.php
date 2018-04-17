@@ -20,6 +20,7 @@
                             Start chatting.
                             <button class="btn btn-primary float-right">New Chat</button>
                         </p>
+                        Your E-Mail address {{ auth()->user()->isVerified() ? 'is verified' : 'has not been verified yet. Please check your email.' }}
                     @else
                         ChatterBox 2.0 - Please log in or register to participate
                     @endauth

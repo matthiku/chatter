@@ -1,0 +1,24 @@
++--------+----------+-------------------------------+------------------+------------------------------------------------------------------------+--------------+
+| Domain | Method   | URI                           | Name             | Action                                                                 | Middleware   |
++--------+----------+-------------------------------+------------------+------------------------------------------------------------------------+--------------+
+|        | GET|HEAD | /                             |                  | Closure                                                                | web          |
+|        | GET|HEAD | _dusk/login/{userId}/{guard?} |                  | Laravel\Dusk\Http\Controllers\UserController@login                     | web          |
+|        | GET|HEAD | _dusk/logout/{guard?}         |                  | Laravel\Dusk\Http\Controllers\UserController@logout                    | web          |
+|        | GET|HEAD | _dusk/user/{guard?}           |                  | Laravel\Dusk\Http\Controllers\UserController@user                      | web          |
+|        | GET|HEAD | api/user                      |                  | Closure                                                                | api,auth:api |
+|        | POST     | broadcasting/auth             |                  | Illuminate\Broadcasting\BroadcastController@authenticate               | web          |
+|        | GET|HEAD | chat                          |                  | Closure                                                                | web,auth     |
+|        | GET|HEAD | home                          | home             | App\Http\Controllers\HomeController@index                              | web,auth     |
+|        | GET|HEAD | login                         | login            | App\Http\Controllers\Auth\LoginController@showLoginForm                | web,guest    |
+|        | POST     | login                         |                  | App\Http\Controllers\Auth\LoginController@login                        | web,guest    |
+|        | POST     | logout                        | logout           | App\Http\Controllers\Auth\LoginController@logout                       | web          |
+|        | GET|HEAD | messages                      |                  | Closure                                                                | web,auth     |
+|        | POST     | messages                      |                  | Closure                                                                | web,auth     |
+|        | POST     | password/email                | password.email   | App\Http\Controllers\Auth\ForgotPasswordController@sendResetLinkEmail  | web,guest    |
+|        | POST     | password/reset                |                  | App\Http\Controllers\Auth\ResetPasswordController@reset                | web,guest    |
+|        | GET|HEAD | password/reset                | password.request | App\Http\Controllers\Auth\ForgotPasswordController@showLinkRequestForm | web,guest    |
+|        | GET|HEAD | password/reset/{token}        | password.reset   | App\Http\Controllers\Auth\ResetPasswordController@showResetForm        | web,guest    |
+|        | POST     | register                      |                  | App\Http\Controllers\Auth\RegisterController@register                  | web,guest    |
+|        | GET|HEAD | register                      | register         | App\Http\Controllers\Auth\RegisterController@showRegistrationForm      | web,guest    |
+|        | GET|HEAD | verify/{token}                | verify           | App\Http\Controllers\Auth\VerifyController@verifyEmail                 | web          |
++--------+----------+-------------------------------+------------------+------------------------------------------------------------------------+--------------+

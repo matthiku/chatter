@@ -45,8 +45,8 @@ class VerifyEmail extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
+                    ->line('Please verify your email address to continue.')
+                    ->action('Verify Account', route('verify', $this->user->token))
                     ->line('Thank you for using our application!');
     }
 
