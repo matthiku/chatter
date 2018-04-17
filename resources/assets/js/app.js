@@ -34,7 +34,7 @@ const app = new window.Vue({
   methods: {
     addMessage (payload) {
       // persist new message to backend DB
-      axios.post('/messages', {message: payload.message})
+      axios.post('/api/messages', {message: payload.message})
         .then(response => {
           if (!response.data) {
             console.warn(response)
@@ -50,7 +50,7 @@ const app = new window.Vue({
 
     // get all messages from the backend, but only when user was logged in
     if (this.user.name !== 'guest') {
-      axios.get('/messages')
+      axios.get('/api/messages')
         .then(response => {
           if (response.data) {
             this.messages = response.data

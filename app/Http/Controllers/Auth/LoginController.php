@@ -88,7 +88,7 @@ class LoginController extends Controller
         $expiresIn = $providerData->expiresIn;
         // $providerData->getId();
 
-        $status = $this->userFindOrCreate($providerData);
+        $status = $this->userFindOrCreate($providerData, $provider);
 
         return redirect()
             ->route('home')
@@ -97,7 +97,7 @@ class LoginController extends Controller
     }
 
 
-    public function userFindOrCreate($providerData)
+    public function userFindOrCreate($providerData, $provider)
     {
         // check if the email already exists, then we just log in the user
         $user = User::where('email', $providerData->getEmail())->first();
