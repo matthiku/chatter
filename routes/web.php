@@ -27,6 +27,15 @@ Route::get(
     'sendverifyemail', 'Auth\VerifyController@sendVerifyEmail'
 )->name('sendVerifyEmail');
 
+// Socialite Authentication provider routes
+Route::get(
+    'login/{provider}', 'Auth\LoginController@redirectToProvider'
+);
+Route::get(
+    'login/{provider}/callback', 'Auth\LoginController@handleProviderCallback'
+);
+
+
 
 
 /**
