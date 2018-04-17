@@ -77,38 +77,18 @@ class LoginController extends Controller
      */
     public function handleProviderCallback($provider)
     {
-        $user = Socialite::driver($provider)->user();
+        $providerData = Socialite::driver($provider)->user();
         
         // for API usage
-        // $user = Socialite::driver($provider)->stateless()->user();  
-
-        // dd($user)
+        // $providerData = Socialite::driver($provider)->stateless()->user();  
 
         // OAuth Two Providers
-        $token = $user->token;
-        $refreshToken = $user->refreshToken; // not always provided
-        $expiresIn = $user->expiresIn;
-        // $user->getId();
-        // $user->getAvatar();
+        $token = $providerData->token;
+        $refreshToken = $providerData->refreshToken; // not always provided
+        $expiresIn = $providerData->expiresIn;
+        // $providerData->getId();
 
-        // check if the email already exists, then we just log in the user
-        $finduser = User::where('email', $user->getEmail());
-        if ($finduser->count()) {
-            Auth::login($finduser->first());
-            $status = 'Account verified by ';
-
-        } else {
-            // otherwise, create a new user
-            $user = User::create(
-                [
-                    'name' => $user->getName(),
-                    'username' => $user->getNickname(),
-                    'email' => $user->getEmail(),
-                    'password' => str_random(25),
-                ]
-            );
-            $status = 'Account created using credentials from ';
-        }
+        $status = $this->userFindOrCreate($providerData);
 
         return redirect()
             ->route('home')
@@ -117,4 +97,32 @@ class LoginController extends Controller
     }
 
 
+    public function userFindOrCreate($providerData)
+    {
+        // check if the email already exists, then we just log in the user
+        $user = User::where('email', $providerData->getEmail())->first();
+        if ($user) {
+            $status = 'Account verified by ';
+
+        } else {
+            // otherwise, create a new user with a random password
+            $user = User::create(
+                [
+                    'name' => $providerData->getName(),
+                    'username' => $providerData->getNickname(),
+                    'email' => $providerData->getEmail(),
+                    'avatar' => $providerData->getAvatar() || '',
+                    'provider_id' => $providerData->getId(),
+                    'provider_name' => $provider,
+                    'password' => str_random(25),
+                ]
+            );
+            $status = 'Account created using credentials from ';
+        }
+
+        // in any case, log in the user now
+        Auth::login($user, true);
+
+        return $status;
+    }
 }
