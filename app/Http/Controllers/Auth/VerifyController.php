@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Auth;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -23,6 +24,24 @@ class VerifyController extends Controller
 
         return redirect()
             ->route('home')
-            ->with('success', 'Account verified');
+            ->with('status', 'Account verified');
+    }
+
+
+    /**
+     * Send verification email again
+     * 
+     * @return redirect
+     */
+    public function sendVerifyEmail()
+    {
+        if (Auth::user()->isVerified()) {
+            return redirect()->route('home');
+        }
+        Auth::user()->sendVerificationEmail();
+
+        return redirect()
+            ->route('home')
+            ->with('status', 'Verification Email was re-sent');
     }
 }

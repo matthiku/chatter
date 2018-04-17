@@ -20,9 +20,16 @@
                             Start chatting.
                             <button class="btn btn-primary float-right">New Chat</button>
                         </p>
-                        Your E-Mail address {{ auth()->user()->isVerified() ? 'is verified' : 'has not been verified yet. Please check your email.' }}
+                        Your E-Mail address "{{ Auth::user()->email }}"
+                        @if (Auth::user()->isVerified())
+                            is verified.
+                        @else
+                            has not been verified yet. Please check your email
+                            or <a href="{{ route('sendVerifyEmail') }}">request the verification email</a> again.
+                        @endif
                     @else
-                        ChatterBox 2.0 - Please log in or register to participate
+                        ChatterBox 2.0 - Please <a href="{{ route('login') }}">{{ __('log in') }}</a> 
+                        or <a href="{{ route('register') }}">{{ __('register') }}</a> to participate
                     @endauth
                 </div>
             </div>

@@ -23,6 +23,10 @@ Route::get(
     'verify/{token}', 'Auth\VerifyController@verifyEmail'
 )->name('verify');
 
+Route::get(
+    'sendverifyemail', 'Auth\VerifyController@sendVerifyEmail'
+)->name('sendVerifyEmail');
+
 
 
 /**
@@ -39,7 +43,10 @@ Route::get(
 // get the CHAT room
 Route::get(
     '/chat', function () {
-        return view('chat');
+        if (Auth::user()->isVerified()) {
+            return view('chat');
+        }
+        return view('home');
     }
 )->middleware('auth');
 
