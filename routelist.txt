@@ -1,24 +1,42 @@
-+--------+----------+-------------------------------+------------------+------------------------------------------------------------------------+--------------+
-| Domain | Method   | URI                           | Name             | Action                                                                 | Middleware   |
-+--------+----------+-------------------------------+------------------+------------------------------------------------------------------------+--------------+
-|        | GET|HEAD | /                             |                  | Closure                                                                | web          |
-|        | GET|HEAD | _dusk/login/{userId}/{guard?} |                  | Laravel\Dusk\Http\Controllers\UserController@login                     | web          |
-|        | GET|HEAD | _dusk/logout/{guard?}         |                  | Laravel\Dusk\Http\Controllers\UserController@logout                    | web          |
-|        | GET|HEAD | _dusk/user/{guard?}           |                  | Laravel\Dusk\Http\Controllers\UserController@user                      | web          |
-|        | GET|HEAD | api/user                      |                  | Closure                                                                | api,auth:api |
-|        | POST     | broadcasting/auth             |                  | Illuminate\Broadcasting\BroadcastController@authenticate               | web          |
-|        | GET|HEAD | chat                          |                  | Closure                                                                | web,auth     |
-|        | GET|HEAD | home                          | home             | App\Http\Controllers\HomeController@index                              | web,auth     |
-|        | GET|HEAD | login                         | login            | App\Http\Controllers\Auth\LoginController@showLoginForm                | web,guest    |
-|        | POST     | login                         |                  | App\Http\Controllers\Auth\LoginController@login                        | web,guest    |
-|        | POST     | logout                        | logout           | App\Http\Controllers\Auth\LoginController@logout                       | web          |
-|        | GET|HEAD | messages                      |                  | Closure                                                                | web,auth     |
-|        | POST     | messages                      |                  | Closure                                                                | web,auth     |
-|        | POST     | password/email                | password.email   | App\Http\Controllers\Auth\ForgotPasswordController@sendResetLinkEmail  | web,guest    |
-|        | POST     | password/reset                |                  | App\Http\Controllers\Auth\ResetPasswordController@reset                | web,guest    |
-|        | GET|HEAD | password/reset                | password.request | App\Http\Controllers\Auth\ForgotPasswordController@showLinkRequestForm | web,guest    |
-|        | GET|HEAD | password/reset/{token}        | password.reset   | App\Http\Controllers\Auth\ResetPasswordController@showResetForm        | web,guest    |
-|        | POST     | register                      |                  | App\Http\Controllers\Auth\RegisterController@register                  | web,guest    |
-|        | GET|HEAD | register                      | register         | App\Http\Controllers\Auth\RegisterController@showRegistrationForm      | web,guest    |
-|        | GET|HEAD | verify/{token}                | verify           | App\Http\Controllers\Auth\VerifyController@verifyEmail                 | web          |
-+--------+----------+-------------------------------+------------------+------------------------------------------------------------------------+--------------+
++--------+----------+-----------------------------------------+------------------+---------------------------------------------------------------------------+--------------+
+| Domain | Method   | URI                                     | Name             | Action                                                                    | Middleware   |
++--------+----------+-----------------------------------------+------------------+---------------------------------------------------------------------------+--------------+
+|        | GET|HEAD | /                                       |                  | Closure                                                                   | web          |
+|        | GET|HEAD | _dusk/login/{userId}/{guard?}           |                  | Laravel\Dusk\Http\Controllers\UserController@login                        | web          |
+|        | GET|HEAD | _dusk/logout/{guard?}                   |                  | Laravel\Dusk\Http\Controllers\UserController@logout                       | web          |
+|        | GET|HEAD | _dusk/user/{guard?}                     |                  | Laravel\Dusk\Http\Controllers\UserController@user                         | web          |
+|        | POST     | api/messages                            |                  | Closure                                                                   | api,auth     |
+|        | GET|HEAD | api/messages                            |                  | Closure                                                                   | api,auth     |
+|        | GET|HEAD | api/user                                |                  | Closure                                                                   | api,auth:api |
+|        | POST     | broadcasting/auth                       |                  | Illuminate\Broadcasting\BroadcastController@authenticate                  | web          |
+|        | GET|HEAD | chat                                    |                  | Closure                                                                   | web,auth     |
+|        | GET|HEAD | home                                    | home             | App\Http\Controllers\HomeController@index                                 | web,auth     |
+|        | POST     | login                                   |                  | App\Http\Controllers\Auth\LoginController@login                           | web,guest    |
+|        | GET|HEAD | login                                   | login            | App\Http\Controllers\Auth\LoginController@showLoginForm                   | web,guest    |
+|        | GET|HEAD | login/{provider}                        |                  | App\Http\Controllers\Auth\LoginController@redirectToProvider              | web,guest    |
+|        | GET|HEAD | login/{provider}/callback               |                  | App\Http\Controllers\Auth\LoginController@handleProviderCallback          | web,guest    |
+|        | POST     | logout                                  | logout           | App\Http\Controllers\Auth\LoginController@logout                          | web          |
+|        | DELETE   | oauth/authorize                         |                  | Laravel\Passport\Http\Controllers\DenyAuthorizationController@deny        | web,auth     |
+|        | POST     | oauth/authorize                         |                  | Laravel\Passport\Http\Controllers\ApproveAuthorizationController@approve  | web,auth     |
+|        | GET|HEAD | oauth/authorize                         |                  | Laravel\Passport\Http\Controllers\AuthorizationController@authorize       | web,auth     |
+|        | POST     | oauth/clients                           |                  | Laravel\Passport\Http\Controllers\ClientController@store                  | web,auth     |
+|        | GET|HEAD | oauth/clients                           |                  | Laravel\Passport\Http\Controllers\ClientController@forUser                | web,auth     |
+|        | PUT      | oauth/clients/{client_id}               |                  | Laravel\Passport\Http\Controllers\ClientController@update                 | web,auth     |
+|        | DELETE   | oauth/clients/{client_id}               |                  | Laravel\Passport\Http\Controllers\ClientController@destroy                | web,auth     |
+|        | GET|HEAD | oauth/personal-access-tokens            |                  | Laravel\Passport\Http\Controllers\PersonalAccessTokenController@forUser   | web,auth     |
+|        | POST     | oauth/personal-access-tokens            |                  | Laravel\Passport\Http\Controllers\PersonalAccessTokenController@store     | web,auth     |
+|        | DELETE   | oauth/personal-access-tokens/{token_id} |                  | Laravel\Passport\Http\Controllers\PersonalAccessTokenController@destroy   | web,auth     |
+|        | GET|HEAD | oauth/scopes                            |                  | Laravel\Passport\Http\Controllers\ScopeController@all                     | web,auth     |
+|        | POST     | oauth/token                             |                  | Laravel\Passport\Http\Controllers\AccessTokenController@issueToken        | throttle     |
+|        | POST     | oauth/token/refresh                     |                  | Laravel\Passport\Http\Controllers\TransientTokenController@refresh        | web,auth     |
+|        | GET|HEAD | oauth/tokens                            |                  | Laravel\Passport\Http\Controllers\AuthorizedAccessTokenController@forUser | web,auth     |
+|        | DELETE   | oauth/tokens/{token_id}                 |                  | Laravel\Passport\Http\Controllers\AuthorizedAccessTokenController@destroy | web,auth     |
+|        | POST     | password/email                          | password.email   | App\Http\Controllers\Auth\ForgotPasswordController@sendResetLinkEmail     | web,guest    |
+|        | POST     | password/reset                          |                  | App\Http\Controllers\Auth\ResetPasswordController@reset                   | web,guest    |
+|        | GET|HEAD | password/reset                          | password.request | App\Http\Controllers\Auth\ForgotPasswordController@showLinkRequestForm    | web,guest    |
+|        | GET|HEAD | password/reset/{token}                  | password.reset   | App\Http\Controllers\Auth\ResetPasswordController@showResetForm           | web,guest    |
+|        | POST     | register                                |                  | App\Http\Controllers\Auth\RegisterController@register                     | web,guest    |
+|        | GET|HEAD | register                                | register         | App\Http\Controllers\Auth\RegisterController@showRegistrationForm         | web,guest    |
+|        | GET|HEAD | sendverifyemail                         | sendVerifyEmail  | App\Http\Controllers\Auth\VerifyController@sendVerifyEmail                | web          |
+|        | GET|HEAD | verify/{token}                          | verify           | App\Http\Controllers\Auth\VerifyController@verifyEmail                    | web          |
++--------+----------+-----------------------------------------+------------------+---------------------------------------------------------------------------+--------------+

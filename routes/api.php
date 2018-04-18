@@ -25,7 +25,7 @@ Route::get(
     '/messages', function () {
         return App\Message::with('user')->get();
     }
-)->middleware('auth');
+)->middleware('auth:api');
 
 
 // STORE a new message
@@ -44,5 +44,5 @@ Route::post(
             return ['status' => 'OK'];
         }
     }
-)->middleware('auth');
+)->middleware('auth:api');
 
