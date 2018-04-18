@@ -19,6 +19,7 @@ class CreateMessagesTable extends Migration
                 $table->timestamps();
                 $table->text('message');
                 $table->integer('user_id')->unsigned();
+                $table->integer('room_id')->unsigned();
             }
         );
     }
