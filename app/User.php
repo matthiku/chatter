@@ -52,6 +52,32 @@ class User extends Authenticatable
     }
 
 
+
+
+    /**
+     * A user can OWN many chat rooms
+     * 
+     * @return object rooms
+     */
+    public function rooms()
+    {
+        return $this->hasMany('App\Room', 'owner_id');
+    }
+
+    /**
+     * A user can be MEMBER of many chat rooms
+     * 
+     * @return object memberships
+     */
+    public function memberships()
+    {
+        return $this->belongsToMany('App\Room', 'room_user', 'user_id', 'room_id');
+    }
+
+
+
+
+
     /**
      * Returns true if the user's email has been verified
      * 
