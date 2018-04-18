@@ -25,6 +25,7 @@ class Room extends Model
         return $this->belongsTo('App\User');
     }
 
+    
     /**
      * A room can have many members
      * 
@@ -33,6 +34,18 @@ class Room extends Model
     public function users()
     {
         return $this->belongsToMany('App\User');
+    }
+    
+
+
+    /**
+     * A room can have many messages
+     * 
+     * @return collection $messages
+     */
+    public function messages()
+    {
+        return $this->hasMany('App\Message');
     }
     
 }

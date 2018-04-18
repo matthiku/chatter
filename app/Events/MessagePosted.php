@@ -28,18 +28,26 @@ class MessagePosted implements ShouldBroadcast
      * @var User
      */
     public $user;
+    /**
+     * Room_id
+     * 
+     * @var String
+     */
+    public $room_id;
 
     /**
      * Create a new event instance.
      * 
-     * @param $message Message text
+     * @param Message $message model
+     * @param User    $user    model
+     * @param String  $room_id model
      *
      * @return void
      */
-    public function __construct(Message $message, User $user)
+    public function __construct(Message $message, User $user, $room_id)
     {
-        //
         $this->message = $message;
+        $this->room_id = $room_id;
         $this->user = $user;
     }
 
@@ -50,6 +58,6 @@ class MessagePosted implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PresenceChannel('chatroom');
+        return new PresenceChannel('chatroom_'.$this->room_id);
     }
 }

@@ -33,7 +33,9 @@ class MessageController extends Controller
         $user = Auth::user();
         $message = $request->get('message');
         if (strlen($message) && $request->has('room_id')) {
-            $message = $user->messages()->create(['message' => $message]);
+            $message = new Message(['message' => $message]);
+            $message->room_id = $request->room_id;
+            $user->messages()->save($message);
 
             // Announce that a new message was posted
             broadcast(new MessagePosted($message, $user));
