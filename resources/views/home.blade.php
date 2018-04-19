@@ -15,15 +15,12 @@
                     @endif
 
                     @auth
-                        You are logged in! 
-                        <p>
-                            Start chatting.
-                            <button class="btn btn-primary float-right">New Chat</button>
-                        </p>
-                        Your E-Mail address "{{ Auth::user()->email }}"
                         @if (Auth::user()->isVerified())
-                            is verified.
+
+                            <chat-rooms></chat-rooms>
+
                         @else
+                            Your E-Mail address "{{ Auth::user()->email }}"
                             has not been verified yet. <br>
                             Please check your email
                             or <a href="{{ route('sendVerifyEmail') }}">request the verification email</a> again.
