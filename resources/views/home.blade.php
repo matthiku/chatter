@@ -24,7 +24,8 @@
                         @if (Auth::user()->isVerified())
                             is verified.
                         @else
-                            has not been verified yet. Please check your email
+                            has not been verified yet. <br>
+                            Please check your email
                             or <a href="{{ route('sendVerifyEmail') }}">request the verification email</a> again.
                         @endif
                     @else

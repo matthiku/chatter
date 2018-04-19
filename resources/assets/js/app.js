@@ -33,6 +33,7 @@ const app = new window.Vue({
 
   methods: {
     addMessage (payload) {
+      // payload must contain chatroom ID
       // persist new message to backend DB
       axios.post('/api/messages', {message: payload.message})
         .then(response => {

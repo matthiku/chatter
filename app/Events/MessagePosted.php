@@ -28,26 +28,20 @@ class MessagePosted implements ShouldBroadcast
      * @var User
      */
     public $user;
-    /**
-     * Room_id
-     * 
-     * @var String
-     */
-    public $room_id;
+
 
     /**
      * Create a new event instance.
      * 
      * @param Message $message model
      * @param User    $user    model
-     * @param String  $room_id model
      *
      * @return void
      */
-    public function __construct(Message $message, User $user, $room_id)
+    public function __construct(Message $message, User $user)
     {
         $this->message = $message;
-        $this->room_id = $room_id;
+        $this->room_id = $message->room_id;
         $this->user = $user;
     }
 

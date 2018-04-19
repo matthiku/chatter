@@ -17,14 +17,15 @@ class MessageController extends Controller
     public function index()
     {
         //
-        return App\Message::with('user')->get();
+        return Message::with('user')->get();
     }
 
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request HTTP request data
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -48,7 +49,8 @@ class MessageController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Message  $message
+     * @param \App\Message $message Message model data
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(Message $message)
