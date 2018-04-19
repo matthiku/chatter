@@ -14,7 +14,7 @@
                 :key="index"
                 class="card">
 
-              <div class="card-header" :id="'heading-'+index">
+              <div class="card-header p-0" :id="'heading-'+index">
                 <h5 class="mb-0">
                   <button class="btn btn-link collapsed w-100" type="button" 
                       data-toggle="collapse" 
@@ -26,7 +26,9 @@
                       (<small v-for="(member, index) in room.members"
                           v-if="member.id !== user.id"
                           :key="index"
-                          class="font-weight-light">{{ member.name }}</small>)
+                          class="font-weight-light">{{ member.username 
+                          }}<span v-if="index < room.members-1">,</span>
+                      </small>)
                     </span>
                     <span class="float-right">
                       <i class="material-icons">message</i>

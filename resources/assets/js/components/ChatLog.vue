@@ -12,6 +12,8 @@
       Nothing here yet! Send a message!
     </div>
 
+    <chat-composer></chat-composer>
+
   </div>  
 </template>
 

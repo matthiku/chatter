@@ -20,11 +20,16 @@
 
 <script>
 export default {
-  props: ['user'],
   
   data () {
     return {
       messageText: ''
+    }
+  },
+  
+  computed: {
+    user () {
+      return this.$store.state.user.user
     }
   },
 

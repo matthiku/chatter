@@ -2,7 +2,7 @@
   <div class="chat-message">
     <p>{{ message.message }}
       <br>
-      <small>{{ membersObj[message.user_id].name }}</small>
+      <small>{{ membersObj[message.user_id].username }}</small>
     </p>
   </div>  
 </template>
