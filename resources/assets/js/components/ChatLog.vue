@@ -1,11 +1,11 @@
 <template>
   <div class="chat-log">
-    <h3>chat Log</h3>
 
     <chat-message
         v-for="(message, index) in messages"
         :key="index"
         :message="message"
+        :members="members"
       ></chat-message>
 
     <div class="empty" v-if="!messages.length">
@@ -18,7 +18,7 @@
 
 <script>
 export default {
-  props: ['messages'],
+  props: ['messages', 'members'],
 }
 </script>
 

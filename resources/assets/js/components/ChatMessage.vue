@@ -2,7 +2,7 @@
   <div class="chat-message">
     <p>{{ message.message }}
       <br>
-      <small>{{ message.user.name }}</small>
+      <small>{{ membersObj[message.user_id].name }}</small>
     </p>
   </div>  
 </template>
@@ -10,7 +10,15 @@
 
 <script>
 export default {
-  props: ['message'],
+  props: ['message', 'members'],
+
+  computed: {
+    membersObj () {
+      let obj = {}
+      this.members.map(elem => obj[elem.id] = elem)
+      return obj
+    }
+  }
 }
 </script>
 
