@@ -30,17 +30,6 @@ new window.Vue({
   },
 
   methods: {
-    addMessage(payload) {
-      // payload must contain chatroom ID
-      // persist new message to backend DB
-      window.axios
-        .post('/api/messages', { message: payload.message })
-        .then(response => {
-          if (!response.data) {
-            window.console.warn(response)
-          }
-        })
-    }
   },
 
   created() {

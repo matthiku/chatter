@@ -41,7 +41,6 @@ class MessagePosted implements ShouldBroadcast
     public function __construct(Message $message, User $user)
     {
         $this->message = $message;
-        $this->room_id = $message->room_id;
         $this->user = $user;
     }
 
@@ -52,6 +51,6 @@ class MessagePosted implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PresenceChannel('chatroom_'.$this->room_id);
+        return new PresenceChannel('chatroom_'.$this->message->room_id);
     }
 }

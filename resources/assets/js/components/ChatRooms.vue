@@ -14,6 +14,9 @@
                 :key="index"
                 class="card">
 
+              
+              <!-- chat header
+               -->
               <div class="card-header p-0" :id="'heading-'+index">
                 <h5 class="mb-0">
                   <button class="btn btn-link collapsed w-100" type="button" 
@@ -21,6 +24,7 @@
                       aria-expanded="true" 
                       :data-target="'#collapse-'+index" 
                       :aria-controls="'#collapse-'+index">
+
                     <span class="float-left">
                       {{ room.name }}
                       (<small v-for="(member, index) in room.members"
@@ -30,6 +34,7 @@
                           }}<span v-if="index < room.members-1">,</span>
                       </small>)
                     </span>
+
                     <span class="float-right">
                       <i class="material-icons">message</i>
                       <span class="badge badge-secondary badge-pill float-right">{{ room.messages.length }}</span>
@@ -38,20 +43,21 @@
                 </h5>
               </div>
 
+
+              <!-- show the actual chat content (the messages) 
+               -->
               <div :id="'collapse-'+index" 
                   :aria-labelledby="'heading-'+index"
                   class="collapse"
                   data-parent="#chatrooms">
 
                 <div class="card-body">
-                  <chat-log
-                      :messages="room.messages"
-                      :members="room.members"
+                  <chat-log :room="room"
                     ></chat-log>
                 </div>
               </div>
 
-            </div> <!-- LOOP: room in rooms -->
+            </div> <!-- end of LOOP: room in rooms -->
 
           </div>
         </div>
@@ -71,6 +77,27 @@ export default {
     },
     user () {
       return this.$store.state.user.user
+    }
+  },
+
+  watch: {
+    rooms () {
+      this.rooms.map(room => {
+
+        // start listening to our backend broadcast channel
+        window.Echo.join('chatroom' + room.id)
+
+          .listen('MessagePosted', e => {
+            if (e.message) {
+              let msg = e.message
+              msg.user = e.user
+              room.messages.push(msg)
+            } else {
+              window.console.warn(e)
+            }
+          })
+        
+      })
     }
   }
 

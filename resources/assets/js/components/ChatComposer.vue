@@ -20,16 +20,12 @@
 
 <script>
 export default {
+
+  props: ['room'],
   
   data () {
     return {
       messageText: ''
-    }
-  },
-  
-  computed: {
-    user () {
-      return this.$store.state.user.user
     }
   },
 
@@ -38,9 +34,9 @@ export default {
       // do nothing if message text is empty
       if (!this.messageText) return
 
-      this.$emit('messagesent', {
+      this.$store.dispatch('sendMessage', {
         message: this.messageText,
-        user: this.user
+        room_id: this.room.id
       })
       this.messageText = ''
     }

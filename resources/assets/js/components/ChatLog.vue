@@ -2,17 +2,17 @@
   <div class="chat-log">
 
     <chat-message
-        v-for="(message, index) in messages"
+        v-for="(message, index) in room.messages"
         :key="index"
         :message="message"
-        :members="members"
+        :members="room.members"
       ></chat-message>
 
-    <div class="empty" v-if="!messages.length">
+    <div class="empty" v-if="!room.messages.length">
       Nothing here yet! Send a message!
     </div>
 
-    <chat-composer></chat-composer>
+    <chat-composer :room="room"></chat-composer>
 
   </div>  
 </template>
@@ -20,7 +20,7 @@
 
 <script>
 export default {
-  props: ['messages', 'members'],
+  props: ['room'],
 }
 </script>
 
