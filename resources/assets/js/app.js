@@ -8,82 +8,42 @@ require('./bootstrap')
 
 window.Vue = require('vue')
 
-window.Vuex = require('vuex')
-window.Vue.use(window.Vuex)
-
+// central Vuex store
+import { store } from './store'
 
 /**
  * create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  */
 
-window.Vue.component('chat-log', require('./components/ChatLog.vue'))
-window.Vue.component('chat-rooms', require('./components/ChatRooms.vue'))
-window.Vue.component('chat-header', require('./components/ChatHeader.vue'))
-window.Vue.component('chat-message', require('./components/ChatMessage.vue'))
-window.Vue.component('chat-composer', require('./components/ChatComposer.vue'))
+import sharedComponents from './sharedComponents'
+sharedComponents()
+
+import startUpActions from './startUpActions'
 
 new window.Vue({
-
   el: '#app',
 
+  store,
 
   data: {
-    messages: [],
-    user: {},
-    usersInRoom: []
   },
-
 
   methods: {
-    addMessage (payload) {
+    addMessage(payload) {
       // payload must contain chatroom ID
       // persist new message to backend DB
-      axios.post('/api/messages', {message: payload.message})
+      window.axios
+        .post('/api/messages', { message: payload.message })
         .then(response => {
           if (!response.data) {
-            console.warn(response)
+            window.console.warn(response)
           }
         })
     }
   },
 
-
-  created () {
-    // get the user object from the global namespace (set in layouts\app.blade.php)
-    this.user = window.chatter_server_data.user
-
-    // get all messages from the backend, but only when user was logged in
-    if (this.user.name !== 'guest') {
-      axios.get('/api/messages')
-        .then(response => {
-          if (response.data) {
-            this.messages = response.data
-          }
-        })
-      
-      // start listening to our backend broadcast channel
-      Echo.join('chatroom')
-        
-        .here((users) => {
-          // getting list of all users logged into this room
-          this.usersInRoom = users
-        })
-        
-        .joining(user => this.usersInRoom.push(user))
-        
-        .leaving(user => this.usersInRoom = this.usersInRoom.filter(u => u !== user))
-        
-        .listen('MessagePosted', (e) => {
-          if (e.message) {
-            let msg = e.message
-            msg.user = e.user
-            this.messages.push(msg)
-          } else {
-            console.warn(e)
-          }
-        })
-    }
+  created() {
+    startUpActions(store)
   }
-
 })

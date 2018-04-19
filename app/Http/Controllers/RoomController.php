@@ -17,7 +17,8 @@ class RoomController extends Controller
     {
         // get current user
         $user = Auth::user();
-        return $user->memberships();
+        // get list of all chat rooms this user is member of
+        return $user->memberships;
     }
 
 
