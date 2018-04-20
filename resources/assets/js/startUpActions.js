@@ -27,8 +27,17 @@ export default function startUpActions(store) {
 
       // adding new present user to the list
       .joining(user => store.commit('addToUsersInRoom', user))
-      
+
       // a user left the list of present users
       .leaving(user => store.commit('removeFromUsersInRoom', user))
+
+      // a room was added
+      .listen('RoomCreated', e => {
+        if (e.room) {
+          store.commit('addRoom', e.room)
+        } else {
+          window.console.warn(e)
+        }
+      })
   }
 }

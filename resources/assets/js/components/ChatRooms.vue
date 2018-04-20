@@ -4,7 +4,7 @@
       <div class="card">
 
         <div class="card-header">Your Chat Rooms
-          <button data-toggle="modal" data-target="#createNewRoom"
+          <button @click="launchNewRoomModal()"
              class="btn btn-sm btn-success float-right">start new chat</button>
         </div>
 
@@ -131,6 +131,7 @@ export default {
 
   methods: {
     launchNewRoomModal (user_id) {
+      this.$store.commit('setNewRoomMembers', [user_id])
       $('#createNewRoom').modal()
     }
   }

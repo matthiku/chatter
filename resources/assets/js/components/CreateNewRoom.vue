@@ -10,6 +10,23 @@
         </div>
         <div class="modal-body">
           <p>Add new members</p>
+          <div class="input-group mb-3">
+            <input type="text"
+                v-model="nameHint"
+                class="form-control"
+                placeholder="hint member's names" 
+                aria-label="Member's username">
+          </div>
+          <div class="form-group">
+            <label for="selectMembers">Select Members</label>
+            <select v-model="members"
+                multiple class="form-control" id="selectMembers">
+              <option v-for="(usr, idx) in users" :key="idx"
+                  v-if="user.id !== usr.id"
+                  :value="usr.id">{{ usr.username }}({{ usr.name }})</option>
+            </select>
+          </div>
+
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -26,9 +43,40 @@
 <script>
 export default {
 
+  data () {
+    return {
+      roomName: null,
+      members: [],
+      nameHint: null
+    }
+  },
+
+  computed: {
+    user () {
+      return this.$store.state.user.user
+    },
+    users () {
+      return this.$store.state.user.users
+    },
+    newRoomMembers () {
+      return this.$store.state.chat.newRoomMembers
+    },
+  },
+
+  watch: {
+    newRoomMembers (val) {
+      this.members = val
+    }
+  },
+
   methods: {
     createNewRoom (user) {
-      this.$store.dispatch('createNewRoom', user)
+      // at least one (other) member is needed (besides the current user)
+      if (!this.members.length) return
+      let obj = {}
+      obj.members = this.members
+      if (this.roomName) obj.name = this.roomName
+      this.$store.dispatch('createNewRoom', obj)
     }
   }
 }

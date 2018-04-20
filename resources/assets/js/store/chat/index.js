@@ -1,26 +1,36 @@
 export default {
   state: {
     rooms: [],
-    onlineUsers: []
+    onlineUsers: [],
+    newRoomMembers: []
   },
 
   mutations: {
-    setRooms(state, payload) {
+    setRooms (state, payload) {
       state.rooms = payload
     },
-    setUsersInRoom(state, payload) {
+    addRoom (state, payload) {
+      state.rooms.push(payload)
+    },
+    setUsersInRoom (state, payload) {
       state.onlineUsers = payload
     },
-    addToUsersInRoom(state, payload) {
+    addToUsersInRoom (state, payload) {
       state.onlineUsers.push(payload)
     },
-    removeFromUsersInRoom(state, payload) {
+    removeFromUsersInRoom (state, payload) {
       state.onlineUsers = state.onlineUsers.filter(u => u !== payload)
+    },
+    setNewRoomMembers (state, payload) {
+      state.newRoomMembers = payload
     }
   },
 
+  /**
+   * DISPATCH: asynchronous actions
+   */
   actions: {
-    loadRooms({ commit }) {
+    loadRooms ({ commit }) {
       window.axios
         .get('/api/rooms')
         .then(response => {
@@ -32,9 +42,20 @@ export default {
         .catch(err => window.console.log(err))
     },
 
-    sendMessage(store, payload) {
+    sendMessage (context, payload) {
       window.axios
         .post('/api/messages', payload)
+        .then(response => {
+          if (!response.data) {
+            window.console.warn(response)
+          }
+        })
+        .catch(err => window.console.log(err))
+    },
+
+    createNewRoom (context, payload) {
+      window.axios
+        .post('api/rooms', payload)
         .then(response => {
           if (!response.data) {
             window.console.warn(response)
@@ -45,10 +66,10 @@ export default {
   },
 
   getters: {
-    rooms(state) {
+    rooms (state) {
       return state.rooms
     },
-    onlineUsers(state) {
+    onlineUsers (state) {
       return state.onlineUsers
     }
   }

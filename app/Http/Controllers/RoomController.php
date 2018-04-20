@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Auth;
 use App\Room;
+use App\Events\RoomCreated;
 use Illuminate\Http\Request;
 
 class RoomController extends Controller
@@ -31,7 +32,7 @@ class RoomController extends Controller
 
 
     /**
-     * Store a newly created Room in storage.
+     * Create a new chat room and attach the members
      *
      * @param \Illuminate\Http\Request $request the HTTP request data
      *
@@ -50,6 +51,16 @@ class RoomController extends Controller
         $user->rooms()->save($room);
         // also make the owner a member (other members can see the list of members)
         $room->users()->attach($user->id);
+
+        // add other members to this chat room
+        if ($request->has('members')) {
+            $room->users()->attach($request->members);
+        }
+
+        // create a new broadcasted for this event
+        broadcast(new RoomCreated($room, $user));
+        
+        return $room;
     }
 
 
