@@ -28,6 +28,8 @@ Route::middleware('auth:api')->group(
         
         // routes for messages
         Route::apiResource('messages', 'MessageController');
-        
+
+        // simple list of all users
+        Route::get('users', 'HomeController@usersList');
     }
 );

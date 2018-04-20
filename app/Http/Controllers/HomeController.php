@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -16,6 +17,7 @@ class HomeController extends Controller
         $this->middleware('auth');
     }
 
+
     /**
      * Show the application dashboard.
      *
@@ -25,4 +27,17 @@ class HomeController extends Controller
     {
         return view('home');
     }
+
+
+
+    /**
+     * Provide simple list of all users
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function usersList()
+    {
+        return DB::table('users')->select('id', 'name', 'username', 'avatar')->get();
+    }
+
 }
