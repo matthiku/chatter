@@ -39,5 +39,14 @@ export default function startUpActions(store) {
           window.console.warn(e)
         }
       })
+
+      // a room was deleted
+      .listen('RoomDeleted', e => {
+        if (e.room) {
+          store.commit('removeRoom', e.room)
+        } else {
+          window.console.warn(e)
+        }
+      })
   }
 }

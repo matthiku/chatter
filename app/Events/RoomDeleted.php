@@ -1,4 +1,14 @@
 <?php
+/**
+ * Event should fire when a room was deleted
+ * 
+ * @category  Event
+ * @package   Chatter
+ * @author    Matthias Kuhs <matthiku@yahoo.com>
+ * @copyright 2018 Matthias Kuhs
+ * @license   MIT http://mit.org
+ * @link      http://github.org/matthiku/chatter
+ */
 
 namespace App\Events;
 
@@ -12,6 +22,15 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
+/**
+ * RoomDeleted Event
+ * 
+ * @category Event
+ * @package  Chatter
+ * @author   Matthias Kuhs <matthiku@yahoo.com>
+ * @license  MIT http://mit.org
+ * @link     http://github.org/matthiku/chatter
+ */
 class RoomDeleted implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
@@ -22,26 +41,18 @@ class RoomDeleted implements ShouldBroadcast
      * @var Room
      */
     public $room;
-    /**
-     * User
-     * 
-     * @var User
-     */
-    public $user;
 
 
     /**
      * Create a new event instance.
      * 
      * @param Room $room model
-     * @param User $user model
      *
      * @return void
      */
-    public function __construct(Room $room, User $user)
+    public function __construct($room)
     {
         $this->room = $room;
-        $this->user = $user;
     }
 
     /**
@@ -51,6 +62,7 @@ class RoomDeleted implements ShouldBroadcast
      */
     public function broadcastOn()
     {
+        \Log::info('RoomDeleted event should fire! id:' . $this->room);
         return new PresenceChannel('chatroom');
     }
 }

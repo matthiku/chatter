@@ -12,6 +12,9 @@ export default {
     addRoom (state, payload) {
       state.rooms.push(payload)
     },
+    removeRoom (state, payload) {
+      state.rooms = state.rooms.filter(r => r.id !== payload)
+    },
     setUsersInRoom (state, payload) {
       state.onlineUsers = payload
     },
@@ -64,12 +67,14 @@ export default {
         .catch(err => window.console.log(err))
     },
 
-    deleteRoom (context, payload) {
+    deleteRoom (x, payload) {
       window.axios
         .delete(`api/rooms/${payload.room_id}`)
         .then(response => {
           if (!response.data) {
             window.console.warn(response)
+          // } else if (response.data === 'deleted!') {
+          //   commit('removeRoom', payload.room_id)
           }
           window.console.log(response)
         })

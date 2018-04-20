@@ -1,4 +1,14 @@
 <?php
+/**
+ * Event should fire when a room was created
+ * 
+ * @category  Event
+ * @package   Chatter
+ * @author    Matthias Kuhs <matthiku@yahoo.com>
+ * @copyright 2018 Matthias Kuhs
+ * @license   MIT http://mit.org
+ * @link      http://github.org/matthiku/chatter
+ */
 
 namespace App\Http\Controllers;
 
@@ -8,8 +18,19 @@ use App\Events\RoomCreated;
 use App\Events\RoomDeleted;
 use Illuminate\Http\Request;
 
+
+/**
+ * RoomCreated Event class
+ * 
+ * @category Event
+ * @package  Chatter
+ * @author   Matthias Kuhs <matthiku@yahoo.com>
+ * @license  MIT http://mit.org
+ * @link     http://github.org/matthiku/chatter
+ */
 class RoomController extends Controller
 {
+
     /**
      * Get a list of all chatrooms a user is member of
      *
@@ -103,17 +124,19 @@ class RoomController extends Controller
      */
     public function destroy(Room $room)
     {
-        // check if user owns this room
-        if ($room->owner->id !== Auth::user()->id) return
+        // check if room exists and user owns this room
+        if (!$room || $room->owner->id !== Auth::user()->id) return
+
+        // broadcast the deletion event
+        \Log::info('RoomDeleted event prepared! id: ' . $room->id);
+        broadcast(new RoomDeleted($room->id));
 
         // remove all attached users (chatroom members)
-        $room->users->detach();
+        $room->users()->detach();
         // delete all related messages
-        $room->messages->delete();
-        // now delete the room
+        $room->messages()->delete();
+        // now delete the room (messages should be deleted by foreignKey/cascade)
         $room->delete();
-        // now broadcast the deletion event
-        broadcast(new RoomDeleted($room, $user));
 
         return 'deleted!';
     }

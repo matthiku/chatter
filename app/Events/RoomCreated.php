@@ -1,4 +1,14 @@
 <?php
+/**
+ * Event should fire when a room was created
+ * 
+ * @category  Event
+ * @package   Chatter
+ * @author    Matthias Kuhs <matthiku@yahoo.com>
+ * @copyright 2018 Matthias Kuhs
+ * @license   MIT http://mit.org
+ * @link      http://github.org/matthiku/chatter
+ */
 
 namespace App\Events;
 
@@ -12,6 +22,15 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
+/**
+ * RoomCreated Event
+ * 
+ * @category Event
+ * @package  Chatter
+ * @author   Matthias Kuhs <matthiku@yahoo.com>
+ * @license  MIT http://mit.org
+ * @link     http://github.org/matthiku/chatter
+ */
 class RoomCreated implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;

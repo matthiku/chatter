@@ -20,6 +20,9 @@ class CreateMessagesTable extends Migration
                 $table->text('message');
                 $table->integer('user_id')->unsigned();
                 $table->integer('room_id')->unsigned();
+                $table->foreign('room_id')
+                    ->references('id')->on('rooms')
+                    ->onDelete('cascade');
             }
         );
     }
