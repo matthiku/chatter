@@ -19,15 +19,13 @@ export default function startUpActions(store) {
     // start listening to our backend broadcast channel
     window.Echo.join('chatroom')
 
-      .here(users => {
-        // getting list of all users logged into this room
-        store.commit('setUsersInRoom', users)
-      })
+      // getting list of all users logged into this room
+      .here(users => store.commit('setUsersInRoom', users))
 
-      .joining(user => this.usersInRoom.push(user))
-
-      .leaving(
-        user => (this.usersInRoom = this.usersInRoom.filter(u => u !== user))
-      )
+      // adding new present user to the list
+      .joining(user => store.commit('addToUsersInRoom', user))
+      
+      // a user left the list of present users
+      .leaving(user => store.commit('removeFromUsersInRoom', user))
   }
 }

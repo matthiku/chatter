@@ -10,25 +10,37 @@ export default {
     },
     setUsersInRoom(state, payload) {
       state.usersInRoom = payload
+    },
+    addToUsersInRoom(state, payload) {
+      state.usersInRoom.push(payload)
+    },
+    removeFromUsersInRoom(state, payload) {
+      state.usersInRoom = state.usersInRoom.filter(u => u !== payload)
     }
   },
 
   actions: {
     loadRooms({ commit }) {
-      window.axios.get('/api/rooms').then(response => {
-        if (response.data) {
-          commit('setRooms', response.data)
-          // state.messages =
-        }
-      }).catch(err => window.console.log(err))
+      window.axios
+        .get('/api/rooms')
+        .then(response => {
+          if (response.data) {
+            commit('setRooms', response.data)
+            // state.messages =
+          }
+        })
+        .catch(err => window.console.log(err))
     },
 
     sendMessage(store, payload) {
-      window.axios.post('/api/messages', payload).then(response => {
-        if (!response.data) {
-          window.console.warn(response)
-        }
-      }).catch(err => window.console.log(err))
+      window.axios
+        .post('/api/messages', payload)
+        .then(response => {
+          if (!response.data) {
+            window.console.warn(response)
+          }
+        })
+        .catch(err => window.console.log(err))
     }
   },
 

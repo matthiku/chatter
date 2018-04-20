@@ -38,7 +38,8 @@ class MessageController extends Controller
             $message->room_id = $request->room_id;
             $user->messages()->save($message);
 
-            // Announce that a new message was posted
+            // Announce that a new message was posted 
+            // (will be received by the MessagePosted event)
             broadcast(new MessagePosted($message, $user));
 
             // return all messages incl the new

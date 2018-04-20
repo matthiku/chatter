@@ -11,11 +11,7 @@ window.Vue = require('vue')
 // central Vuex store
 import { store } from './store'
 
-/**
- * create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- */
-
+// single component files
 import sharedComponents from './sharedComponents'
 sharedComponents()
 

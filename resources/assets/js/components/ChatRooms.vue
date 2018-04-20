@@ -85,7 +85,7 @@ export default {
       this.rooms.map(room => {
 
         // start listening to our backend broadcast channel
-        window.Echo.join('chatroom' + room.id)
+        window.Echo.private('chatroom.' + room.id)
 
           .listen('MessagePosted', e => {
             if (e.message) {

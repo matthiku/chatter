@@ -17,8 +17,17 @@ Broadcast::channel(
     }
 );
 
+// generic channel for user presence reports (anyone can join)
 Broadcast::channel(
     'chatroom', function ($user) {
         return $user;
+    }
+);
+
+// specific channels for specific chat rooms (only chat room members can join)
+Broadcast::channel(
+    'chatroom.{room}', function ($user, App\Room $room) {
+        // check if user is member of this room
+        return $room->users->contains('id', $user->id);
     }
 );
