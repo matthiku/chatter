@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Auth;
 use App\Room;
 use App\Events\RoomCreated;
+use App\Events\RoomDeleted;
 use Illuminate\Http\Request;
 
 class RoomController extends Controller
@@ -68,19 +69,22 @@ class RoomController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Room  $room
+     * @param \App\Room $room Model
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(Room $room)
     {
         //
+        return $room;
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Room  $room
+     * @param \Illuminate\Http\Request $request HTTP data
+     * @param \App\Room                $room    Model
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Room $room)
@@ -88,14 +92,29 @@ class RoomController extends Controller
         //
     }
 
+
+
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Room  $room
+     * @param \App\Room $room Model
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Room $room)
     {
-        //
+        // check if user owns this room
+        if ($room->owner->id !== Auth::user()->id) return
+
+        // remove all attached users (chatroom members)
+        $room->users->detach();
+        // delete all related messages
+        $room->messages->delete();
+        // now delete the room
+        $room->delete();
+        // now broadcast the deletion event
+        broadcast(new RoomDeleted($room, $user));
+
+        return 'deleted!';
     }
 }

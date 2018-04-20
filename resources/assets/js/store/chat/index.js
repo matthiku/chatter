@@ -62,6 +62,18 @@ export default {
           window.console.log(response)
         })
         .catch(err => window.console.log(err))
+    },
+
+    deleteRoom (context, payload) {
+      window.axios
+        .delete(`api/rooms/${payload.room_id}`)
+        .then(response => {
+          if (!response.data) {
+            window.console.warn(response)
+          }
+          window.console.log(response)
+        })
+        .catch(err => window.console.log(err))
     }
   },
 
