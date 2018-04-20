@@ -4,7 +4,8 @@
       <div class="card">
 
         <div class="card-header">Your Chat Rooms
-          <a href="#" class="btn btn-sm btn-success float-right">start new chat</a>
+          <button data-toggle="modal" data-target="#createNewRoom"
+             class="btn btn-sm btn-success float-right">start new chat</button>
         </div>
 
         <div class="card-body">
@@ -12,6 +13,7 @@
             <a href="#" v-for="(u, idx) in onlineUsers" :key="idx"
                 v-if="user.id !== u.id"
                 class="badge badge-pill badge-info mr-2"
+                @click="launchNewRoomModal(u.id)"
                 title="click to chat"
               >{{ u.username }}
             </a>
@@ -74,6 +76,9 @@
 
       </div>
     </div>
+
+    <create-new-room></create-new-room>
+
   </div>
 </template>
 
@@ -94,26 +99,39 @@ export default {
   },
 
   watch: {
-    rooms () {
-      this.rooms.map(room => {
+    rooms (val) {
+      window.console.log('rooms changed!')
+      // check if room is already connected: 
+      //          "window.Echo.connector.channels"
+      // must contain an object with name 'private-chatroom.{id}'
+    }
+  },
 
-        // start listening to our backend broadcast channel
-        window.Echo.private('chatroom.' + room.id)
+  updated () {
+    this.rooms.map(room => {
 
-          .listen('MessagePosted', e => {
-            if (e.message) {
-              let msg = e.message
-              msg.user = e.user
-              room.messages.push(msg)
-            } else {
-              window.console.warn(e)
-            }
-          })
-          .on('pusher:subscription_succeeded', e => {
-            window.console.log(`Subscription to chatroom ${room.id} was successful`)
-          })
-        
-      })
+      // start listening to our backend broadcast channel
+      window.Echo.private('chatroom.' + room.id)
+
+        .listen('MessagePosted', e => {
+          if (e.message) {
+            let msg = e.message
+            msg.user = e.user
+            room.messages.push(msg)
+          } else {
+            window.console.warn(e)
+          }
+        })
+        .on('pusher:subscription_succeeded', e => {
+          window.console.log(`Subscription to chatroom ${room.id} was successful`)
+        })
+      
+    })    
+  },
+
+  methods: {
+    launchNewRoomModal (user_id) {
+      $('#createNewRoom').modal()
     }
   }
 
