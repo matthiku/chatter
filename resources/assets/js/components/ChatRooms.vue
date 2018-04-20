@@ -8,6 +8,16 @@
         </div>
 
         <div class="card-body">
+          <div class="float-right">Currently on-line:
+            <a href="#" v-for="(u, idx) in onlineUsers" :key="idx"
+                v-if="user.id !== u.id"
+                class="badge badge-pill badge-info mr-2"
+                title="click to chat"
+              >{{ u.username }}
+            </a>
+          </div>
+          <hr>
+
           <div class="accordion" id="chatrooms">
 
             <div v-for="(room, index) in rooms"
@@ -77,6 +87,9 @@ export default {
     },
     user () {
       return this.$store.state.user.user
+    },
+    onlineUsers () {
+      return this.$store.state.chat.onlineUsers
     }
   },
 
@@ -95,6 +108,9 @@ export default {
             } else {
               window.console.warn(e)
             }
+          })
+          .on('pusher:subscription_succeeded', e => {
+            window.console.log(`Subscription to chatroom ${room.id} was successful`)
           })
         
       })

@@ -1,7 +1,7 @@
 export default {
   state: {
     rooms: [],
-    usersInRoom: []
+    onlineUsers: []
   },
 
   mutations: {
@@ -9,13 +9,13 @@ export default {
       state.rooms = payload
     },
     setUsersInRoom(state, payload) {
-      state.usersInRoom = payload
+      state.onlineUsers = payload
     },
     addToUsersInRoom(state, payload) {
-      state.usersInRoom.push(payload)
+      state.onlineUsers.push(payload)
     },
     removeFromUsersInRoom(state, payload) {
-      state.usersInRoom = state.usersInRoom.filter(u => u !== payload)
+      state.onlineUsers = state.onlineUsers.filter(u => u !== payload)
     }
   },
 
@@ -48,8 +48,8 @@ export default {
     rooms(state) {
       return state.rooms
     },
-    usersInRoom(state) {
-      return state.usersInRoom
+    onlineUsers(state) {
+      return state.onlineUsers
     }
   }
 }

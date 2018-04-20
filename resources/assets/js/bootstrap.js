@@ -50,7 +50,7 @@ import Echo from 'laravel-echo'
 window.Pusher = require('pusher-js')
 
 // Enable pusher logging - don't include this in production
-window.Pusher.logToConsole = true
+// window.Pusher.logToConsole = true
 
 window.Echo = new Echo({
   broadcaster: 'pusher',
@@ -58,5 +58,5 @@ window.Echo = new Echo({
   cluster: process.env.MIX_PUSHER_APP_CLUSTER,
   encrypted: false,
   authEndpoint: '/broadcasting/auth',
-  disableStats: true
+  disableStats: false
 })
