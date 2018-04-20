@@ -16,6 +16,9 @@ export default function startUpActions(store) {
     // load the rooms for this user
     store.dispatch('loadRooms')
 
+    // load simple list of all users
+    store.dispatch('loadUsers')
+
     // start listening to our backend broadcast channel
     window.Echo.join('chatroom')
 

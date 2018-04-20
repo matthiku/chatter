@@ -48,14 +48,3 @@ Route::get(
         return view('home');
     }
 );
-
-// get the CHAT room
-Route::get(
-    '/chat', function () {
-        if (Auth::user()->isVerified()) {
-            return view('chat');
-        }
-        return view('home');
-    }
-)->middleware('auth');
-
