@@ -39,17 +39,17 @@
 
                     <span class="float-left">
                       {{ room.name }}
-                      (<small v-for="(member, index) in room.members"
+                      (<small v-for="(member, index) in room.users"
                           v-if="member.id !== user.id"
                           :key="index"
                           class="font-weight-light">{{ member.username 
-                          }}<span v-if="index < room.members-1">,</span>
+                          }}<span v-if="index < room.users.length-1">,</span>
                       </small>)
                     </span>
 
                     <span class="float-right">
                       <i class="material-icons">message</i>
-                      <span class="badge badge-secondary badge-pill float-right">{{ room.messages.length }}</span>
+                      <span class="badge badge-secondary badge-pill float-right">{{ room.messages ? room.messages.length : 0 }}</span>
                     </span>
                   </button>
                 </h5>
@@ -101,32 +101,31 @@ export default {
   watch: {
     rooms (val) {
       window.console.log('rooms changed!')
-      // check if room is already connected: 
-      //          "window.Echo.connector.channels"
-      // must contain an object with name 'private-chatroom.{id}'
+
+      this.rooms.map(room => {        
+        // check if room is already connected: 
+        //          "window.Echo.connector.channels"
+        // must contain an object with name 'private-chatroom.{id}'
+        if (window.Echo.connector.channels[`private-chatroom.${room.id}`]) return
+
+        // start listening to our backend broadcast channel
+        window.Echo.private('chatroom.' + room.id)
+
+          .listen('MessagePosted', e => {
+            if (e.message) {
+              let msg = e.message
+              msg.user = e.user
+              room.messages.push(msg)
+            } else {
+              window.console.warn(e)
+            }
+          })
+          .on('pusher:subscription_succeeded', e => {
+            window.console.log(`Subscription to chatroom ${room.id} was successful`)
+          })
+        
+      })
     }
-  },
-
-  updated () {
-    this.rooms.map(room => {
-
-      // start listening to our backend broadcast channel
-      window.Echo.private('chatroom.' + room.id)
-
-        .listen('MessagePosted', e => {
-          if (e.message) {
-            let msg = e.message
-            msg.user = e.user
-            room.messages.push(msg)
-          } else {
-            window.console.warn(e)
-          }
-        })
-        .on('pusher:subscription_succeeded', e => {
-          window.console.log(`Subscription to chatroom ${room.id} was successful`)
-        })
-      
-    })    
   },
 
   methods: {

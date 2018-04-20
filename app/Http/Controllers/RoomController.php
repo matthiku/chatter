@@ -23,7 +23,7 @@ class RoomController extends Controller
         // get the members and messages of each chat
         foreach ($rooms as $key => $rm) {
             $room = Room::find($rm->id);
-            $rm->members = $room->users;
+            $rm->users = $room->users;
             $rm->messages = $room->messages;
         }
         return $rooms;

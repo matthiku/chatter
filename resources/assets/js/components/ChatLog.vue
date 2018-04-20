@@ -5,10 +5,10 @@
         v-for="(message, index) in room.messages"
         :key="index"
         :message="message"
-        :members="room.members"
+        :members="room.users"
       ></chat-message>
 
-    <div class="empty" v-if="!room.messages.length">
+    <div class="empty" v-if="room.messages && !room.messages.length">
       Nothing here yet! Send a message!
     </div>
 

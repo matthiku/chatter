@@ -41,6 +41,8 @@ class RoomCreated implements ShouldBroadcast
     public function __construct(Room $room, User $user)
     {
         $this->room = $room;
+        $this->room->users = $room->users;
+        $this->room->messages = [];
         $this->user = $user;
     }
 

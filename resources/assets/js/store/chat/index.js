@@ -36,7 +36,6 @@ export default {
         .then(response => {
           if (response.data) {
             commit('setRooms', response.data)
-            // state.messages =
           }
         })
         .catch(err => window.console.log(err))
@@ -60,6 +59,7 @@ export default {
           if (!response.data) {
             window.console.warn(response)
           }
+          window.console.log(response)
         })
         .catch(err => window.console.log(err))
     }
