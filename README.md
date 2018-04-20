@@ -4,6 +4,8 @@ based on Laravel 5.6 with Laravel Echo, using Pusher. SPA Front-end using Vue.js
 
 ## Installation
 
+You need a Pusher account in order for this to work!
+
 1. git clone https://github.com/matthiku/chatter.git
 1. composer install
 1. php artisan key:generate
