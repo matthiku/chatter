@@ -23,7 +23,7 @@
                 multiple class="form-control" id="selectMembers">
               <option v-for="(usr, idx) in users" :key="idx"
                   v-if="user.id !== usr.id"
-                  :value="usr.id">{{ usr.username }}({{ usr.name }})</option>
+                  :value="usr.id">{{ usr.username }}&nbsp;({{ usr.name }})</option>
             </select>
           </div>
 

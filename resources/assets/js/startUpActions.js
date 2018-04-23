@@ -1,5 +1,6 @@
 /**
- * startUpActions is called from (imported into) the main.js module, and used in the Vue launch block.
+ * startUpActions is called from (or imported into) the main.js module
+ * and used in the Vue launch block.
  *
  * (C) 2018 Matthias Kuhs
  *
@@ -7,12 +8,14 @@
  * @param {*} router  The Vue router object
  */
 export default function startUpActions(store) {
-  // get the user object from the global namespace (set in layouts\app.blade.php)
+
+  // get the user object from the global namespace (as set in layouts\app.blade.php)
   let user = JSON.parse(window.chatter_server_data.user)
   store.commit('setUser', user)
 
-  // get all rooms from the backend, but only when user was logged in
+  // If the user is logged in, get all his Chat Rooms from the backend
   if (user.name && user.name !== 'guest') {
+
     // load the rooms for this user
     store.dispatch('loadRooms')
 
@@ -23,13 +26,13 @@ export default function startUpActions(store) {
     window.Echo.join('chatroom')
 
       // getting list of all users logged into this room
-      .here(users => store.commit('setUsersInRoom', users))
+      .here(users => store.commit('setOnlineUsers', users))
 
       // adding new present user to the list
-      .joining(user => store.commit('addToUsersInRoom', user))
+      .joining(user => store.commit('addToOnlineUsers', user))
 
       // a user left the list of present users
-      .leaving(user => store.commit('removeFromUsersInRoom', user))
+      .leaving(user => store.commit('removeFromOnlineUsers', user))
 
       // a room was added
       .listen('RoomCreated', e => {

@@ -15,13 +15,13 @@ export default {
     removeRoom (state, payload) {
       state.rooms = state.rooms.filter(r => r.id !== payload)
     },
-    setUsersInRoom (state, payload) {
+    setOnlineUsers (state, payload) {
       state.onlineUsers = payload
     },
-    addToUsersInRoom (state, payload) {
+    addToOnlineUsers (state, payload) {
       state.onlineUsers.push(payload)
     },
-    removeFromUsersInRoom (state, payload) {
+    removeFromOnlineUsers (state, payload) {
       state.onlineUsers = state.onlineUsers.filter(u => u !== payload)
     },
     setNewRoomMembers (state, payload) {

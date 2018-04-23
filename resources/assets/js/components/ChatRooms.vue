@@ -108,7 +108,7 @@ export default {
         // must contain an object with name 'private-chatroom.{id}'
         if (window.Echo.connector.channels[`private-chatroom.${room.id}`]) return
 
-        // start listening to our backend broadcast channel
+        // start listening to our backend broadcast channel dedicated to a certain Chat Room
         window.Echo.private('chatroom.' + room.id)
 
           .listen('MessagePosted', e => {

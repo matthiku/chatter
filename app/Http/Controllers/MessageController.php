@@ -1,4 +1,13 @@
 <?php
+/**
+ * Messages Controller
+ * 
+ * @category Controller
+ * @package  Chatter
+ * @author   Matthias Kuhs <matthiku@yahoo.com>
+ * @license  MIT http://mit.org
+ * @link     http://github.org/matthiku/chatter
+ */
 
 namespace App\Http\Controllers;
 
@@ -7,6 +16,16 @@ use App\Message;
 use Illuminate\Http\Request;
 use App\Events\MessagePosted;
 
+/**
+ * Handles all requests related to Chat Messages
+ * 
+ * @category  Class
+ * @package   Chatter
+ * @author    Matthias Kuhs <matthiku@yahoo.com>
+ * @copyright 2018 Matthias Kuhs
+ * @license   MIT http://mit.org
+ * @link      http://github.org/matthiku/chatter
+ */
 class MessageController extends Controller
 {
     /**
@@ -63,8 +82,9 @@ class MessageController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Message  $message
+     * @param \Illuminate\Http\Request $request HTTP request data
+     * @param \App\Message             $message Message Model data
+     * 
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Message $message)
@@ -75,7 +95,8 @@ class MessageController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Message  $message
+     * @param \App\Message $message Message Model data
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Message $message)

@@ -1,10 +1,29 @@
 <?php
+/**
+ * Home Controller
+ * 
+ * @category Controller
+ * @package  Chatter
+ * @author   Matthias Kuhs <matthiku@yahoo.com>
+ * @license  MIT http://mit.org
+ * @link     http://github.org/matthiku/chatter
+ */
 
 namespace App\Http\Controllers;
 
 use DB;
 use Illuminate\Http\Request;
 
+/**
+ * Handles some basic requests
+ * 
+ * @category  Class
+ * @package   Chatter
+ * @author    Matthias Kuhs <matthiku@yahoo.com>
+ * @copyright 2018 Matthias Kuhs
+ * @license   MIT http://mit.org
+ * @link      http://github.org/matthiku/chatter
+ */
 class HomeController extends Controller
 {
     /**
