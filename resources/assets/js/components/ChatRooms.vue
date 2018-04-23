@@ -9,7 +9,7 @@
         </div>
 
         <div class="card-body">
-          <div class="float-right">Currently on-line:
+          <div class="float-right">Who else is on-line?
             <a href="#" v-for="(u, idx) in onlineUsers" :key="idx"
                 v-if="user.id !== u.id"
                 class="badge badge-pill badge-info mr-2"
@@ -17,6 +17,7 @@
                 title="click to chat"
               >{{ u.username }}
             </a>
+            <span v-if="!onlineUsers">no one</span>
           </div>
           <hr>
 
@@ -38,18 +39,19 @@
                       :aria-controls="'#collapse-'+index">
 
                     <span class="float-left">
-                      {{ room.name }}
+                      <span v-if="room.name" class="room-name">{{ room.name }}</span>
+                      <span v-else class="small">(unnamed)</span>
                       (<small v-for="(member, index) in room.users"
                           v-if="member.id !== user.id"
                           :key="index"
                           class="font-weight-light">{{ member.username 
-                          }}<span v-if="index < room.users.length-1">,</span>
+                          }}<span v-if="index < room.users.length-1" class="mr-2">,</span>
                       </small>)
                     </span>
 
                     <span class="float-right"
                         @click.stop="editRoom(room)">
-                      <i class="material-icons">people</i>
+                      <i class="material-icons">messages</i>
                       <span class="badge badge-secondary badge-pill float-right">{{ room.messages ? room.messages.length : 0 }}</span>
                     </span>
                   </button>
@@ -82,6 +84,13 @@
 
   </div>
 </template>
+
+
+<style>
+.room-name {
+  font-family: 'Times New Roman', Times, serif;
+}
+</style>
 
 
 <script>
@@ -139,6 +148,8 @@ export default {
     },
 
     editRoom (room) {
+      // only for the owner...
+      if (room.owner_id !== this.user.id) return
       // edit room name and memberships
       let members = []
       room.users.map(el => members.push(el.id))

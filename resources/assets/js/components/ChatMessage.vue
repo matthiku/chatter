@@ -2,7 +2,7 @@
   <div class="chat-message">
     <p>{{ message.message }}
       <br>
-      <small>{{ membersObj[message.user_id].username }}</small>
+      <small v-if="users">{{ usersObj[message.user_id].username }}</small>
     </p>
   </div>  
 </template>
@@ -13,9 +13,12 @@ export default {
   props: ['message', 'members'],
 
   computed: {
-    membersObj () {
+    users () {
+      return this.$store.state.user.users
+    },
+    usersObj () {
       let obj = {}
-      this.members.map(elem => obj[elem.id] = elem)
+      this.users.map(elem => obj[elem.id] = elem)
       return obj
     }
   }

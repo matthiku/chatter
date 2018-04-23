@@ -122,11 +122,13 @@ class RoomController extends Controller
         // update optional name
         if ($request->has('name')) {
             $room->name = $request->name;
+            $room->save();
         }
 
         // add all members to this chat room
         $room->users()->detach();
         $room->users()->attach($request->members);
+        $room->users()->attach($user->id); // also add the current user
 
         // create a new broadcasted for this event
         broadcast(new RoomUpdated($room, $user));

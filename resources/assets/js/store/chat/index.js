@@ -12,6 +12,15 @@ export default {
     addRoom (state, payload) {
       state.rooms.push(payload)
     },
+    updateRoom (state, payload) {
+      state.rooms.map(elem => {
+        if (elem.id === payload.id) {
+          elem.name = payload.name
+          elem.users = payload.users
+        }
+      })
+    },
+
     removeRoom (state, payload) {
       state.rooms = state.rooms.filter(r => r.id !== payload)
     },

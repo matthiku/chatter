@@ -51,5 +51,14 @@ export default function startUpActions(store) {
           window.console.warn(e)
         }
       })
+
+      // a room was updated (name, members)
+      .listen('RoomUpdated', e => {
+        if (e.room) {
+          store.commit('updateRoom', e.room)
+        } else {
+          window.console.warn(e)
+        }
+      })
   }
 }
