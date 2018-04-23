@@ -1,6 +1,13 @@
 export default {
 
   state : {
-    appName: 'ChatterBox'
+    appName: 'ChatterBox',
+    dialog: ''
+  },
+
+  mutations : {
+    setDialog (state, payload) {
+      state.dialog = payload
+    }
   }
 }

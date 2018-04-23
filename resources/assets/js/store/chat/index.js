@@ -67,6 +67,18 @@ export default {
         .catch(err => window.console.log(err))
     },
 
+    updateRoom (context, payload) {
+      window.axios
+        .patch(`api/rooms/${payload.id}`, payload)
+        .then(response => {
+          if (!response.data) {
+            window.console.warn(response)
+          }
+          window.console.log(response)
+        })
+        .catch(err => window.console.log(err))
+    },
+
     deleteRoom (x, payload) {
       window.axios
         .delete(`api/rooms/${payload.room_id}`)

@@ -1,14 +1,24 @@
 <template>
-  <div class="modal fade" id="createNewRoom" tabindex="-1" role="dialog">
+  <div class="modal fade" id="chatRoomProperties" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Create new Chat</h5>
+          <h5 class="modal-title">{{ title }}</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
+
+          <p>Room name (optional)</p>
+          <div class="input-group mb-3">
+            <input type="text"
+                v-model="roomName"
+                class="form-control"
+                placeholder="enter room name"
+                aria-label="Room name">
+          </div>
+
           <p>Add new members</p>
           <div class="input-group mb-3">
             <input type="text"
@@ -17,8 +27,9 @@
                 placeholder="hint member's names" 
                 aria-label="Member's username">
           </div>
+
           <div class="form-group">
-            <label for="selectMembers">Select Members</label>
+            <!-- <label for="selectMembers">Select Members</label> -->
             <select v-model="members"
                 multiple class="form-control" id="selectMembers">
               <option v-for="(usr, idx) in users" :key="idx"
@@ -29,10 +40,12 @@
 
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" 
+              @click="closeDialog"
+              class="btn btn-secondary" data-dismiss="modal">Close</button>
           <button type="button"
-              @click="createNewRoom()"
-              class="btn btn-primary">Save changes</button>
+              @click="executeAction()"
+              class="btn btn-primary">{{ buttonText }}</button>
         </div>
       </div>
     </div>
@@ -45,6 +58,8 @@ export default {
 
   data () {
     return {
+      title: 'undecided...',
+      buttonText: 'undecided...',
       roomName: null,
       members: [],
       nameHint: null
@@ -61,22 +76,52 @@ export default {
     newRoomMembers () {
       return this.$store.state.chat.newRoomMembers
     },
+    dialog () {
+      return this.$store.state.shared.dialog
+    }
   },
 
   watch: {
     newRoomMembers (val) {
       this.members = val
+    },
+    dialog (val) {
+      if (val.what === 'createNewRoom') {
+        this.title = 'Create new Chat Room'
+        this.buttonText = 'Start Chat'
+        $('#chatRoomProperties').modal('show')
+      }
+      if (val.what === 'updateRoom') {
+        this.title = 'Update Chat Room'
+        this.buttonText = 'Save'
+        $('#chatRoomProperties').modal('show')
+      }
+      if (val === '') {
+        $('#chatRoomProperties').modal('hide')
+      }
     }
   },
 
   methods: {
-    createNewRoom (user) {
+    closeDialog () {
+      this.$store.commit('setDialog', '')
+    },
+
+    executeAction () {
       // at least one (other) member is needed (besides the current user)
       if (!this.members.length) return
+
+      // close the modal, then create a new chat room
       let obj = {}
       obj.members = this.members
       if (this.roomName) obj.name = this.roomName
-      this.$store.dispatch('createNewRoom', obj)
+      if (this.dialog === 'createNewRoom')
+        this.$store.dispatch('createNewRoom', obj)
+      else {
+        obj.id = this.dialog.option
+        this.$store.dispatch('updateRoom', obj)
+      }
+      this.$store.commit('setDialog', '')
     }
   }
 }

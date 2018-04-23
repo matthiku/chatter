@@ -47,8 +47,9 @@
                       </small>)
                     </span>
 
-                    <span class="float-right">
-                      <i class="material-icons">message</i>
+                    <span class="float-right"
+                        @click.stop="editRoom(room)">
+                      <i class="material-icons">people</i>
                       <span class="badge badge-secondary badge-pill float-right">{{ room.messages ? room.messages.length : 0 }}</span>
                     </span>
                   </button>
@@ -77,7 +78,7 @@
       </div>
     </div>
 
-    <create-new-room></create-new-room>
+    <chat-room-properties></chat-room-properties>
 
   </div>
 </template>
@@ -104,8 +105,8 @@ export default {
 
       this.rooms.map(room => {        
         // check if room is already connected: 
-        //          "window.Echo.connector.channels"
-        // must contain an object with name 'private-chatroom.{id}'
+        //          check if the entity "window.Echo.connector.channels"
+        //          contains an object with name 'private-chatroom.{id}'
         if (window.Echo.connector.channels[`private-chatroom.${room.id}`]) return
 
         // start listening to our backend broadcast channel dedicated to a certain Chat Room
@@ -130,8 +131,19 @@ export default {
 
   methods: {
     launchNewRoomModal (user_id) {
-      this.$store.commit('setNewRoomMembers', [user_id])
-      $('#createNewRoom').modal()
+      if (user_id)
+        this.$store.commit('setNewRoomMembers', [user_id])
+      else
+        this.$store.commit('setNewRoomMembers', [])
+      this.$store.commit('setDialog', {what: 'createNewRoom', option: ''})
+    },
+
+    editRoom (room) {
+      // edit room name and memberships
+      let members = []
+      room.users.map(el => members.push(el.id))
+      this.$store.commit('setNewRoomMembers', members)
+      this.$store.commit('setDialog', {what: 'updateRoom', option: room.id})
     }
   }
 
