@@ -15,6 +15,7 @@ namespace App\Http\Controllers;
 use Auth;
 use App\Room;
 use App\Events\RoomCreated;
+use App\Events\RoomUpdated;
 use App\Events\RoomDeleted;
 use Illuminate\Http\Request;
 
@@ -110,7 +111,27 @@ class RoomController extends Controller
      */
     public function update(Request $request, Room $room)
     {
-        //
+        // get current user
+        $user = Auth::user();
+
+        // check if user owns this room
+        if (! $user->isOwner($room)) {
+            return 'failed';
+        }
+
+        // update optional name
+        if ($request->has('name')) {
+            $room->name = $request->name;
+        }
+
+        // add all members to this chat room
+        $room->users()->detach();
+        $room->users()->attach($request->members);
+
+        // create a new broadcasted for this event
+        broadcast(new RoomUpdated($room, $user));
+
+        return $room;
     }
 
 
@@ -125,7 +146,9 @@ class RoomController extends Controller
     public function destroy(Room $room)
     {
         // check if room exists and user owns this room
-        if (!$room || $room->owner->id !== Auth::user()->id) return
+        if (!$room || $room->owner->id !== Auth::user()->id) {
+            return;
+        }
 
         // broadcast the deletion event
         \Log::info('RoomDeleted event prepared! id: ' . $room->id);

@@ -68,6 +68,7 @@ export default {
     },
 
     updateRoom (context, payload) {
+      if (! payload.id) return
       window.axios
         .patch(`api/rooms/${payload.id}`, payload)
         .then(response => {

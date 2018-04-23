@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Room;
 use Laravel\Passport\HasApiTokens;
 use App\Notifications\VerifyEmail;
 use Illuminate\Notifications\Notifiable;
@@ -75,6 +76,17 @@ class User extends Authenticatable
     }
 
 
+    /**
+     * Check if user owns a certain room
+     * 
+     * @param Model $room Room object model
+     * 
+     * @return boolean
+     */
+    public function isOwner(Room $room)
+    {
+        return $this->id === $room->owner_id;
+    }
 
 
 

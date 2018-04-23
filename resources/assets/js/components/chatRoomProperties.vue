@@ -115,9 +115,9 @@ export default {
       let obj = {}
       obj.members = this.members
       if (this.roomName) obj.name = this.roomName
-      if (this.dialog === 'createNewRoom')
+      if (this.dialog.what === 'createNewRoom')
         this.$store.dispatch('createNewRoom', obj)
-      else {
+      if (this.dialog.what === 'updateRoom') {
         obj.id = this.dialog.option
         this.$store.dispatch('updateRoom', obj)
       }
