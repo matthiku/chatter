@@ -133,9 +133,22 @@ export default {
           })
           .on('pusher:subscription_succeeded', e => {
             window.console.log(`Subscription to chatroom ${room.id} was successful`)
-          })
-        
+          })        
       })
+
+      // now check if all private chatrooms are still valid
+      let privChannels = window.Echo.connector.channels
+      for (const key in privChannels) {
+        if (privChannels.hasOwnProperty(key)) {
+          // key should be in the form of 'private-chatroom.[id]'
+          let chName = key.split('.')
+          window.console.log(chName)
+          if (chName.length !== 2 || isNaN(chName[1])) continue
+          if (this.rooms.find(el => el.id === parseInt(chName[1]))) continue
+          window.console.log('leaving chatroom', chName[1])
+          window.Echo.leave('chatroom.' + chName[1])
+        }
+      }
     }
   },
 
