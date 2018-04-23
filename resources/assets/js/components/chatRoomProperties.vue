@@ -94,6 +94,7 @@ export default {
       if (val.what === 'updateRoom') {
         this.title = 'Update Chat Room'
         this.buttonText = 'Save'
+        this.roomName = this.dialog.roomName
         $('#chatRoomProperties').modal('show')
       }
       if (val === '') {

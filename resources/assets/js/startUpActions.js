@@ -8,14 +8,12 @@
  * @param {*} router  The Vue router object
  */
 export default function startUpActions(store) {
-
   // get the user object from the global namespace (as set in layouts\app.blade.php)
   let user = JSON.parse(window.chatter_server_data.user)
   store.commit('setUser', user)
 
   // If the user is logged in, get all his Chat Rooms from the backend
   if (user.name && user.name !== 'guest') {
-
     // load the rooms for this user
     store.dispatch('loadRooms')
 
@@ -37,7 +35,9 @@ export default function startUpActions(store) {
       // a room was added
       .listen('RoomCreated', e => {
         if (e.room) {
-          store.commit('addRoom', e.room)
+          // only add this room if current user is a member
+          if (e.room.users.find(el => el.id === user.id))
+            store.commit('addRoom', e.room)
         } else {
           window.console.warn(e)
         }
@@ -55,7 +55,18 @@ export default function startUpActions(store) {
       // a room was updated (name, members)
       .listen('RoomUpdated', e => {
         if (e.room) {
-          store.commit('updateRoom', e.room)
+          let rooms = store.getters.rooms
+          // only update this room if current user is a member
+          if (e.room.users.find(el => el.id === user.id)) {
+            // check if the current user already has this room
+            if (rooms.find(el => el.id === e.room.id))
+              store.commit('updateRoom', e.room)
+            else
+              store.commit('addRoom', e.room)
+          } else {
+            // remove the room for the current user
+            store.commit('removeRoom', e.room)
+          }
         } else {
           window.console.warn(e)
         }

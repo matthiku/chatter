@@ -2,7 +2,7 @@
   <div class="chat-message">
     <p>{{ message.message }}
       <br>
-      <small v-if="users">{{ usersObj[message.user_id].username }}</small>
+      <small v-if="usersObj[message.user_id]">{{ usersObj[message.user_id].username }}</small>
     </p>
   </div>  
 </template>

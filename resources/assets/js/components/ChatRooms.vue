@@ -125,6 +125,7 @@ export default {
             if (e.message) {
               let msg = e.message
               msg.user = e.user
+              if (! room.messages) room.messages = []
               room.messages.push(msg)
             } else {
               window.console.warn(e)
@@ -154,7 +155,13 @@ export default {
       let members = []
       room.users.map(el => members.push(el.id))
       this.$store.commit('setNewRoomMembers', members)
-      this.$store.commit('setDialog', {what: 'updateRoom', option: room.id})
+      this.$store.commit('setDialog',
+        {
+          what: 'updateRoom',
+          option: room.id,
+          roomName: room.name
+        }
+      )
     }
   }
 

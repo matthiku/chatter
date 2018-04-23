@@ -10,9 +10,11 @@ export default {
       state.rooms = payload
     },
     addRoom (state, payload) {
+      window.console.log('addRoom', payload)
       state.rooms.push(payload)
     },
     updateRoom (state, payload) {
+      window.console.log('updateRoom', payload)
       state.rooms.map(elem => {
         if (elem.id === payload.id) {
           elem.name = payload.name
@@ -20,8 +22,9 @@ export default {
         }
       })
     },
-
+    
     removeRoom (state, payload) {
+      window.console.log('removeRoom', payload)
       state.rooms = state.rooms.filter(r => r.id !== payload)
     },
     setOnlineUsers (state, payload) {
