@@ -1,15 +1,15 @@
 <template>
   <div class="row justify-content-center">
-    <div class="col-md-8">
+    <div class="col-lg-10 col-md-12">
       <div class="card">
 
-        <div class="card-header">Your Chat Rooms
+        <div class="card-header">My Chat Rooms
           <button @click="launchNewRoomModal()"
              class="btn btn-sm btn-success float-right">start new chat</button>
         </div>
 
-        <div class="card-body">
-          <div class="float-right">Who else is on-line?
+        <div class="card-body p-0 p-sm-1 p-md-2 p-lg-3 p-xl-4">
+          <div class="float-right">On-line:
             <a href="#" v-for="(u, idx) in onlineUsers" :key="idx"
                 v-if="user.id !== u.id"
                 class="badge badge-pill badge-info mr-2"
@@ -30,37 +30,40 @@
               
               <!-- chat header
                -->
-              <div class="card-header p-0" :id="'heading-'+index">
-                <h5 class="mb-0">
-                  <button class="btn btn-link collapsed w-100" type="button" 
-                      data-toggle="collapse" 
-                      aria-expanded="true" 
-                      :data-target="'#collapse-'+index" 
-                      :aria-controls="'#collapse-'+index">
-
-                    <!-- show room name and members -->
-                    <span class="float-left">
-
-                      <span v-if="room.name" class="room-name">{{ room.name }}</span>
+              <div class="card-header p-0 my-0" :id="'heading-'+index">
+                <div class="d-flex justify-content-between mb-0 collapsed w-100 p-0 chatroom-header cursor-pointer"
+                    data-toggle="collapse" 
+                    aria-expanded="true" 
+                    :data-target="'#collapse-'+index" 
+                    :aria-controls="'#collapse-'+index"
+                  >
+                    <!-- show room name -->
+                    <span>
+                      <span v-if="room.name" class="room-name ml-2">{{ room.name }}</span>
                       <span v-else class="small">(unnamed)</span>
+                      <i v-if="room.owner_id === user.id"
+                          @click="editRoom(room)"
+                          title="edit room properties"
+                          class="material-icons">edit</i>
+                    </span>
 
+                    <!-- show room members -->
+                    <span class="room-member-names">
                       <small v-for="(member, index) in room.users"
                           v-if="member.id !== user.id"
                           :key="index"
+                          :title="member.id === room.owner_id ? 'Chat Owner' : member.name"
                           :class="[member.id === room.owner_id ? 'font-weight-bold' : 'font-weight-light']"
                         >{{ member.username 
                           }}<span v-if="index < room.users.length-1" class="mr-2">,</span>
                       </small>
                     </span>
 
-                    <!-- show messages counter -->
-                    <span class="float-right"
-                        @click.stop="editRoom(room)">
-                      <i class="material-icons">messages</i>
-                      <span class="badge badge-secondary badge-pill float-right">{{ room.messages ? room.messages.length : 0 }}</span>
-                    </span>
-                  </button>
-                </h5>
+                  <!-- show messages counter -->
+                  <span>
+                    <span class="badge badge-secondary badge-pill float-right">{{ room.messages ? room.messages.length : 0 }}</span>
+                  </span>
+                </div>
               </div>
 
 
@@ -71,7 +74,7 @@
                   class="collapse"
                   data-parent="#chatrooms">
 
-                <div class="card-body">
+                <div class="card-body chat-room-body p-0 p-sm-1 p-md-2 p-lg-3 p-xl-4">
 
                   <chat-log :room="room"></chat-log>
 
@@ -96,8 +99,21 @@
 <style>
 .room-name {
   font-family: 'Times New Roman', Times, serif;
-  font-size: 1.5em;
+  font-size: larger;
   color:darkred;
+}
+.chatroom-header {
+  font-size: larger;
+}
+.chat-room-body {
+  background-image: url("/static/paper.gif");
+  background-repeat: repeat;  
+}
+.material-icons {
+  font-size: smaller;
+}
+.cursor-pointer {
+  cursor: pointer;
 }
 </style>
 
@@ -186,6 +202,14 @@ export default {
         }
       )
     }
+  },
+
+  mounted () {
+    $('#chatrooms').on('shown.bs.collapse', function () {
+      // do something…
+      var elem = window.document.getElementsByClassName('message-input-field')
+
+    })
   }
 
 }

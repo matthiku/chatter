@@ -15,14 +15,15 @@ mix
   .js('resources/assets/js/app.js', 'public/js')
   .sourceMaps()
   .extract(['vue'])
-  
+
   .sass('resources/assets/sass/app.scss', 'public/css')
+
+  .copyDirectory('resources/assets/static', 'public/static')
 
   .browserSync({
     proxy: 'chatter.oo'
   })
-;
 
 if (mix.inProduction()) {
-  mix.version();
+  mix.version()
 }

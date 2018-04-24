@@ -1,18 +1,29 @@
 <template>
   <div class="chat-composer">
 
-    <input
-        type="text"
-        id="message"
-        placeholder="start typing"
-        @keyup.enter="sendMessage"
-        v-model="messageText"
-      >
+    <div class="input-group input-group-sm rounded">
+      <input
+          type="text"
+          :id="'message-room-id-' + room.id"
+          class="rounded-left message-input-field"
+          tabindex="room.id"
+          placeholder="start typing"
+          @keyup.enter="sendMessage"
+          v-model="messageText"
+        >
 
-    <button 
-        class="btn btn-primary"
-        @click="sendMessage"
-      >Send</button>
+      <div class="input-group-append">
+        <button class="btn btn-secondary" type="button"
+            title="send photo or documents"
+          ><i class="material-icons">attach_file</i></button>
+
+        <button class="btn btn-secondary" type="button"
+            title="record a message"
+          ><i class="material-icons">mic</i></button>
+
+        <button class="btn btn-primary rounded-right" type="button" @click="sendMessage">Send</button>
+      </div>
+    </div>
 
   </div>  
 </template>

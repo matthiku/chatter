@@ -19,9 +19,6 @@
 
 
 <style>
-.chat-log .chat-message:nth-child(even) {
-  background-color: #ccc;
-}
 .empty {
   padding: 1rem;
   text-align: center;
