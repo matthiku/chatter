@@ -1,27 +1,28 @@
 <template>
   <div class="row justify-content-center">
-    <div class="col-lg-10 col-md-12">
-      <div class="card">
+    <div class="col-xl-8 col-lg-10 col-md-12 mw-1k">
+      <div class="card shadow-sm">
 
-        <div class="card-header">My Chat Rooms
+        <div class="card-header p-0 p-sm-1 p-md-2">My Chat Rooms
           <button @click="launchNewRoomModal()"
              class="btn btn-sm btn-success float-right">start new chat</button>
-        </div>
 
-        <div class="card-body p-0 p-sm-1 p-md-2 p-lg-3 p-xl-4">
+          <!-- show online users -->
           <div class="float-right">On-line:
             <a href="#" v-for="(u, idx) in onlineUsers" :key="idx"
                 v-if="user.id !== u.id"
                 class="badge badge-pill badge-info mr-2"
                 @click="launchNewRoomModal(u.id)"
-                title="click to chat"
+                :title="'click to start chatting with ' + u.username"
               >{{ u.username }}
             </a>
-            <span v-if="!onlineUsers">no one</span>
           </div>
-          <hr>
+          <span v-if="!onlineUsers">no one</span>
+        </div>
 
-          <div class="accordion" id="chatrooms">
+        <div class="card-body p-0 p-sm-1 p-md-2 p-lg-3 p-xl-4">
+
+          <div class="accordion shadow" id="chatrooms">
 
             <div v-for="(room, index) in rooms"
                 :key="index"
@@ -97,6 +98,9 @@
 
 
 <style>
+.mw-1k {
+  max-width: 900px;
+}
 .room-name {
   font-family: 'Times New Roman', Times, serif;
   font-size: larger;
@@ -104,6 +108,14 @@
 }
 .chatroom-header {
   font-size: larger;
+}
+.collapsed {
+  opacity: 0.6;
+  font-size: small;  
+}
+.collapsed:hover {
+  opacity: 1;
+  font-size: inherit;
 }
 .chat-room-body {
   background-image: url("/static/paper.gif");
@@ -167,11 +179,8 @@ export default {
         if (privChannels.hasOwnProperty(key)) {
           // key should be in the form of 'private-chatroom.[id]'
           let chName = key.split('.')
-          window.console.log(chName)
           if (chName.length !== 2 || chName[0] !== 'private-chatroom') continue
-          window.console.log(this.rooms)
           if (this.rooms.find(el => el.id === parseInt(chName[1]))) continue
-          window.console.log('leaving chatroom', chName[1])
           window.Echo.leave('chatroom.' + chName[1])
         }
       }

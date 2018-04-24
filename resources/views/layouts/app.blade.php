@@ -70,7 +70,7 @@
             </div>
         </nav>
 
-        <main class="py-4">
+        <main class="py-1 py-md-2 py-xl-4">
             @yield('content')
         </main>
     </div>

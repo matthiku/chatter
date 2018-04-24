@@ -7,7 +7,7 @@
           :id="'message-room-id-' + room.id"
           class="rounded-left message-input-field"
           tabindex="room.id"
-          placeholder="start typing"
+          placeholder="write your message"
           @keyup.enter="sendMessage"
           v-model="messageText"
         >
