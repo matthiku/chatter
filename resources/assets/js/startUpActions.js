@@ -65,7 +65,7 @@ export default function startUpActions(store) {
               store.commit('addRoom', e.room)
           } else {
             // remove the room for the current user
-            store.commit('removeRoom', e.room)
+            store.commit('removeRoom', e.room.id)
           }
         } else {
           window.console.warn(e)

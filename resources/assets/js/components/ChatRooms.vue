@@ -136,14 +136,15 @@ export default {
           })        
       })
 
-      // now check if all private chatrooms are still valid
-      let privChannels = window.Echo.connector.channels
+      // now check if all private chatrooms are still in use
+      let privChannels = window.Echo.connector.channels // object with all current channels
       for (const key in privChannels) {
         if (privChannels.hasOwnProperty(key)) {
           // key should be in the form of 'private-chatroom.[id]'
           let chName = key.split('.')
           window.console.log(chName)
-          if (chName.length !== 2 || isNaN(chName[1])) continue
+          if (chName.length !== 2 || chName[0] !== 'private-chatroom') continue
+          window.console.log(this.rooms)
           if (this.rooms.find(el => el.id === parseInt(chName[1]))) continue
           window.console.log('leaving chatroom', chName[1])
           window.Echo.leave('chatroom.' + chName[1])
