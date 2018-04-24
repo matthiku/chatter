@@ -37,6 +37,14 @@ export default {
     },
     setNewRoomMembers (state, payload) {
       state.newRoomMembers = payload
+    },
+    setMessagesForRoom (state, payload) {
+      state.rooms.map(elem => {
+        if (elem.id === payload.id) {
+          elem.messages = payload.messages
+          window.console.log(elem.messages.length, 'messages added to room id', elem.id)
+        }
+      })
     }
   },
 
@@ -78,7 +86,7 @@ export default {
         .catch(err => window.console.log(err))
     },
 
-    updateRoom (context, payload) {
+    updateRoomProperties (context, payload) {
       if (! payload.id) return
       window.axios
         .patch(`api/rooms/${payload.id}`, payload)
@@ -87,6 +95,19 @@ export default {
             window.console.warn(response)
           }
           window.console.log(response)
+        })
+        .catch(err => window.console.log(err))
+    },
+
+    getMessagesForRoom ({commit}, payload) {
+      window.axios
+        .get(`api/rooms/${payload.id}`)
+        .then(response => {
+          if (!response.data) {
+            window.console.warn(response)
+          } else {
+            commit('setMessagesForRoom', response.data)
+          }
         })
         .catch(err => window.console.log(err))
     },

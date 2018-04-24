@@ -59,12 +59,15 @@ export default function startUpActions(store) {
           // only update this room if current user is a member
           if (e.room.users.find(el => el.id === user.id)) {
             // check if the current user already has this room
-            if (rooms.find(el => el.id === e.room.id))
+            if (rooms.find(el => el.id === e.room.id)) {
               store.commit('updateRoom', e.room)
-            else
+            } else {
               store.commit('addRoom', e.room)
+              // we need to alsoe get the messages for this room
+              store.dispatch('getMessagesForRoom', e.room)
+            }
           } else {
-            // remove the room for the current user
+            // User is no longer member, remove the room from the store
             store.commit('removeRoom', e.room.id)
           }
         } else {

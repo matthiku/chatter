@@ -148,7 +148,7 @@ export default {
         this.$store.dispatch('createNewRoom', obj)
       if (this.dialog.what === 'updateRoom') {
         obj.id = this.dialog.option
-        this.$store.dispatch('updateRoom', obj)
+        this.$store.dispatch('updateRoomProperties', obj)
       }
       this.$store.commit('setDialog', '')
       this.deletingRoom = false

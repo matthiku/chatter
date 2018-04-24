@@ -97,8 +97,10 @@ class RoomController extends Controller
      */
     public function show(Room $room)
     {
-        //
-        return $room;
+        // get another room object
+        $rm = Room::find($room->id);
+        $rm->messages = $room->messages;
+        return $rm;
     }
 
     /**
