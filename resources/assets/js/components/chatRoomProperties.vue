@@ -53,10 +53,10 @@
 
         <div class="modal-footer">
 
-          <button v-if="deletingRoom && buttonText==='Save'"
+          <button v-if="deletingRoom"
               @click="deleteRoom" type="button" class="btn btn-danger" >Delete Room</button>
 
-          <button v-if="!deletingRoom"
+          <button v-if="!deletingRoom && buttonText==='Save'"
               @click="deletingRoom = true"
               type="button" class="btn btn-sm btn-alert float-left">Delete Room</button>
 

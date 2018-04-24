@@ -40,14 +40,17 @@
 
                     <!-- show room name and members -->
                     <span class="float-left">
+
                       <span v-if="room.name" class="room-name">{{ room.name }}</span>
                       <span v-else class="small">(unnamed)</span>
-                      (<small v-for="(member, index) in room.users"
+
+                      <small v-for="(member, index) in room.users"
                           v-if="member.id !== user.id"
                           :key="index"
-                          class="font-weight-light">{{ member.username 
+                          :class="[member.id === room.owner_id ? 'font-weight-bold' : 'font-weight-light']"
+                        >{{ member.username 
                           }}<span v-if="index < room.users.length-1" class="mr-2">,</span>
-                      </small>)
+                      </small>
                     </span>
 
                     <!-- show messages counter -->
@@ -94,6 +97,7 @@
 .room-name {
   font-family: 'Times New Roman', Times, serif;
   font-size: 1.5em;
+  color:darkred;
 }
 </style>
 
