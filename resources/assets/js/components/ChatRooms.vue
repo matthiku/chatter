@@ -38,6 +38,7 @@
                       :data-target="'#collapse-'+index" 
                       :aria-controls="'#collapse-'+index">
 
+                    <!-- show room name and members -->
                     <span class="float-left">
                       <span v-if="room.name" class="room-name">{{ room.name }}</span>
                       <span v-else class="small">(unnamed)</span>
@@ -49,6 +50,7 @@
                       </small>)
                     </span>
 
+                    <!-- show messages counter -->
                     <span class="float-right"
                         @click.stop="editRoom(room)">
                       <i class="material-icons">messages</i>
@@ -67,8 +69,9 @@
                   data-parent="#chatrooms">
 
                 <div class="card-body">
-                  <chat-log :room="room"
-                    ></chat-log>
+
+                  <chat-log :room="room"></chat-log>
+
                 </div>
               </div>
 
@@ -80,6 +83,7 @@
       </div>
     </div>
 
+    <!-- modal dialog to edit chat room properties or create a new room -->
     <chat-room-properties></chat-room-properties>
 
   </div>
@@ -89,6 +93,7 @@
 <style>
 .room-name {
   font-family: 'Times New Roman', Times, serif;
+  font-size: 1.5em;
 }
 </style>
 

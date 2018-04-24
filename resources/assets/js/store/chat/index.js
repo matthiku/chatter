@@ -23,9 +23,8 @@ export default {
       })
     },
     
-    removeRoom (state, payload) {
-      window.console.log('removeRoom', payload)
-      state.rooms = state.rooms.filter(r => r.id !== payload)
+    removeRoom (state, roomId) {
+      state.rooms = state.rooms.filter(r => r.id !== roomId)
     },
     setOnlineUsers (state, payload) {
       state.onlineUsers = payload
@@ -98,10 +97,7 @@ export default {
         .then(response => {
           if (!response.data) {
             window.console.warn(response)
-          // } else if (response.data === 'deleted!') {
-          //   commit('removeRoom', payload.room_id)
           }
-          window.console.log(response)
         })
         .catch(err => window.console.log(err))
     }

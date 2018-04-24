@@ -2,13 +2,17 @@
   <div class="modal fade" id="chatRoomProperties" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
+
+
         <div class="modal-header">
           <h5 class="modal-title">{{ title }}</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body">
+
+
+        <div v-if="!deletingRoom" class="modal-body">
 
           <p>Room name (optional)</p>
           <div class="input-group mb-3">
@@ -39,16 +43,35 @@
           </div>
 
         </div>
+
+        <div v-else class="modal-body">
+          Do you really want to delete this chat room?
+          <br>
+          All messages will be deleted and this cannot be reversed.
+        </div>
+
+
         <div class="modal-footer">
-          <button type="button" 
-              @click="closeDialog"
+
+          <button v-if="deletingRoom && buttonText==='Save'"
+              @click="deleteRoom" type="button" class="btn btn-danger" >Delete Room</button>
+
+          <button v-if="!deletingRoom"
+              @click="deletingRoom = true"
+              type="button" class="btn btn-sm btn-alert float-left">Delete Room</button>
+
+          <button 
+              @click="closeDialog" type="button" 
               class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button"
-              @click="executeAction()"
+
+          <button v-if="!deletingRoom"
+              @click="executeAction" type="button"
               class="btn btn-primary">{{ buttonText }}</button>
         </div>
       </div>
     </div>
+
+
   </div>
 </template>
 
@@ -62,7 +85,8 @@ export default {
       buttonText: 'undecided...',
       roomName: null,
       members: [],
-      nameHint: null
+      nameHint: null,
+      deletingRoom: false
     }
   },
 
@@ -72,6 +96,9 @@ export default {
     },
     users () {
       return this.$store.state.user.users
+    },
+    rooms () {
+      return this.$store.state.chat.rooms
     },
     newRoomMembers () {
       return this.$store.state.chat.newRoomMembers
@@ -106,6 +133,7 @@ export default {
   methods: {
     closeDialog () {
       this.$store.commit('setDialog', '')
+      this.deletingRoom = false
     },
 
     executeAction () {
@@ -123,6 +151,16 @@ export default {
         this.$store.dispatch('updateRoom', obj)
       }
       this.$store.commit('setDialog', '')
+      this.deletingRoom = false
+    },
+
+    deleteRoom () {
+      let room = this.rooms.find(el => el.id === this.dialog.option)
+      if (this.user.id !== room.owner_id) return
+      window.console.log('deleting', room)
+      this.$store.dispatch('deleteRoom', {'room_id': room.id})
+      this.$store.commit('setDialog', '')
+      this.deletingRoom = false
     }
   }
 }
