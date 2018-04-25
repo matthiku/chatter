@@ -10,11 +10,11 @@ export default {
       state.rooms = payload
     },
     addRoom (state, payload) {
-      window.console.log('addRoom', payload)
+      // window.console.log('addRoom', payload)
       state.rooms.push(payload)
     },
     updateRoom (state, payload) {
-      window.console.log('updateRoom', payload)
+      // window.console.log('updateRoom', payload)
       state.rooms.map(elem => {
         if (elem.id === payload.id) {
           elem.name = payload.name
@@ -42,7 +42,7 @@ export default {
       state.rooms.map(elem => {
         if (elem.id === payload.id) {
           elem.messages = payload.messages
-          window.console.log(elem.messages.length, 'messages added to room id', elem.id)
+          // window.console.log(elem.messages.length, 'messages added to room id', elem.id)
         }
       })
     }

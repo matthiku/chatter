@@ -63,8 +63,6 @@ export default function startUpActions(store) {
               store.commit('updateRoom', e.room)
             } else {
               store.commit('addRoom', e.room)
-              // we need to alsoe get the messages for this room
-              store.dispatch('getMessagesForRoom', e.room)
             }
           } else {
             // User is no longer member, remove the room from the store

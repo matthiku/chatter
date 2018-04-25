@@ -61,7 +61,7 @@ class RoomUpdated implements ShouldBroadcast
     {
         $this->room = $room;
         $this->room->users = $room->users;
-        $this->room->messages = [];
+        $this->room->messages = $room->messages;
         $this->user = $user;
     }
 

@@ -8,7 +8,7 @@
         :members="room.users"
       ></chat-message>
 
-    <div class="empty" v-if="room.messages && !room.messages.length">
+    <div class="empty" v-if="!room.messages || (room.messages && !room.messages.length)">
       Nothing here yet! Send a message!
     </div>
 
@@ -29,13 +29,8 @@
 <script>
 export default {
 
-  props: ['room'],
+  props: ['room']
 
-  computed: {
-    user () {
-      return this.$store.state.user.user
-    },
-  }
 }
 </script>
 
