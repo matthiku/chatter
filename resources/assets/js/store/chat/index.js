@@ -5,6 +5,9 @@ export default {
     newRoomMembers: []
   },
 
+  /**
+   * COMMITS: synchronous state updates
+   */
   mutations: {
     setRooms (state, payload) {
       state.rooms = payload
@@ -24,7 +27,16 @@ export default {
     },
     
     removeRoom (state, roomId) {
-      state.rooms = state.rooms.filter(r => r.id !== roomId)
+      state.rooms.map(elem => {
+        if (elem.id === roomId) {
+          let owner = elem.users.find(el => el.id === elem.owner_id)
+          elem.name = `(chat was deleted by ${owner.username}!)`
+          elem.owner_id = 0
+          elem.id = 0
+          elem.users = []
+          elem.messages = []
+        }
+      })
     },
     setOnlineUsers (state, payload) {
       state.onlineUsers = payload

@@ -77,7 +77,8 @@
 
                 <div class="card-body chat-room-body p-0 p-sm-1 p-md-2 p-lg-3 p-xl-4">
 
-                  <chat-log :room="room"></chat-log>
+                  <chat-log v-if="room.id !== 0"
+                      :room="room"></chat-log>
 
                 </div>
               </div>
@@ -174,7 +175,7 @@ export default {
               // find and replace the old message
               let idx = room.messages.findIndex(el => el.id === msg.id)
               room.messages[idx] = msg
-              // to trigger the reactivity!
+              // only to trigger the reactivity!
               room.messages.push(msg) 
               room.messages.pop()
             } else {
