@@ -3,24 +3,25 @@
     <div class="col-xl-8 col-lg-10 col-md-12 mw-1k">
       <div class="card shadow-sm">
 
-        <div class="card-header p-0 p-sm-1 p-md-2">
-          
-          My Chat Rooms
-          
-          <button @click="launchNewRoomModal()"
-             class="btn btn-sm btn-success float-right">start new chat</button>
+        <div class="card-header d-flex justify-content-between p-0 p-sm-1 p-md-2">
+            
+            <span>My Chat Rooms</span>
 
-          <!-- show online users -->
-          <div class="float-right">On-line:
-            <a href="#" v-for="(u, idx) in onlineUsers" :key="idx"
-                v-if="user.id !== u.id"
-                class="badge badge-pill badge-info mr-2"
-                @click="launchNewRoomModal(u.id)"
-                :title="'click to start chatting with ' + u.username"
-              >{{ u.username }}
-            </a>
-          </div>
-          <span v-if="!onlineUsers">no one</span>
+            <!-- show online users -->
+            <div>On-line:
+              <a href="#" v-for="(u, idx) in onlineUsers" :key="idx"
+                  v-if="user.id !== u.id"
+                  class="badge badge-pill badge-info mr-2"
+                  @click="launchNewRoomModal(u.id)"
+                  :title="'click to start chatting with ' + u.username"
+                >{{ u.username }}
+              </a>
+            </div>
+            <span v-if="!onlineUsers">no one</span>
+
+            <button @click="launchNewRoomModal()"
+                class="btn btn-sm btn-success float-right">new chat</button>
+
         </div>
 
         <div class="card-body p-0 p-sm-1 p-md-2 p-lg-3 p-xl-4">
@@ -29,7 +30,7 @@
 
             <div v-for="(room, index) in rooms"
                 :key="index"
-                class="card">
+                class="card mb-2">
 
               
               <!-- chat header
@@ -69,7 +70,7 @@
 
                   <!-- show messages counter -->
                   <span>
-                    <span class="badge badge-secondary badge-pill float-right">{{ room.messages ? room.messages.length : 0 }}</span>
+                    <span class="badge badge-secondary badge-pill float-right mt-1 mr-1">{{ room.messages ? room.messages.length : 0 }}</span>
                   </span>
                 </div>
               </div>
