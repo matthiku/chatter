@@ -100,17 +100,18 @@ class LoginController extends Controller
     public function userFindOrCreate($providerData, $provider)
     {
         // check if the email already exists, then we just log in the user
-        $user = User::where('email', $providerData->getEmail())->first();
+        $email = $providerData->getEmail();
+        $user = User::where('email', $email)->first();
         if ($user) {
-            $status = 'Account verified by ';
-
+            $status = 'Account verified by '.$provider;
         } else {
+            $emailName = explode('@', $email)[0];
             // otherwise, create a new user with a random password
             $user = User::create(
                 [
                     'name' => $providerData->getName(),
-                    'username' => $providerData->getNickname() || $providerData->getEmail(),
-                    'email' => $providerData->getEmail(),
+                    'username' => $providerData->getNickname() || $emailName,
+                    'email' => $email,
                     'avatar' => $providerData->getAvatar() || '',
                     'provider_id' => $providerData->getId(),
                     'provider_name' => $provider,
