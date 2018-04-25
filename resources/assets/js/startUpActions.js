@@ -12,6 +12,10 @@ export default function startUpActions(store) {
   let user = JSON.parse(window.chatter_server_data.user)
   store.commit('setUser', user)
 
+  // get central chatroom name from server
+  let chatroomName = window.chatter_server_data.chatroom_name
+  store.commit('setChatroomName', chatroomName)
+
   // If the user is logged in, get all his Chat Rooms from the backend
   if (user.name && user.name !== 'guest') {
     // load the rooms for this user
@@ -21,7 +25,7 @@ export default function startUpActions(store) {
     store.dispatch('loadUsers')
 
     // start listening to our backend broadcast channel
-    window.Echo.join('chatroom')
+    window.Echo.join(chatroomName)
 
       // getting list of all online users 
       .here(users => store.commit('setOnlineUsers', users))

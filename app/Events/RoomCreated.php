@@ -72,6 +72,6 @@ class RoomCreated implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PresenceChannel('chatroom');
+        return new PresenceChannel(env('MAIN_CHATROOM_NAME', 'chatroom'));
     }
 }

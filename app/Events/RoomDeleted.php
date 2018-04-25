@@ -63,6 +63,6 @@ class RoomDeleted implements ShouldBroadcast
     public function broadcastOn()
     {
         \Log::info('RoomDeleted event should fire! id:' . $this->room);
-        return new PresenceChannel('chatroom');
+        return new PresenceChannel(env('MAIN_CHATROOM_NAME', 'chatroom'));
     }
 }

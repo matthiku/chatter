@@ -78,6 +78,7 @@
         window.chatter_server_data = {}
         @auth
             window.chatter_server_data.user = "{!! addslashes(json_encode((Auth::user()))) !!}"
+            window.chatter_server_data.chatroom_name = '{{ env('MAIN_CHATROOM_NAME', 'chatroom') }}'
         @else
             window.chatter_server_data.user = {name: 'guest'}
         @endauth

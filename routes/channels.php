@@ -19,7 +19,7 @@ Broadcast::channel(
 
 // generic channel for user presence reports (anyone can join)
 Broadcast::channel(
-    'chatroom', function ($user) {
+    env('MAIN_CHATROOM_NAME', 'chatroom'), function ($user) {
         return $user;
     }
 );
