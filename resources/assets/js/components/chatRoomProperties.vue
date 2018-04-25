@@ -115,6 +115,7 @@ export default {
     dialog (val) {
       if (val.what === 'createNewRoom') {
         this.title = 'Create new Chat Room'
+        this.roomName = this.user.username
         this.buttonText = 'Start Chat'
         $('#chatRoomProperties').modal('show')
       }
