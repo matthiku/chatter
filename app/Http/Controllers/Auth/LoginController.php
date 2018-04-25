@@ -105,9 +105,9 @@ class LoginController extends Controller
         if ($user) {
             $status = 'Account verified by '.$provider;
         } else {
-            $emailName = explode('@', $email)[0];
+            $firstName = explode('@', $providerData->getName())[0];
             $userName = $providerData->getNickname();
-            if (!$userName) $userName = $emailName;
+            if (!$userName) $userName = $firstName;
             // otherwise, create a new user with a random password
             $user = User::create(
                 [
