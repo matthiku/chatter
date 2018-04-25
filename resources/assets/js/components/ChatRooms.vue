@@ -161,7 +161,6 @@ export default {
             if (e.message) {
               let msg = e.message
               msg.user = e.user
-              if (! room.messages) room.messages = []
               room.messages.push(msg)
             } else {
               window.console.warn(e)
