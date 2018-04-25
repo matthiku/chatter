@@ -15,6 +15,7 @@ use Auth;
 use App\Message;
 use Illuminate\Http\Request;
 use App\Events\MessagePosted;
+use App\Events\MessageUpdated;
 
 /**
  * Handles all requests related to Chat Messages
@@ -101,6 +102,15 @@ class MessageController extends Controller
      */
     public function destroy(Message $message)
     {
-        //
+        // check if user owns this message
+        $user = Auth::user();
+        if ($user->id === $message->user_id) {
+            // instead of actually deleting a message, we replace it with the date
+            // it was created or last updated to avoid inconsistencies in the chat
+            $message->update(['message' => $message->updated_at]);
+
+            broadcast(new MessageUpdated($message, $user));
+            return 'deleted';
+        }
     }
 }

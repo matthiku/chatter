@@ -74,6 +74,17 @@ export default {
         .catch(err => window.console.log(err))
     },
 
+    deleteMessage (context, payload) {
+      window.axios
+        .delete(`/api/messages/${payload}`)
+        .then(response => {
+          if (!(response.data && response.data === 'deleted')) {
+            window.console.warn(response)
+          }
+        })
+        .catch(err => window.console.log(err))
+    },
+
     createNewRoom (context, payload) {
       window.axios
         .post('api/rooms', payload)

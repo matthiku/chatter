@@ -166,6 +166,21 @@ export default {
               window.console.warn(e)
             }
           })
+
+          .listen('MessageUpdated', e => {
+            if (e.message) {
+              let msg = e.message
+              msg.user = e.user
+              // find and replace the old message
+              let idx = room.messages.findIndex(el => el.id === msg.id)
+              room.messages[idx] = msg
+              // to trigger the reactivity!
+              room.messages.push(msg) 
+              room.messages.pop()
+            } else {
+              window.console.warn(e)
+            }
+          })
           .on('pusher:subscription_succeeded', e => {
             window.console.log(`Subscription to chatroom ${room.id} was successful`)
           })        

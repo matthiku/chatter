@@ -1,6 +1,6 @@
 <?php
 /**
- * Event should fire when a message was posted
+ * Event should fire when a message was updated
  * 
  * @category  Event
  * @package   Chatter
@@ -23,7 +23,7 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 /**
- * MessagePosted Event
+ * MessageUpdated Event
  * 
  * @category Event
  * @package  Chatter
@@ -31,7 +31,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
  * @license  MIT http://mit.org
  * @link     http://github.org/matthiku/chatter
  */
-class MessagePosted implements ShouldBroadcast
+class MessageUpdated implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -64,7 +64,7 @@ class MessagePosted implements ShouldBroadcast
     }
 
     /**
-     * Get the channels the event should broadcast on.
+     * Get the channel the event should broadcast on.
      *
      * @return \Illuminate\Broadcasting\Channel|array
      */
