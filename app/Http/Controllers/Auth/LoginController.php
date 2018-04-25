@@ -109,7 +109,7 @@ class LoginController extends Controller
             $user = User::create(
                 [
                     'name' => $providerData->getName(),
-                    'username' => $providerData->getNickname(),
+                    'username' => $providerData->getNickname() || $providerData->getEmail(),
                     'email' => $providerData->getEmail(),
                     'avatar' => $providerData->getAvatar() || '',
                     'provider_id' => $providerData->getId(),
