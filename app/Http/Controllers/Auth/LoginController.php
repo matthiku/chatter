@@ -106,13 +106,15 @@ class LoginController extends Controller
             $status = 'Account verified by '.$provider;
         } else {
             $emailName = explode('@', $email)[0];
+            $userName = $providerData->getNickname();
+            if (!$userName) $userName = $emailName;
             // otherwise, create a new user with a random password
             $user = User::create(
                 [
                     'name' => $providerData->getName(),
-                    'username' => $providerData->getNickname() || $emailName,
+                    'username' => $userName,
                     'email' => $email,
-                    'avatar' => $providerData->getAvatar() || '',
+                    'avatar' => $providerData->getAvatar(),
                     'provider_id' => $providerData->getId(),
                     'provider_name' => $provider,
                     'password' => str_random(25),
