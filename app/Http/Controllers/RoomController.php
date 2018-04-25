@@ -103,6 +103,8 @@ class RoomController extends Controller
         return $rm;
     }
 
+
+
     /**
      * Update the specified resource in storage.
      *
@@ -127,7 +129,7 @@ class RoomController extends Controller
             $room->save();
         }
 
-        // add all members to this chat room
+        // re-add all members to this chat room
         $room->users()->detach();
         $room->users()->attach($request->members);
         $room->users()->attach($user->id); // also add the current user
@@ -136,6 +138,34 @@ class RoomController extends Controller
         broadcast(new RoomUpdated($room, $user));
 
         return $room;
+    }
+
+
+
+    /**
+     * Allow a user to leave a chat room
+     *
+     * @param \App\Room $room Model
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function leaveRoom(Room $room)
+    {
+        // get current user
+        $user = Auth::user();
+
+        // the owner cannot desert his own room
+        if ($user->isOwner($room)) {
+            return 'failed';
+        }
+
+        // remove this user from the chat room
+        $room->users()->detach($user->id);
+
+        // create a new broadcasted for this event
+        broadcast(new RoomUpdated($room, $user));
+
+        return 'You have left this room!';
     }
 
 

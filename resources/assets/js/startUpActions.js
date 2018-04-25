@@ -23,13 +23,13 @@ export default function startUpActions(store) {
     // start listening to our backend broadcast channel
     window.Echo.join('chatroom')
 
-      // getting list of all users logged into this room
+      // getting list of all online users 
       .here(users => store.commit('setOnlineUsers', users))
 
-      // adding new present user to the list
+      // adding new online user to the list
       .joining(user => store.commit('addToOnlineUsers', user))
 
-      // a user left the list of present users
+      // a user logged off
       .leaving(user => store.commit('removeFromOnlineUsers', user))
 
       // a room was added
@@ -46,7 +46,7 @@ export default function startUpActions(store) {
       // a room was deleted
       .listen('RoomDeleted', e => {
         if (e.room) {
-          store.commit('removeRoom', e.room)
+          store.commit('removeRoom', {id: e.room, reason: 'chatroom was deleted by owner'})
         } else {
           window.console.warn(e)
         }
@@ -66,7 +66,7 @@ export default function startUpActions(store) {
             }
           } else {
             // User is no longer member, remove the room from the store
-            store.commit('removeRoom', e.room.id)
+            store.commit('removeRoom', {id: e.room, reason: 'user was removed from this chatroom'})
           }
         } else {
           window.console.warn(e)

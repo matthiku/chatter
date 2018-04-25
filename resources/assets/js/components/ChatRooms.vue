@@ -3,7 +3,10 @@
     <div class="col-xl-8 col-lg-10 col-md-12 mw-1k">
       <div class="card shadow-sm">
 
-        <div class="card-header p-0 p-sm-1 p-md-2">My Chat Rooms
+        <div class="card-header p-0 p-sm-1 p-md-2">
+          
+          My Chat Rooms
+          
           <button @click="launchNewRoomModal()"
              class="btn btn-sm btn-success float-right">start new chat</button>
 
@@ -46,6 +49,10 @@
                           @click="editRoom(room)"
                           title="edit room properties"
                           class="material-icons">edit</i>
+                      <i v-else-if="room.id !== 0"
+                          @click="leaveRoom(room)"
+                          title="leave this chat room"
+                          class="material-icons">cancel</i>
                     </span>
 
                     <!-- show room members -->
@@ -79,6 +86,11 @@
 
                   <chat-log v-if="room.id !== 0"
                       :room="room"></chat-log>
+
+                  <div v-else
+                      class="text-center"
+                    ><button class="btn btn-sm btn-outline-primary" @click="cleanUpRooms">OK</button>
+                  </div>
 
                 </div>
               </div>
@@ -155,7 +167,7 @@ export default {
         //          contains an object with name 'private-chatroom.{id}'
         if (window.Echo.connector.channels[`private-chatroom.${room.id}`]) return
 
-        // start listening to our backend broadcast channel dedicated to a certain Chat Room
+        // start listening to our backend broadcast channel for this Chat Room
         window.Echo.private('chatroom.' + room.id)
 
           .listen('MessagePosted', e => {
@@ -182,6 +194,7 @@ export default {
               window.console.warn(e)
             }
           })
+
           .on('pusher:subscription_succeeded', e => {
             window.console.log(`Subscription to chatroom ${room.id} was successful`)
           })        
@@ -224,6 +237,18 @@ export default {
           roomName: room.name
         }
       )
+    },
+
+    leaveRoom (room) {
+      this.$store.dispatch('sendMessage', {
+        message: `user ${this.user.username} has left this chatroom`,
+        room_id: room.id
+      })
+      this.$store.dispatch('leaveRoom', room)
+    },
+
+    cleanUpRooms () {
+      this.$store.commit('cleanUpRooms')
     }
   }
 

@@ -12,8 +12,13 @@ export default {
     setRooms (state, payload) {
       state.rooms = payload
     },
+    cleanUpRooms (state) {
+      state.rooms = state.rooms.filter(el => el.id !== 0)
+    },
     addRoom (state, payload) {
       // window.console.log('addRoom', payload)
+      // first, make sure we do not have a 'deserted' room
+      state.rooms = state.rooms.filter(el => el.id !== 0)
       state.rooms.push(payload)
     },
     updateRoom (state, payload) {
@@ -26,11 +31,10 @@ export default {
       })
     },
     
-    removeRoom (state, roomId) {
+    removeRoom (state, room) {
       state.rooms.map(elem => {
-        if (elem.id === roomId) {
-          let owner = elem.users.find(el => el.id === elem.owner_id)
-          elem.name = `(chat was deleted by ${owner.username}!)`
+        if (elem.id === room.id) {
+          elem.name = room.reason
           elem.owner_id = 0
           elem.id = 0
           elem.users = []
@@ -109,14 +113,25 @@ export default {
     },
 
     updateRoomProperties (context, payload) {
-      if (! payload.id) return
       window.axios
         .patch(`api/rooms/${payload.id}`, payload)
         .then(response => {
           if (!response.data) {
             window.console.warn(response)
           }
-          window.console.log(response)
+        })
+        .catch(err => window.console.log(err))
+    },
+
+    leaveRoom ({commit}, payload) {
+      window.axios
+        .post(`/api/rooms/${payload.id}/leave`)
+        .then(response => {
+          if (!response.data) {
+            window.console.warn(response)
+          }
+          commit('removeRoom', {id: payload.id, reason: 'user has left this room'})
+          window.console.log(response.data)
         })
         .catch(err => window.console.log(err))
     },

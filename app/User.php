@@ -91,6 +91,20 @@ class User extends Authenticatable
 
 
     /**
+     * Check if user is Member of a certain room
+     * 
+     * @param Model $room Room object model
+     * 
+     * @return boolean
+     */
+    public function isMemberOf($room_id)
+    {
+        return $this->memberships->contains('id', $room_id);
+    }
+
+
+
+    /**
      * Returns true if the user's email has been verified
      * 
      * @return bool user is verified

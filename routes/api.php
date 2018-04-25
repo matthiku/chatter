@@ -31,5 +31,8 @@ Route::middleware('auth:api')->group(
 
         // simple list of all users
         Route::get('users', 'HomeController@usersList');
+
+        // allow user to leave a room
+        Route::post('rooms/{room}/leave', 'RoomController@leaveRoom');
     }
 );

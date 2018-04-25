@@ -58,7 +58,7 @@ export default {
       return obj
     },
     deleted () {
-      if (this.message.message.length !== 19) return false
+      if (!this.message.message || this.message.message.length !== 19) return false
       let dt = this.message.message.split(' ')
       if (dt.length !== 2) return false
       let da = dt[0].split('-')

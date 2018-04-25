@@ -53,7 +53,8 @@ class MessageController extends Controller
         // get user and create a message with the request payload
         $user = Auth::user();
         $message = $request->get('message');
-        if (strlen($message) && $request->has('room_id')) {
+        $room_id = $request->get('room_id');
+        if (strlen($message) && $user->isMemberOf($room_id)) {
             $message = new Message(['message' => $message]);
             $message->room_id = $request->room_id;
             $user->messages()->save($message);
@@ -65,6 +66,7 @@ class MessageController extends Controller
             // return all messages incl the new
             return ['status' => 'OK'];
         }
+        return 'failed!';
     }
 
     /**
