@@ -105,10 +105,22 @@ class LoginController extends Controller
         if ($user) {
             $status = 'Account verified by '.$provider;
         } else {
-            $firstName = explode('@', $providerData->getName())[0];
-            $userName = $providerData->getNickname();
-            if (!$userName) $userName = $firstName;
             // otherwise, create a new user with a random password
+
+            // but first make sure we have a unique username
+            $userName = $providerData->getNickname(); // hopefully one from the provider
+            $firstName = explode(' ', $providerData->getName())[0];
+            // otherwise the firstname
+            if (!$userName) {
+                $userName = $firstName;
+            }
+            $testDuplicate = User::where('username', $userName)->get();
+            // last resort is the email address
+            if ($testDuplicate) {
+                $userName = $email; 
+            }
+            
+            // create the new USER RECORD
             $user = User::create(
                 [
                     'name' => $providerData->getName(),
