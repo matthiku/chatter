@@ -41,12 +41,12 @@ return [
     'github' => [
         'client_id' => env('GITHUB_CLIENT_ID'),         // Your GitHub Client ID
         'client_secret' => env('GITHUB_CLIENT_SECRET'), // Your GitHub Client Secret
-        'redirect' => 'http://chatter.oo/login/github/callback',
+        'redirect' => env('APP_URL', 'http://chatter.oo').'/login/github/callback',
     ],
     'google' => [
         'client_id' => env('GOOGLE_CLIENT_ID'),         // Your GOOGLE Client ID
         'client_secret' => env('GOOGLE_CLIENT_SECRET'), // Your Google Client Secret
-        'redirect' => 'http://chatter.oo/login/google/callback',
+        'redirect' => env('APP_URL', 'http://chatter.oo').'/login/google/callback',
     ],
 
 ];

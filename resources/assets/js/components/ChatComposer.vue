@@ -15,11 +15,11 @@
 
       <div class="input-group-append">
         <button class="btn btn-secondary" type="button"
-            title="send photo or documents"
+            title="send photo or documents (coming soon!)"
           ><i class="material-icons">attach_file</i></button>
 
         <button class="btn btn-secondary" type="button"
-            title="record a message"
+            title="record a message (coming soon!)"
           ><i class="material-icons">mic</i></button>
 
         <button class="btn btn-primary rounded-right" type="button" @click="sendMessage">Send</button>
