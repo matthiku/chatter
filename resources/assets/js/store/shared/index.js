@@ -1,13 +1,19 @@
 export default {
-
-  state : {
+  state: {
     appName: 'ChatterBox',
-    dialog: ''
+    dialog: '',
+    action: null
   },
 
-  mutations : {
+  mutations: {
     setDialog (state, payload) {
       state.dialog = payload
+    },
+    setAction (state, payload) {
+      state.action = payload
+    },
+    addRoom (state, payload) {
+      state.action = { type: 'roomAdded', what: payload }
     }
   }
 }

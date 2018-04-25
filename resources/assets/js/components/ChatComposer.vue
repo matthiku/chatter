@@ -5,6 +5,7 @@
       <input
           type="text"
           :id="'message-room-id-' + room.id"
+          ref="messageInput"
           class="rounded-left message-input-field"
           tabindex="room.id"
           placeholder="write your message"
@@ -37,6 +38,25 @@ export default {
   data () {
     return {
       messageText: ''
+    }
+  },
+
+  computed: {
+    action () {
+      return this.$store.state.shared.action
+    }    
+  },
+
+  mounted () {
+    // check if this room was just added
+    if (this.action && this.action.type && this.action.type === 'roomAdded' && this.room.id === this.action.what.id) {
+      // if a new room was added, we want to open the new drawer element
+      let elem = window.document.getElementById('collapse-' + this.room.id)
+      if (elem) elem.classList.add('show')
+      // and put the cursor into the input field
+      this.$refs.messageInput.focus()
+      // remove the action
+      this.$store.commit('setAction', null)
     }
   },
 

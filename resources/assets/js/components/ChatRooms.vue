@@ -31,12 +31,12 @@
               
               <!-- chat header
                -->
-              <div class="card-header p-0 my-0" :id="'heading-'+index">
+              <div class="card-header p-0 my-0" :id="'heading-'+room.id">
                 <div class="d-flex justify-content-between mb-0 collapsed w-100 p-0 chatroom-header cursor-pointer"
                     data-toggle="collapse" 
                     aria-expanded="true" 
-                    :data-target="'#collapse-'+index" 
-                    :aria-controls="'#collapse-'+index"
+                    :data-target="'#collapse-'+room.id" 
+                    :aria-controls="'#collapse-'+room.id"
                   >
                     <!-- show room name -->
                     <span>
@@ -70,8 +70,8 @@
 
               <!-- show the actual chat content (the messages) 
                -->
-              <div :id="'collapse-'+index" 
-                  :aria-labelledby="'heading-'+index"
+              <div :id="'collapse-'+room.id" 
+                  :aria-labelledby="'heading-'+room.id"
                   class="collapse"
                   data-parent="#chatrooms">
 
@@ -147,9 +147,8 @@ export default {
 
   watch: {
     rooms (val) {
-      window.console.log('rooms changed!')
+      this.rooms.map(room => {
 
-      this.rooms.map(room => {        
         // check if room is already connected: 
         //          check if the entity "window.Echo.connector.channels"
         //          contains an object with name 'private-chatroom.{id}'
@@ -211,14 +210,6 @@ export default {
         }
       )
     }
-  },
-
-  mounted () {
-    $('#chatrooms').on('shown.bs.collapse', function () {
-      // do something…
-      var elem = window.document.getElementsByClassName('message-input-field')
-
-    })
   }
 
 }
