@@ -8,7 +8,7 @@
                 <div class="card-header">
                     <span>{{ __('auth.Login with your') }}</span>
                     <a class="btn btn-sm btn-outline-primary ml-2" href="{{ url('/login/google') }}" role="button">Google</a>,
-                    <a class="btn btn-sm btn-outline-secondary ml-2" href="{{ url('/login/google') }}" role="button">Facebook</a>
+                    <a class="btn btn-sm btn-outline-secondary ml-2" href="{{ url('/login/facebook') }}" role="button">Facebook</a>
                     @lang('or')<a class="btn btn-sm btn-outline-info ml-2" href="{{ url('/login/github') }}" role="button">GitHub</a>
                     {{ __('auth.Account') }}!
                 </div>

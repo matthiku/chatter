@@ -1,26 +1,23 @@
 <template>
   <div class="row justify-content-center">
-    <div class="col-xl-8 col-lg-10 col-md-12 mw-1k">
+    <div class="col-xl-8 col-lg-10 col-md-12 mw-1k px-0 px-sm-1">
       <div class="card shadow-sm">
 
-        <div class="card-header d-flex justify-content-between p-0 p-sm-1 p-md-2">
+        <div class="card-header all-rooms-header d-flex justify-content-between p-0 p-sm-1 p-md-2">
             
             <span>My Chat Rooms</span>
 
             <!-- show online users -->
-            <div>On-line:
-              <a href="#" v-for="(u, idx) in onlineUsers" :key="idx"
-                  v-if="user.id !== u.id"
-                  class="badge badge-pill badge-info mr-2"
-                  @click="launchNewRoomModal(u.id)"
-                  :title="'click to start chatting with ' + u.username"
-                >{{ u.username }}
-              </a>
-            </div>
-            <span v-if="!onlineUsers">no one</span>
+            <chat-show-online-members
+                :onlineUsers="onlineUsers" :user="user">
+            </chat-show-online-members>
 
             <button @click="launchNewRoomModal()"
-                class="btn btn-sm btn-success float-right">new chat</button>
+                title="create a new chat room"
+                class="btn btn-sm btn-success float-right"
+              ><i class="material-icons">add</i>
+              <span class="d-none d-md-inline">new chat</span>  
+            </button>
 
         </div>
 
@@ -53,26 +50,25 @@
                       <i v-else-if="room.id !== 0"
                           @click="leaveRoom(room)"
                           title="leave this chat room"
-                          class="material-icons">cancel</i>
+                          class="material-icons">open_in_new</i>
                     </span>
 
-                    <!-- show room members -->
-                    <span class="room-member-names">
-                      <small v-for="(member, index) in room.users"
-                          v-if="member.id !== user.id"
-                          :key="index"
-                          :title="member.id === room.owner_id ? 'Chat Owner' : member.name"
-                          :class="[member.id === room.owner_id ? 'font-weight-bold' : 'font-weight-light']"
-                        >{{ member.username 
-                          }}<span v-if="index < room.users.length-1" class="mr-2">,</span>
-                      </small>
-                    </span>
+                    <!-- show room members inline on wider screens -->
+                    <chat-show-room-members class="d-none d-md-inline"
+                        :room="room" :user="user"
+                      ></chat-show-room-members>
 
                   <!-- show messages counter -->
                   <span>
                     <span class="badge badge-secondary badge-pill float-right mt-1 mr-1">{{ room.messages ? room.messages.length : 0 }}</span>
                   </span>
                 </div>
+
+                <!-- show room members on extra line on smaller screens -->
+                <chat-show-room-members class="d-md-none"
+                    :room="room" :user="user"
+                  ></chat-show-room-members>
+
               </div>
 
 
@@ -112,6 +108,9 @@
 
 
 <style>
+.all-rooms-header {
+  background-color: darkseagreen;  
+}
 .mw-1k {
   max-width: 900px;
 }
