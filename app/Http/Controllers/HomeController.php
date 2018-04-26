@@ -33,7 +33,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except('index');
     }
 
 
@@ -42,8 +42,15 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($lang = null)
     {
+        if ($lang) {
+            \App::setLocale($lang);
+            session(['lang' => $lang]);
+        } else {
+            \App::setLocale('en');
+            session(['lang' => '']);
+        }
         return view('home');
     }
 

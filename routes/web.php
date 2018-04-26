@@ -19,6 +19,7 @@ use App\Events\MessagePosted;
  */
 Auth::routes();
 
+
 Route::get(
     'verify/{token}', 'Auth\VerifyController@verifyEmail'
 )->name('verify');
@@ -42,7 +43,7 @@ Route::get(
  * Basic Pages Routes
  */
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home/{lang?}', 'HomeController@index')->name('home');
 Route::get(
     '/', function () {
         return view('home');

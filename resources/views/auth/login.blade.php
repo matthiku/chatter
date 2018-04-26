@@ -5,16 +5,18 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Login with') }}:
-                    <a class="float-right btn btn-outline-secondary ml-2" href="{{ url('/login/github') }}" role="button">GitHub</a>
-                    <a class="float-right btn btn-outline-secondary ml-2" href="{{ url('/login/google') }}" role="button">Facebook</a>
-                    <a class="float-right btn btn-outline-secondary ml-2" href="{{ url('/login/google') }}" role="button">Google</a>
+                <div class="card-header">
+                    <span>{{ __('auth.Login with your') }}</span>
+                    <a class="btn btn-sm btn-outline-primary ml-2" href="{{ url('/login/google') }}" role="button">Google</a>,
+                    <a class="btn btn-sm btn-outline-secondary ml-2" href="{{ url('/login/google') }}" role="button">Facebook</a>
+                    @lang('or')<a class="btn btn-sm btn-outline-info ml-2" href="{{ url('/login/github') }}" role="button">GitHub</a>
+                    {{ __('auth.Account') }}!
                 </div>
 
 
                 <div class="card-body">
                     <p>
-                        Or login with your registered credentials:
+                        @lang('Or login with your registered credentials'):
                     </p>
                     <form method="POST" action="{{ route('login') }}">
                         @csrf

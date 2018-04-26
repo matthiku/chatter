@@ -46,6 +46,21 @@ class LoginController extends Controller
 
 
     /**
+     * Show the application's login form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showLoginForm()
+    {
+        if (session('lang')) {
+            \App::setLocale(session('lang'));
+        }
+        return view('auth.login');
+    }
+
+
+
+    /**
      * Define the field that is used to identify a user
      * (By default, Laravel uses the email field for authentication)
      * 

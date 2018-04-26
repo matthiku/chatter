@@ -13,9 +13,9 @@ return [
     |
     */
 
-    'failed' => 'These credentials do not match our records.',
-    'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
-    'Login with your' => 'Login with your',
-    'Account' => 'Account',
+    'failed' => 'Diese Anmeldedaten stimmen nicht mit unseren Einträgen überein.',
+    'throttle' => 'Zu viele Versuche. Bitte versuche es in :seconds seconds wieder.',
+    'Login with your' => 'Melde dich an mit deinem',
+    'Account' => 'Konto',
 
 ];

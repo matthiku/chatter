@@ -44,6 +44,15 @@
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                         @guest
+                            @if (App::isLocale('en'))
+                                <li><a class="nav-link" href="{{ url('/home/de') }}" title="Wechsle nach Deutsch">
+                                    <img src="{{ asset('/static/german.png') }}" width="40%" alt="german">DE</a></li>
+                            @else
+                                <li><a class="nav-link" href="{{ route('home') }}"
+                                    title="switch to English">
+                                    <img src="{{ asset('/static/english.png') }}" width="40%" alt="english">EN</a></li>
+                            @endif
+
                             <li><a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a></li>
                             <li><a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a></li>
                         @else
@@ -80,7 +89,7 @@
             window.chatter_server_data.user = "{!! addslashes(json_encode((Auth::user()))) !!}"
             window.chatter_server_data.chatroom_name = '{{ env('MAIN_CHATROOM_NAME', 'chatroom') }}'
         @else
-            window.chatter_server_data.user = {name: 'guest'}
+            window.chatter_server_data.user = "[{\"name\":\"guest\"}]"
         @endauth
     </script>
 </body>
