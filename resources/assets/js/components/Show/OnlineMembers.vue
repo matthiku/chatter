@@ -1,6 +1,7 @@
 <template>
   <div>
 
+    <i class="material-icons">group</i>
     <span class="d-none d-sm-inline">Online:</span>
 
     <a href="#" v-for="(u, idx) in onlineUsers" :key="idx"

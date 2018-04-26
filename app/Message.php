@@ -10,6 +10,18 @@ class Message extends Model
     protected $fillable = [ 'message' ];
 
 
+
+    /**
+     * All of the relationships to be touched.
+     * 
+     * Link: https://laravel.com/docs/master/eloquent-relationships#touching-parent-timestamps
+     *
+     * @var array
+     */
+    protected $touches = ['room'];
+
+
+
     /**
      * Each message is owned by a user
      * 

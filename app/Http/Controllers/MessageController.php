@@ -12,6 +12,7 @@
 namespace App\Http\Controllers;
 
 use Auth;
+use App\Room;
 use App\Message;
 use Illuminate\Http\Request;
 use App\Events\MessagePosted;
@@ -54,10 +55,13 @@ class MessageController extends Controller
         $user = Auth::user();
         $message = $request->get('message');
         $room_id = $request->get('room_id');
+
+        // check if we have a message and if the user is member of this room
         if (strlen($message) && $user->isMemberOf($room_id)) {
             $message = new Message(['message' => $message]);
-            $message->room_id = $request->room_id;
-            $user->messages()->save($message);
+            $message->user_id = $user->id;
+            $room = Room::find($room_id);
+            $room->messages()->save($message);
 
             // Announce that a new message was posted 
             // (will be received by the MessagePosted event)

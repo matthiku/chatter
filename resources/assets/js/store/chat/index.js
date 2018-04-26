@@ -9,19 +9,31 @@ export default {
    * COMMITS: synchronous state updates
    */
   mutations: {
-    setRooms (state, payload) {
+    setRooms(state, payload) {
+      payload.sort(function(a, b) {
+        a = new Date(a.updated_at)
+        b = new Date(b.updated_at)
+        return a > b ? -1 : a < b ? 1 : 0
+      })
       state.rooms = payload
     },
-    cleanUpRooms (state) {
+    sortRooms(state) {
+      state.rooms.sort(function(a, b) {
+        a = new Date(a.updated_at)
+        b = new Date(b.updated_at)
+        return a > b ? -1 : a < b ? 1 : 0
+      })
+    },
+    cleanUpRooms(state) {
       state.rooms = state.rooms.filter(el => el.id !== 0)
     },
-    addRoom (state, payload) {
+    addRoom(state, payload) {
       // window.console.log('addRoom', payload)
       // first, make sure we do not have a 'deserted' room
       state.rooms = state.rooms.filter(el => el.id !== 0)
       state.rooms.push(payload)
     },
-    updateRoom (state, payload) {
+    updateRoom(state, payload) {
       // window.console.log('updateRoom', payload)
       state.rooms.map(elem => {
         if (elem.id === payload.id) {
@@ -30,8 +42,8 @@ export default {
         }
       })
     },
-    
-    removeRoom (state, room) {
+
+    removeRoom(state, room) {
       state.rooms.map(elem => {
         if (elem.id === room.id) {
           elem.name = room.reason
@@ -42,19 +54,19 @@ export default {
         }
       })
     },
-    setOnlineUsers (state, payload) {
+    setOnlineUsers(state, payload) {
       state.onlineUsers = payload
     },
-    addToOnlineUsers (state, payload) {
+    addToOnlineUsers(state, payload) {
       state.onlineUsers.push(payload)
     },
-    removeFromOnlineUsers (state, payload) {
+    removeFromOnlineUsers(state, payload) {
       state.onlineUsers = state.onlineUsers.filter(u => u !== payload)
     },
-    setNewRoomMembers (state, payload) {
+    setNewRoomMembers(state, payload) {
       state.newRoomMembers = payload
     },
-    setMessagesForRoom (state, payload) {
+    setMessagesForRoom(state, payload) {
       state.rooms.map(elem => {
         if (elem.id === payload.id) {
           elem.messages = payload.messages
@@ -68,7 +80,7 @@ export default {
    * DISPATCH: asynchronous actions
    */
   actions: {
-    loadRooms ({ commit }) {
+    loadRooms({ commit }) {
       window.axios
         .get('/api/rooms')
         .then(response => {
@@ -79,7 +91,7 @@ export default {
         .catch(err => window.console.log(err))
     },
 
-    sendMessage (context, payload) {
+    sendMessage(context, payload) {
       window.axios
         .post('/api/messages', payload)
         .then(response => {
@@ -90,7 +102,7 @@ export default {
         .catch(err => window.console.log(err))
     },
 
-    deleteMessage (context, payload) {
+    deleteMessage(context, payload) {
       window.axios
         .delete(`/api/messages/${payload}`)
         .then(response => {
@@ -101,7 +113,7 @@ export default {
         .catch(err => window.console.log(err))
     },
 
-    createNewRoom (context, payload) {
+    createNewRoom(context, payload) {
       window.axios
         .post('api/rooms', payload)
         .then(response => {
@@ -112,7 +124,7 @@ export default {
         .catch(err => window.console.log(err))
     },
 
-    updateRoomProperties (context, payload) {
+    updateRoomProperties(context, payload) {
       window.axios
         .patch(`api/rooms/${payload.id}`, payload)
         .then(response => {
@@ -123,20 +135,23 @@ export default {
         .catch(err => window.console.log(err))
     },
 
-    leaveRoom ({commit}, payload) {
+    leaveRoom({ commit }, payload) {
       window.axios
         .post(`/api/rooms/${payload.id}/leave`)
         .then(response => {
           if (!response.data) {
             window.console.warn(response)
           }
-          commit('removeRoom', {id: payload.id, reason: 'user has left this room'})
+          commit('removeRoom', {
+            id: payload.id,
+            reason: 'user has left this room'
+          })
           window.console.log(response.data)
         })
         .catch(err => window.console.log(err))
     },
 
-    getMessagesForRoom ({commit}, payload) {
+    getMessagesForRoom({ commit }, payload) {
       window.axios
         .get(`api/rooms/${payload.id}`)
         .then(response => {
@@ -149,7 +164,7 @@ export default {
         .catch(err => window.console.log(err))
     },
 
-    deleteRoom (x, payload) {
+    deleteRoom(x, payload) {
       window.axios
         .delete(`api/rooms/${payload.room_id}`)
         .then(response => {
@@ -162,10 +177,10 @@ export default {
   },
 
   getters: {
-    rooms (state) {
+    rooms(state) {
       return state.rooms
     },
-    onlineUsers (state) {
+    onlineUsers(state) {
       return state.onlineUsers
     }
   }

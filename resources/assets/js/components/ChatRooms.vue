@@ -5,7 +5,8 @@
 
         <div class="card-header all-rooms-header d-flex justify-content-between p-0 p-sm-1 p-md-2">
             
-            <span>My Chat Rooms</span>
+            <span class="d-none d-sm-flex">My Chat Rooms</span>
+            <span class="d-sm-none">ChatterBox</span>
 
             <!-- show online users -->
             <chat-show-online-members
@@ -51,6 +52,7 @@
                           @click="leaveRoom(room)"
                           title="leave this chat room"
                           class="material-icons">open_in_new</i>
+                      {{ room.updated_at }}
                     </span>
 
                     <!-- show room members inline on wider screens -->
@@ -135,7 +137,7 @@
   background-repeat: repeat;  
 }
 .material-icons {
-  font-size: smaller;
+  font-size: 1rem;
 }
 .cursor-pointer {
   cursor: pointer;
@@ -175,6 +177,9 @@ export default {
               let msg = e.message
               msg.user = e.user
               room.messages.push(msg)
+              // make sure the room gets in first place now
+              room.updated_at = msg.updated_at
+              this.$store.commit('sortRooms')
             } else {
               window.console.warn(e)
             }
