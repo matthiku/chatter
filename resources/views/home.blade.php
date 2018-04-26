@@ -29,7 +29,6 @@
                             ChatterBox 2.0 - Please <a href="{{ route('login') }}">{{ __('log in') }}</a> 
                             or <a href="{{ route('register') }}">{{ __('register') }}</a> to participate
                         @endauth
-                        <p>App Language: {{ App::getLocale() }} Session Lang.: {{ session('lang') }}</p>
                     </div>
                 </div>
             </div>
