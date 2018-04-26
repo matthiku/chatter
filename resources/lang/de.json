@@ -1,4 +1,20 @@
 {
+  "Dashboard": "Übersicht",
   "or": "oder",
-  "Or login with your registered credentials": "Oder melde dich mit deinen gespeicherten Daten an"
+  "please": "bitte",
+  "Please": "Bitte",
+  "User ID": "Benutzername",
+  "E-Mail Address": "eMail-Adresse",
+  "Password": "Kennwort",
+  "Confirm Password": "Kennwort bestätigen",
+  "Forgot Your Password?": "Kennwort vergessen?",
+  "Register": "Registrieren",
+  "Login": "Anmelden",
+  "Remember Me": "Anmeldung merken",
+
+  "to participate": "um teilzunehmen",
+  "register": "registriere dich",
+  "log in": "melde dich an",
+  "Or login with your registered credentials": "Oder mit deinen gespeicherten Anmelde-Daten",
+  "request the verification email again": "fordere die Bestätigungs-Email erneut an"
 }

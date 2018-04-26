@@ -17,5 +17,6 @@ return [
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
     'Login with your' => 'Login with your',
     'Account' => 'Account',
+    'emailUnverified' => 'Your E-Mail address :email has not been verified yet.',
 
 ];

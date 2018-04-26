@@ -9,7 +9,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">Dashboard</div>
+                    <div class="card-header">@lang('Dashboard')</div>
 
                     <div class="card-body">
                         @if (session('status'))
@@ -20,14 +20,14 @@
 
                         @auth
                             @if (!Auth::user()->isVerified())
-                                Your E-Mail address "{{ Auth::user()->email }}"
-                                has not been verified yet. <br>
+                                @lang('auth.emailUnverified', ['email' => Auth::user()->email])
+                                 <br>
                                 Please check your email
-                                or <a href="{{ route('sendVerifyEmail') }}">request the verification email</a> again.
+                                @lang('or') <a href="{{ route('sendVerifyEmail') }}">@lang('request the verification email again').</a>
                             @endif
                         @else
-                            ChatterBox 2.0 - Please <a href="{{ route('login') }}">{{ __('log in') }}</a> 
-                            or <a href="{{ route('register') }}">{{ __('register') }}</a> to participate
+                            ChatterBox 2.0 - @lang('Please') <a href="{{ route('login') }}">{{ __('log in') }}</a> 
+                            @lang('or') <a href="{{ route('register') }}">{{ __('register') }}</a> @lang('to participate')
                         @endauth
                     </div>
                 </div>

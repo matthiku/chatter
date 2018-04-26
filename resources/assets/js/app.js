@@ -12,7 +12,7 @@ Vue.config.productionTip = false
 
 // provide the moment library to all components
 import moment from 'moment-timezone'
-moment.tz.setDefault('UTZ')
+moment.tz.setDefault('UTC')
 // add moment to the Vue prototype, so that we can use it in all components!
 Object.defineProperty(Vue.prototype, '$moment', {
   get() {
