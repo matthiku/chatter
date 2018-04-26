@@ -23,7 +23,7 @@
                 aria-label="Room name">
           </div>
 
-          <p>Add new members</p>
+          <!-- <p>Add new members</p> 
           <div class="input-group mb-3">
             <input type="text"
                 v-model="nameHint"
@@ -31,6 +31,7 @@
                 placeholder="hint member's names" 
                 aria-label="Member's username">
           </div>
+          -->
 
           <div class="form-group">
             <!-- <label for="selectMembers">Select Members</label> -->
