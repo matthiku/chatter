@@ -30,7 +30,7 @@
 
             <div v-for="(room, index) in rooms"
                 :key="index"
-                class="card mb-2">
+                class="card mb-1 mb-sm-2">
 
               
               <!-- chat header

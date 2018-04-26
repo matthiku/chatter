@@ -28,7 +28,10 @@
     <!-- show message date and time -->
     <small v-if="usersObj[message.user_id]" 
         class="mx-3"
-      >{{ usersObj[message.user_id].username }}-{{ message.updated_at }}
+        :title="$moment(message.updated_at).format('LLLL')"
+      ><strong>{{ usersObj[message.user_id].username }}</strong>
+        -
+        <span class="text-primary">{{ $moment(message.updated_at).fromNow() }}</span>
     </small>
 
   </div>  

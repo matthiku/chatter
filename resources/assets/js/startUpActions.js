@@ -11,13 +11,14 @@ export default function startUpActions(store) {
   // get the user object from the global namespace (as set in layouts\app.blade.php)
   let user = JSON.parse(window.chatter_server_data.user)
   store.commit('setUser', user)
-
-  // get central chatroom name from server
-  let chatroomName = window.chatter_server_data.chatroom_name
-  store.commit('setChatroomName', chatroomName)
-
+  
   // If the user is logged in, get all his Chat Rooms from the backend
   if (user.name && user.name !== 'guest') {
+  
+    // get central chatroom name from server
+    let chatroomName = window.chatter_server_data.chatroom_name
+    store.commit('setChatroomName', chatroomName)
+
     // load the rooms for this user
     store.dispatch('loadRooms')
 
