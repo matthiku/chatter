@@ -96,7 +96,7 @@
                 </div>
               </div>
 
-            </div> <!-- end of LOOP: room in rooms -->
+            </div> <!-- end of LOOP (room in rooms) -->
 
           </div>
         </div>

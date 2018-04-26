@@ -7,6 +7,7 @@
             <div class="card">
                 <div class="card-header">{{ __('Login with') }}:
                     <a class="float-right btn btn-outline-secondary ml-2" href="{{ url('/login/github') }}" role="button">GitHub</a>
+                    <a class="float-right btn btn-outline-secondary ml-2" href="{{ url('/login/google') }}" role="button">Facebook</a>
                     <a class="float-right btn btn-outline-secondary ml-2" href="{{ url('/login/google') }}" role="button">Google</a>
                 </div>
 

@@ -9,7 +9,7 @@
       <!-- show the actual message -->
       <span v-if="!deleting && !deleted">{{ message.message }}</span>
 
-      <small v-if="deleted">(message was deleted by {{ message.username }} at {{ message.message }})</small>
+      <small v-if="deleted">(The user deleted this message {{ message.message }})</small>
 
       <span v-if="deleting">
         Are you sure to delete this message?

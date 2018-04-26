@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Log;
 use Auth;
 use App\User;
 use Socialite;
@@ -137,6 +138,8 @@ class LoginController extends Controller
 
         // in any case, log in the user now
         Auth::login($user, true);
+
+        Log::info($user->email . ' - ' . $status);
 
         return $status;
     }

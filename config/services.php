@@ -41,12 +41,17 @@ return [
     'github' => [
         'client_id' => env('GITHUB_CLIENT_ID'),         // Your GitHub Client ID
         'client_secret' => env('GITHUB_CLIENT_SECRET'), // Your GitHub Client Secret
-        'redirect' => env('APP_URL', 'http://chatter.oo').'/login/github/callback',
+        'redirect' => env('GITHUB_REDIRECT'),
     ],
     'google' => [
         'client_id' => env('GOOGLE_CLIENT_ID'),         // Your GOOGLE Client ID
         'client_secret' => env('GOOGLE_CLIENT_SECRET'), // Your Google Client Secret
-        'redirect' => env('APP_URL', 'http://chatter.oo').'/login/google/callback',
+        'redirect' => env('GOOGLE_REDIRECT'),
+    ],
+    'facebook' => [
+        'client_id' => env('FACEBOOK_CLIENT_ID'),         // Your Facebook Client ID
+        'client_secret' => env('FACEBOOK_CLIENT_SECRET'), // Your FB Client Secret
+        'redirect' => env('FACEBOOK_REDIRECT'),
     ],
 
 ];
