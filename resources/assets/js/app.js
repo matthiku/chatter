@@ -36,7 +36,7 @@ new window.Vue({
 
   data: { moment },
 
-  created() {
+  created () {
     startUpActions(store)
   }
 })

@@ -5,8 +5,10 @@
 
         <div class="card-header all-rooms-header d-flex justify-content-between p-0 p-sm-1 p-md-2">
             
-            <span class="d-none d-sm-flex">My Chat Rooms</span>
-            <span class="d-sm-none">ChatterBox</span>
+            <span>
+              <span class="d-none d-xl-flex">My Chat Rooms</span>
+              <span class="d-xl-none">ChatterBox</span>
+            </span>
 
             <!-- show online users -->
             <chat-show-online-members
@@ -36,12 +38,16 @@
               <div class="card-header p-0 my-0" :id="'heading-'+room.id">
                 <div class="d-flex justify-content-between mb-0 collapsed w-100 p-0 chatroom-header cursor-pointer"
                     data-toggle="collapse" 
-                    aria-expanded="true" 
+                    aria-expanded="true"
+                    @click="closeOthers(room.id)"
                     :data-target="'#collapse-'+room.id" 
                     :aria-controls="'#collapse-'+room.id"
                   >
                     <!-- show room name -->
                     <span>
+                      <span v-if="showBadge[room.id]"
+                        class="ml-1 badge badge-info">{{ rooms.length }}</span>
+                      
                       <span v-if="room.name" class="room-name ml-2">{{ room.name }}</span>
                       <span v-else class="small">(unnamed)</span>
                       <i v-if="room.owner_id === user.id"
@@ -52,7 +58,6 @@
                           @click="leaveRoom(room)"
                           title="leave this chat room"
                           class="material-icons">open_in_new</i>
-                      {{ room.updated_at }}
                     </span>
 
                     <!-- show room members inline on wider screens -->
@@ -62,6 +67,7 @@
 
                   <!-- show messages counter -->
                   <span>
+                    <small class="mr-2">{{ $moment(room.updated_at).fromNow() }}</small> 
                     <span class="badge badge-secondary badge-pill float-right mt-1 mr-1">{{ room.messages ? room.messages.length : 0 }}</span>
                   </span>
                 </div>
@@ -94,6 +100,7 @@
                 </div>
               </div>
 
+
             </div> <!-- end of LOOP (room in rooms) -->
 
           </div>
@@ -110,6 +117,10 @@
 
 
 <style>
+body {
+  height: 100%;
+  overflow: hidden;
+}
 .all-rooms-header {
   background-color: darkseagreen;  
 }
@@ -136,6 +147,9 @@
   background-image: url("/static/paper.gif");
   background-repeat: repeat;  
 }
+.chat-log {
+  overflow-y: scroll;
+}
 .material-icons {
   font-size: 1rem;
 }
@@ -147,6 +161,18 @@
 
 <script>
 export default {
+
+  mounted () {
+    window.addEventListener('resize', function() {
+      console.log(window.innerHeight)
+    });
+  },
+
+  data () {
+    return {
+      showBadge: {}
+    }
+  },
 
   computed: {
     rooms () {
@@ -163,6 +189,9 @@ export default {
   watch: {
     rooms (val) {
       this.rooms.map(room => {
+          
+        // don't show the badge with rooms counter on room header initially
+        this.showBadge[room.id] = false
 
         // check if room is already connected: 
         //          check if the entity "window.Echo.connector.channels"
@@ -220,6 +249,30 @@ export default {
   },
 
   methods: {
+    closeOthers (roomId) {
+      let elem = document.getElementById('collapse-'+roomId)
+      if (elem.classList.contains('show')) {
+        // the current chatroom was closed, now make sure
+        // that all other headers are visible again
+        this.rooms.map(rm => {
+          let hedr = document.getElementById(`heading-${rm.id}`)
+          hedr.parentElement.classList.remove('d-none')
+          this.showBadge[rm.id] = false
+        })
+      } else {
+        // this chatroom was just opened, so hide all others
+        this.rooms.map(rm => {
+          if (rm.id == roomId) {
+            this.showBadge[rm.id] = true
+            return
+          }
+          let hedr = document.getElementById(`heading-${rm.id}`)
+          hedr.parentElement.classList.add('d-none')
+          this.showBadge[rm.id] = false
+        })
+      }
+    },
+
     launchNewRoomModal (user_id) {
       if (user_id)
         this.$store.commit('setNewRoomMembers', [user_id])

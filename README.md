@@ -1,10 +1,9 @@
 # chatter - A full-stack Messaging Tool
 
-based on Laravel 5.6 with Laravel Echo, using Pusher.
+This is a Web Application that can run on any device -
 
-SPA Front-end using Vue.js.
+based on Laravel 5.6 with Laravel Echo, using Pusher. SPA front-end using Vue.js.
 
-Web Application that can run on any device
 
 ## Installation
 
@@ -22,4 +21,4 @@ A Pusher account is necessary in order for this to work!
 1. npm run production
 
 Screenshot from ChatterBox on a mobile device:
-![screenshot](https://raw.githubusercontent.com/matthiku/chatter/master/public/images/mobile-screenshot-small.png)
+![screenshot](https://raw.githubusercontent.com/matthiku/chatter/master/public/static/mobile-screenshot-small.png)

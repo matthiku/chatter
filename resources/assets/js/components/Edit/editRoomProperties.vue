@@ -18,6 +18,7 @@
           <div class="input-group mb-3">
             <input type="text"
                 v-model="roomName"
+                @keyup.enter="executeAction"
                 class="form-control"
                 placeholder="enter room name"
                 aria-label="Room name">

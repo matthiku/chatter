@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'ChatterBox') }}</title>
 
     <!-- Scripts -->
     <script src="{{ mix('js/manifest.js') }}" defer></script>
@@ -25,7 +25,7 @@
 </head>
 <body>
     <div id="app">
-        <nav class="d-none d-sm-flex navbar navbar-expand-md navbar-light navbar-laravel">
+        <nav class="d-none d-xl-flex navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
                 <a class="navbar-brand" href="#">
                     {{ config('app.name', 'Laravel') }}
