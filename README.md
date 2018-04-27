@@ -20,5 +20,11 @@ A Pusher account is necessary in order for this to work!
 1. npm run watch _(for development only)_
 1. npm run production
 
+Note: the first user to register on a new installation will have the id of 1 and will be the Admin.
+
 Screenshot from ChatterBox on a mobile device:
+
 ![screenshot](https://raw.githubusercontent.com/matthiku/chatter/master/public/static/mobile-screenshot-small.png)
+
+
+(C) 2018 Matthias Kuhs, Ireland

@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use Log;
 use Mail;
 use App\Mail\UserRegistered;
 use Illuminate\Auth\Events\Registered;
@@ -28,7 +29,9 @@ class NewUserRegistered
      */
     public function handle(Registered $event)
     {
+        $admin = App\User::find(1);
+        Log::info($admin->name . ' New user registration: ' . $event->user->email);
         // send a email to the Admin
-        Mail::to(App\User::find(1))->send(new UserRegistered($event->user));
+        Mail::to($admin)->send(new UserRegistered($event->user));
     }
 }
