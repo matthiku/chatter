@@ -90,6 +90,7 @@
               <div :id="'collapse-'+room.id" 
                   :aria-labelledby="'heading-'+room.id"
                   class="collapse"
+                  :class="[rooms.length===1 ? 'show' : '']"
                   data-parent="#chatrooms">
 
                 <div class="card-body chat-room-body p-0 p-sm-1 p-md-2 p-lg-3 p-xl-4">
@@ -168,6 +169,7 @@ export default {
     window.addEventListener('resize', function() {
       console.log(window.innerHeight)
     });
+    this.onlyOneRoom()
   },
 
   computed: {
@@ -190,7 +192,11 @@ export default {
   },
 
   watch: {
-    rooms (val) {
+    activeRoom () {
+      if (this.activeRoom === 0) this.activeRoom = null
+    },
+
+    rooms () {
       this.rooms.map(room => {
 
         // check if room is already connected: 
@@ -238,6 +244,8 @@ export default {
           })        
       })
 
+      this.onlyOneRoom() // check if we have only one room
+
       // now check if all private chatrooms are still in use
       let privChannels = window.Echo.connector.channels // object with all current channels
       for (const key in privChannels) {
@@ -249,6 +257,11 @@ export default {
           window.Echo.leave('chatroom.' + chName[1])
         }
       }
+
+      //TODO: Safety Check! Look if
+      //    window.Echo.connector.channels['presence-'+chatter_server_data.chatroom_name]
+      // has a valid CSRF_TOKEN!
+      // window.Echo.connector.channels['presence-'+chatter_server_data.chatroom_name].options.auth.headers
     }
   },
 
@@ -308,6 +321,13 @@ export default {
       this.$store.dispatch('leaveRoom', room)
     },
 
+    onlyOneRoom () {
+      // if only one room exists, open it by default
+      if (this.rooms.length === 1) {
+        this.activeRoom = this.rooms[0].id
+      }
+    },
+
     cleanUpRooms () {
       // make sure 'leftover' rooms are removed 
       // - rooms which the current user is no longer a member of
@@ -315,6 +335,7 @@ export default {
     },
 
     userReadAllMessages (roomId) {
+      // remove messages from this array which the user has seen (because he opened the room)
       this.newMessagesArrived = this.newMessagesArrived.filter(el => {
         return el.room_id !== roomId
       })      
