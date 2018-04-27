@@ -126,14 +126,20 @@ class LoginController extends Controller
             // but first make sure we have a unique username
             $userName = $providerData->getNickname(); // hopefully one from the provider
             $firstName = explode(' ', $providerData->getName())[0];
+            $emailName = explode('@', $providerData->getEmail())[0];
             // otherwise the firstname
             if (!$userName) {
                 $userName = $firstName;
             }
             $testDuplicate = User::where('username', $userName)->get();
-            // last resort is the email address
+            // if duplicate, try the email address name
             if ($testDuplicate) {
-                $userName = $email; 
+                $userName = $emailName;
+                $testDuplicate = User::where('username', $userName)->get();
+                // last resort is the email address
+                if ($testDuplicate) {
+                    $userName = $email; // this definitively is unique
+                }
             }
             
             // create the new USER RECORD
