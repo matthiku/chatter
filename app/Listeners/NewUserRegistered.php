@@ -29,6 +29,6 @@ class NewUserRegistered
     public function handle(Registered $event)
     {
         // send a email to the Admin
-        Mail::to('matthiku@example.com')->send(new UserRegistered($event->user));
+        Mail::to(App\User::find(1))->send(new UserRegistered($event->user));
     }
 }
