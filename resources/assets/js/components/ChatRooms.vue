@@ -45,10 +45,9 @@
                   >
                     <!-- show room name -->
                     <span>
-                      <span v-if="showBadge[room.id]"
-                        class="ml-1 badge badge-info">{{ rooms.length }}</span>
+                      <i class="ml-1 material-icons">menu</i>
                       
-                      <span v-if="room.name" class="room-name ml-2">{{ room.name }}</span>
+                      <span v-if="room.name" class="room-name ml-1">{{ room.name }}</span>
                       <span v-else class="small">(unnamed)</span>
                       <i v-if="room.owner_id === user.id"
                           @click="editRoom(room)"
@@ -168,12 +167,6 @@ export default {
     });
   },
 
-  data () {
-    return {
-      showBadge: {}
-    }
-  },
-
   computed: {
     rooms () {
       return this.$store.state.chat.rooms
@@ -189,9 +182,6 @@ export default {
   watch: {
     rooms (val) {
       this.rooms.map(room => {
-          
-        // don't show the badge with rooms counter on room header initially
-        this.showBadge[room.id] = false
 
         // check if room is already connected: 
         //          check if the entity "window.Echo.connector.channels"
@@ -257,18 +247,17 @@ export default {
         this.rooms.map(rm => {
           let hedr = document.getElementById(`heading-${rm.id}`)
           hedr.parentElement.classList.remove('d-none')
-          this.showBadge[rm.id] = false
         })
       } else {
-        // this chatroom was just opened, so hide all others
+        // this chatroom was just opened, so hide all others and make this the top one
         this.rooms.map(rm => {
           if (rm.id == roomId) {
-            this.showBadge[rm.id] = true
+            rm.updated_at = (new Date()).toISOString()
+            this.$store.commit('sortRooms')
             return
           }
           let hedr = document.getElementById(`heading-${rm.id}`)
           hedr.parentElement.classList.add('d-none')
-          this.showBadge[rm.id] = false
         })
       }
     },

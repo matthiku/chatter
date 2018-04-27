@@ -24,6 +24,9 @@ mix
     proxy: 'chatter.oo'
   })
 
+// When in produciton, create versioning of the JavaScript files,
+// so that the browser reloads them
+// see: https://laravel.com/docs/master/mix#versioning-and-cache-busting
 if (mix.inProduction()) {
   mix.version()
 }

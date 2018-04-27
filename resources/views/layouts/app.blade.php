@@ -86,7 +86,7 @@
     <script>
         window.chatter_server_data = {}
         window.chatter_server_data.locale = '{{ App::getLocale() }}'
-        window.chatter_server_data.user = "[{\"name\":\"guest\"}]"
+        window.chatter_server_data.user = "{\"name\":\"guest\"}"
         @auth
             window.chatter_server_data.user = "{!! addslashes(json_encode((Auth::user()))) !!}"
             window.chatter_server_data.chatroom_name = '{{ env('MAIN_CHATROOM_NAME', 'chatroom') }}'
