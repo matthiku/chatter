@@ -7,6 +7,7 @@ use Auth;
 use App\User;
 use Socialite;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -69,6 +70,20 @@ class LoginController extends Controller
     public function username()
     {
         return 'username';
+    }
+
+
+    /**
+     * The user has been authenticated.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function authenticated(Request $request, $user)
+    {
+        // only for new registrations ...
+        // Mail::to('matthiku@example.com')->send(new UserRegistered($user));
     }
 
 
