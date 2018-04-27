@@ -6,8 +6,12 @@
         <div class="card-header all-rooms-header d-flex justify-content-between p-0 p-sm-1 p-md-2">
             
             <span>
-              <span class="d-none d-xl-flex">My Chat Rooms</span>
+              <span class="d-none d-xl-inline">My Chat Rooms</span>
               <span class="d-xl-none">ChatterBox</span>
+              <span v-if="newMessagesArrived.length"
+                  title="click to open new message"
+                  @click="openNewMessage"
+                  class="badge badge-danger">{{ newMessagesArrived.length }}</span>
             </span>
 
             <!-- show online users -->
@@ -28,20 +32,20 @@
 
           <div class="accordion shadow" id="chatrooms">
 
-            <div v-for="(room, index) in rooms"
-                :key="index"
+            <div v-for="(room, index) in rooms" :key="index"
+                v-if="activeRoom === null || activeRoom === room.id"
                 class="card mb-1 mb-sm-2">
 
               
-              <!-- chat header
+              <!-- chatRoom header
                -->
               <div class="card-header p-0 my-0" :id="'heading-'+room.id">
-                <div class="d-flex justify-content-between mb-0 collapsed w-100 p-0 chatroom-header cursor-pointer"
-                    data-toggle="collapse" 
+                <div class="d-flex justify-content-between mb-0 w-100 p-0 chatroom-header cursor-pointer"
+                    @click="hideOtherRooms(room.id)"
                     aria-expanded="true"
-                    @click="closeOthers(room.id)"
-                    :data-target="'#collapse-'+room.id" 
                     :aria-controls="'#collapse-'+room.id"
+                    data-toggle="collapse"
+                    :data-target="'#collapse-'+room.id"
                   >
                     <!-- show room name -->
                     <span>
@@ -66,8 +70,10 @@
 
                   <!-- show messages counter -->
                   <span>
-                    <small class="mr-2">{{ $moment(room.updated_at).fromNow() }}</small> 
-                    <span class="badge badge-secondary badge-pill float-right mt-1 mr-1">{{ room.messages ? room.messages.length : 0 }}</span>
+                    <!-- <small class="mr-2">{{ $moment(room.updated_at).fromNow() }}</small> -->
+                    <span v-if="newMessagesArrived.length && messagesForThisRoom(room.id)"
+                        class="badge badge-danger badge-pill mt-1 mr-">{{ messagesForThisRoom(room.id) }}</span>
+                    <span class="badge badge-secondary badge-pill mt-1 mr-1">{{ room.messages ? room.messages.length : 0 }}</span>
                   </span>
                 </div>
 
@@ -118,7 +124,7 @@
 <style>
 body {
   height: 100%;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 .all-rooms-header {
   background-color: darkseagreen;  
@@ -132,13 +138,10 @@ body {
   color:darkred;
 }
 .chatroom-header {
-  font-size: larger;
-}
-.collapsed {
   opacity: 0.6;
   font-size: small;  
 }
-.collapsed:hover {
+.chatroom-header:hover {
   opacity: 1;
   font-size: inherit;
 }
@@ -179,6 +182,13 @@ export default {
     }
   },
 
+  data () {
+    return {
+      activeRoom: null,
+      newMessagesArrived: []
+    }
+  },
+
   watch: {
     rooms (val) {
       this.rooms.map(room => {
@@ -198,7 +208,11 @@ export default {
               room.messages.push(msg)
               // make sure the room gets in first place now
               room.updated_at = msg.updated_at
-              this.$store.commit('sortRooms')
+              // show warning for new message (but not this user's own msg and not when the room is already open!)
+              if (e.user.id !== this.user.id && msg.room_id !== this.activeRoom) {
+                this.newMessagesArrived.push(msg)
+                // TODO: play a sound!
+              }
             } else {
               window.console.warn(e)
             }
@@ -239,26 +253,26 @@ export default {
   },
 
   methods: {
-    closeOthers (roomId) {
+    openNewMessage () {
+      // show
+    },
+
+    messagesForThisRoom(roomId) {
+      let num = 0
+      this.newMessagesArrived.map(el => {
+        if (el.room_id === roomId) num += 1
+      })
+      return num
+    },
+
+    hideOtherRooms (roomId) {
       let elem = document.getElementById('collapse-'+roomId)
       if (elem.classList.contains('show')) {
-        // the current chatroom was closed, now make sure
-        // that all other headers are visible again
-        this.rooms.map(rm => {
-          let hedr = document.getElementById(`heading-${rm.id}`)
-          hedr.parentElement.classList.remove('d-none')
-        })
+        this.activeRoom = null
       } else {
-        // this chatroom was just opened, so hide all others and make this the top one
-        this.rooms.map(rm => {
-          if (rm.id == roomId) {
-            rm.updated_at = (new Date()).toISOString()
-            this.$store.commit('sortRooms')
-            return
-          }
-          let hedr = document.getElementById(`heading-${rm.id}`)
-          hedr.parentElement.classList.add('d-none')
-        })
+        this.activeRoom = roomId
+        this.cleanUpRooms()
+        this.userReadAllMessages(roomId)
       }
     },
 
@@ -295,7 +309,15 @@ export default {
     },
 
     cleanUpRooms () {
+      // make sure 'leftover' rooms are removed 
+      // - rooms which the current user is no longer a member of
       this.$store.commit('cleanUpRooms')
+    },
+
+    userReadAllMessages (roomId) {
+      this.newMessagesArrived = this.newMessagesArrived.filter(el => {
+        return el.room_id !== roomId
+      })      
     }
   }
 
