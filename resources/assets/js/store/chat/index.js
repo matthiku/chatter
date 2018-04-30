@@ -3,7 +3,8 @@ export default {
     rooms: [],
     onlineUsers: [],
     chatroomName: 'chatroom',
-    newRoomMembers: []
+    newRoomMembers: [],
+    userCreatedNewRoom: null
   },
 
   /**
@@ -78,6 +79,9 @@ export default {
           // window.console.log(elem.messages.length, 'messages added to room id', elem.id)
         }
       })
+    },
+    clearUserCreatedNewRoom(state) {
+      state.userCreatedNewRoom = null
     }
   },
 
@@ -180,7 +184,7 @@ export default {
         .catch(err => window.console.log(err))
     },
 
-    joinChatroom({ state, commit }, payload) {
+    joinChatroom({ state, commit, rootState }, payload) {
       // payload must be the current user object!
 
       // make sure we make a clean start
@@ -200,8 +204,11 @@ export default {
         .listen('RoomCreated', e => {
           if (e.room) {
             // only add this room if current user is a member
-            if (e.room.users.find(el => el.id === payload.id))
+            if (e.room.users.find(el => el.id === payload.id)) {
               commit('addRoom', e.room)
+              if (e.room.owner_id === rootState.user.user.id)
+                state.userCreatedNewRoom = e.room.id
+            }
           } else {
             window.console.warn(e)
           }
@@ -244,7 +251,9 @@ export default {
 
         .on('pusher:subscription_succeeded', () => {
           window.console.log(
-            `Subscription to Presence Channel "${state.chatroomName}" was successful`
+            `Subscription to Presence Channel "${
+              state.chatroomName
+            }" was successful`
           )
         })
     }

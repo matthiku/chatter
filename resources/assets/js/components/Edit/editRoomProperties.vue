@@ -147,6 +147,7 @@ export default {
   methods: {
     closeDialog () {
       this.$store.commit('setDialog', '')
+      this.$store.commit('setNewRoomMembers', [])
       this.deletingRoom = false
     },
 

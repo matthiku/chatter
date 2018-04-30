@@ -202,6 +202,9 @@ export default {
     },
     onlineUsers () {
       return this.$store.state.chat.onlineUsers
+    },
+    userCreatedNewRoom () {
+      return this.$store.state.chat.userCreatedNewRoom
     }
   },
 
@@ -375,8 +378,17 @@ export default {
     // check if the activeRoom still exists in the list of rooms
     this.rooms.map((el) => {
       if (el.id === this.activeRoom) foundActive = true
+
+      // check if user created a new room, then open it
+      if (el.id === this.userCreatedNewRoom) {
+        console.log('userCreatedNewRoom!', el.id)
+        let elem = document.getElementById('collapse-' + el.id)
+        elem.classList.add('show')
+        this.$store.commit('clearUserCreatedNewRoom')
+      }
     })
     if (!foundActive) this.activeRoom = null
+    
 
     // Safety Check - Look if the presence channel has an active subscription!
     if (this.firstRun) { // but not on the first run, as the async action is not complete yet
