@@ -355,7 +355,7 @@ export default {
     }
     if (! window.Echo.connector.channels['presence-'+chatter_server_data.chatroom_name].subscription.subscribed) {
       window.console.warn('Presence channel not active! Re-Joining it now!')
-      store.dispatch('joinChatroom', this.user)
+      this.$store.dispatch('joinChatroom', this.user)
     }
   }
 

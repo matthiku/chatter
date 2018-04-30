@@ -7,7 +7,7 @@ export default {
   },
 
   /**
-   * COMMITS: synchronous state updates
+   * COMMITS: synchronous updates to the STORE
    */
   mutations: {
     setChatroomName(state, payload) {
@@ -35,7 +35,7 @@ export default {
       // window.console.log('addRoom', payload)
       // first, make sure we do not have a 'deserted' room
       state.rooms = state.rooms.filter(el => el.id !== 0)
-      state.rooms.push(payload)
+      state.rooms.unshift(payload)
     },
     updateRoom(state, payload) {
       // window.console.log('updateRoom', payload)
@@ -238,7 +238,7 @@ export default {
           }
         })
 
-        .on('pusher:subscription_succeeded', e => {
+        .on('pusher:subscription_succeeded', () => {
           window.console.log(
             `Subscription to Presence Channel "${state.chatroomName}" was successful`
           )
