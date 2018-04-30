@@ -47,7 +47,8 @@
         </div>
 
         <div v-else class="modal-body">
-          Do you really want to delete this chat room?
+          <strong>Do you really want to delete this chat room?</strong>
+          <br>
           <br>
           All messages will be deleted and this cannot be reversed.
         </div>

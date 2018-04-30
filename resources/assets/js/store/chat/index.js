@@ -35,6 +35,7 @@ export default {
       // window.console.log('addRoom', payload)
       // first, make sure we do not have a 'deserted' room
       state.rooms = state.rooms.filter(el => el.id !== 0)
+      // insert the new room at the top of the list
       state.rooms.unshift(payload)
     },
     updateRoom(state, payload) {
@@ -181,6 +182,9 @@ export default {
 
     joinChatroom({ state, commit }, payload) {
       // payload must be the current user object!
+
+      // make sure we make a clean start
+      window.Echo.leave(state.chatroomName)
       window.Echo.join(state.chatroomName)
 
         // getting list of all online users

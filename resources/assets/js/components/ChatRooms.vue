@@ -100,7 +100,7 @@
 
                   <div v-else
                       class="text-center"
-                    ><button class="btn btn-sm btn-outline-primary" @click="cleanUpRooms">OK</button>
+                    ><button class="btn btn-sm btn-outline-primary" @click="delayedCleanUp">OK</button>
                   </div>
 
                 </div>
@@ -194,7 +194,6 @@ export default {
 
   watch: {
     activeRoom (val) {
-      console.log('activeRoom', val)
       if (this.activeRoom === 0) this.activeRoom = null
     },
 
@@ -282,7 +281,7 @@ export default {
         this.activeRoom = null
       } else {
         this.activeRoom = roomId
-        this.cleanUpRooms()
+        if (roomId !== 0) this.cleanUpRooms()
         this.userReadAllMessages(roomId)
       }
     },
@@ -330,6 +329,12 @@ export default {
       // make sure 'leftover' rooms are removed; ie. rooms
       //    of which the current user is no longer a member
       this.$store.commit('cleanUpRooms')
+    },
+
+    delayedCleanUp () {
+      let elem = document.getElementById('collapse-0')
+      elem.classList.remove('show')
+      this.cleanUpRooms()
     },
 
     userReadAllMessages (roomId) {
