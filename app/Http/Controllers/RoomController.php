@@ -136,6 +136,11 @@ class RoomController extends Controller
         $room->users()->detach();
         $room->users()->attach($request->members);
 
+        // also add the current user if missing in the list of members
+        if (! in_array($user->id, $request->members)) {
+            $room->users()->attach($user->id); 
+        }
+
         // create a new broadcasted for this event
         broadcast(new RoomUpdated($room, $user));
 

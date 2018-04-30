@@ -72,7 +72,9 @@ class User extends Authenticatable
      */
     public function memberships()
     {
-        return $this->belongsToMany('App\Room', 'room_user', 'user_id', 'room_id');
+        return $this
+            ->belongsToMany('App\Room', 'room_user', 'user_id', 'room_id')
+            ->withTimestamps();
     }
 
 
