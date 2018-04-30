@@ -135,7 +135,6 @@ class RoomController extends Controller
         // re-add all members to this chat room
         $room->users()->detach();
         $room->users()->attach($request->members);
-        $room->users()->attach($user->id); // also add the current user
 
         // create a new broadcasted for this event
         broadcast(new RoomUpdated($room, $user));
