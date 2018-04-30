@@ -6,8 +6,23 @@
         <div class="card-header all-rooms-header d-flex justify-content-between p-0 p-sm-1 p-md-2">
             
             <span>
+              <div class="dropdown d-inline">
+                <a class="chatter-menu btn btn-secondary btn-sm dropdown-toggle" 
+                    href="#" role="button" 
+                    id="dropdownMenuLink" 
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">more_vert</i>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                  <a class="dropdown-item" href="#">Settings (WIP)</a>
+                  <a class="dropdown-item" href="#">Another action</a>
+                  <a class="dropdown-item" href="#" @click="logoff">Logoff</a>
+                </div>
+              </div>
+
               <span class="d-none d-xl-inline">My Chat Rooms</span>
-              <span class="d-xl-none">ChatterBox</span>
+              <span class="d-xl-none">{{ appName }}</span>
+
               <span v-if="newMessagesArrived.length"
                   title="click to open new message"
                   @click="openNewMessage"
@@ -127,6 +142,9 @@ body {
   height: 100%;
   /* overflow: hidden; */
 }
+.chatter-menu.dropdown-toggle::after {
+  content: none;
+}
 .all-rooms-header {
   background-color: darkseagreen;  
 }
@@ -173,6 +191,9 @@ export default {
   },
 
   computed: {
+    appName () {
+      return this.$store.state.shared.appName
+    },
     rooms () {
       return this.$store.state.chat.rooms
     },
@@ -342,6 +363,10 @@ export default {
       this.newMessagesArrived = this.newMessagesArrived.filter(el => {
         return el.room_id !== roomId
       })      
+    },
+
+    logoff () {
+      document.getElementById('logout-form').submit()
     }
   },
 

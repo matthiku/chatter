@@ -14,10 +14,13 @@
 
         <div v-if="!deletingRoom" class="modal-body">
 
-          <p>Room name (optional)</p>
           <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon1">Edit Title</span>
+            </div>
             <input type="text"
                 v-model="roomName"
+                id="editRoomName"
                 @keyup.enter="executeAction"
                 class="form-control"
                 placeholder="enter room name"
@@ -35,7 +38,8 @@
           -->
 
           <div class="form-group">
-            <!-- <label for="selectMembers">Select Members</label> -->
+            <label for="selectMembers">Select Members:</label>
+            
             <select v-model="members"
                 multiple class="form-control" id="selectMembers">
               <option v-for="(usr, idx) in users" :key="idx"
@@ -111,13 +115,19 @@ export default {
     }
   },
 
+  mounted () {
+    $('#chatRoomProperties').on('shown.bs.modal', function () {
+      $('#editRoomName').trigger('focus')
+    })
+  },
+
   watch: {
     newRoomMembers (val) {
       this.members = val
     },
     dialog (val) {
       if (val.what === 'createNewRoom') {
-        this.title = 'Create new Chat Room'
+        this.title = 'New Conversation'
         this.roomName = this.user.username
         this.buttonText = 'Start Chat'
         $('#chatRoomProperties').modal('show')
