@@ -9,7 +9,7 @@
       ></chat-message>
 
     <div class="empty" v-if="!room.messages || (room.messages && !room.messages.length)">
-      Nothing here yet! Send a message!
+      Chat room empty. Send a message!
     </div>
 
     <chat-composer :room="room"></chat-composer>

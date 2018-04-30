@@ -262,12 +262,16 @@ export default {
       //    window.Echo.connector.channels['presence-'+chatter_server_data.chatroom_name]
       // has a valid CSRF_TOKEN!
       // window.Echo.connector.channels['presence-'+chatter_server_data.chatroom_name].options.auth.headers
+      /**
+       * let ch = window.Echo.connector.channels["presence-lochat"]
+          ch.subscription.subscribed = true // OK!
+       */
     }
   },
 
   methods: {
     openNewMessage () {
-      // show
+      // show room for which a new message has arrived! (newMessagesArrived)
     },
 
     messagesForThisRoom(roomId) {
@@ -340,6 +344,16 @@ export default {
         return el.room_id !== roomId
       })      
     }
+  },
+
+  updated () {
+    let foundActive = false
+    // check if the activeRoom still exists in the list of rooms
+    this.rooms.map((el) => {
+      if (el.id === this.activeRoom) foundActive = true
+    })
+    if (!foundActive) this.activeRoom = null
+    else console.log('all good!')
   }
 
 }

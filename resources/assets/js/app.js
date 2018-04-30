@@ -1,14 +1,14 @@
 /**
  * load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
+ * includes Vue and other libraries.
  */
 
 require('./bootstrap')
 
-window.Vue = require('vue')
+var Vue = require('vue')
 
 Vue.config.productionTip = false
+Vue.config.devtools = true
 
 // provide the moment library to all components
 import moment from 'moment-timezone'
@@ -29,14 +29,14 @@ sharedComponents()
 
 import startUpActions from './startUpActions'
 
-new window.Vue({
+new Vue({
   el: '#app',
 
   store,
 
   data: { moment },
 
-  created () {
+  created() {
     startUpActions(store)
   }
 })
