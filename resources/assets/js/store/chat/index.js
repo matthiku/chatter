@@ -2,6 +2,7 @@ export default {
   state: {
     rooms: [],
     onlineUsers: [],
+    chatroomName: 'chatroom',
     newRoomMembers: []
   },
 
@@ -9,6 +10,9 @@ export default {
    * COMMITS: synchronous state updates
    */
   mutations: {
+    setChatroomName(state, payload) {
+      state.chatroomName = payload
+    },
     setRooms(state, payload) {
       payload.sort(function(a, b) {
         a = new Date(a.updated_at)
@@ -173,6 +177,72 @@ export default {
           }
         })
         .catch(err => window.console.log(err))
+    },
+
+    joinChatroom({ state, commit }, payload) {
+      // payload must be the current user object!
+      window.Echo.join(state.chatroomName)
+
+        // getting list of all online users
+        .here(users => commit('setOnlineUsers', users))
+
+        // adding new online user to the list
+        .joining(user => commit('addToOnlineUsers', user))
+
+        // a user logged off
+        .leaving(user => commit('removeFromOnlineUsers', user))
+
+        // a room was added
+        .listen('RoomCreated', e => {
+          if (e.room) {
+            // only add this room if current user is a member
+            if (e.room.users.find(el => el.id === payload.id))
+              commit('addRoom', e.room)
+          } else {
+            window.console.warn(e)
+          }
+        })
+
+        // a room was deleted
+        .listen('RoomDeleted', e => {
+          if (e.room) {
+            commit('removeRoom', {
+              id: e.room,
+              reason: 'chatroom was deleted by owner'
+            })
+          } else {
+            window.console.warn(e)
+          }
+        })
+
+        // a room was updated (name, members)
+        .listen('RoomUpdated', e => {
+          if (e.room) {
+            // only update this room if current user is a member
+            if (e.room.users.find(el => el.id === payload.id)) {
+              // check if the current user already has this room
+              if (state.rooms.find(el => el.id === e.room.id)) {
+                commit('updateRoom', e.room)
+              } else {
+                commit('addRoom', e.room)
+              }
+            } else {
+              // User is no longer member, remove the room from the store
+              commit('removeRoom', {
+                id: e.room,
+                reason: 'user was removed from this chatroom'
+              })
+            }
+          } else {
+            window.console.warn(e)
+          }
+        })
+
+        .on('pusher:subscription_succeeded', e => {
+          window.console.log(
+            `Subscription to Presence Channel "${state.chatroomName}" was successful`
+          )
+        })
     }
   },
 

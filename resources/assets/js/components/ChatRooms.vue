@@ -90,7 +90,7 @@
               <div :id="'collapse-'+room.id" 
                   :aria-labelledby="'heading-'+room.id"
                   class="collapse"
-                  :class="[rooms.length===1 ? 'show' : '']"
+                  :class="[rooms.length===1 || activeRoom === room.id ? 'show' : '']"
                   data-parent="#chatrooms">
 
                 <div class="card-body chat-room-body p-0 p-sm-1 p-md-2 p-lg-3 p-xl-4">
@@ -193,7 +193,8 @@ export default {
   },
 
   watch: {
-    activeRoom () {
+    activeRoom (val) {
+      console.log('activeRoom', val)
       if (this.activeRoom === 0) this.activeRoom = null
     },
 
@@ -220,6 +221,7 @@ export default {
                 this.newMessagesArrived.push(msg)
                 // TODO: play a sound!
               }
+              this.$store.commit('sortRooms') // make sure the room list is refreshed
             } else {
               window.console.warn(e)
             }
@@ -251,7 +253,7 @@ export default {
       let privChannels = window.Echo.connector.channels // object with all current channels
       for (const key in privChannels) {
         if (privChannels.hasOwnProperty(key)) {
-          // key should be in the form of 'private-chatroom.[id]'
+          // key should be in the format 'private-chatroom.[id]'
           let chName = key.split('.')
           if (chName.length !== 2 || chName[0] !== 'private-chatroom') continue
           if (this.rooms.find(el => el.id === parseInt(chName[1]))) continue
@@ -325,8 +327,8 @@ export default {
     },
 
     cleanUpRooms () {
-      // make sure 'leftover' rooms are removed 
-      // - rooms which the current user is no longer a member of
+      // make sure 'leftover' rooms are removed; ie. rooms
+      //    of which the current user is no longer a member
       this.$store.commit('cleanUpRooms')
     },
 
@@ -346,11 +348,14 @@ export default {
     })
     if (!foundActive) this.activeRoom = null
 
-    //TODO: Safety Check! Look if the presence channel has an active subscription!
-    if (this.firstRun) return
-    this.firstRun = false
+    // Safety Check - Look if the presence channel has an active subscription!
+    if (this.firstRun) { // but not on the first run, as the async action is not complete yet
+      this.firstRun = false
+      return
+    }
     if (! window.Echo.connector.channels['presence-'+chatter_server_data.chatroom_name].subscription.subscribed) {
-      window.console.warn('Presence channel not active! Reload session!')
+      window.console.warn('Presence channel not active! Re-Joining it now!')
+      store.dispatch('joinChatroom', this.user)
     }
   }
 
