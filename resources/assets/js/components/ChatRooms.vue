@@ -186,6 +186,7 @@ export default {
 
   data () {
     return {
+      firstRun: true,
       activeRoom: null,
       newMessagesArrived: []
     }
@@ -257,15 +258,6 @@ export default {
           window.Echo.leave('chatroom.' + chName[1])
         }
       }
-
-      //TODO: Safety Check! Look if
-      //    window.Echo.connector.channels['presence-'+chatter_server_data.chatroom_name]
-      // has a valid CSRF_TOKEN!
-      // window.Echo.connector.channels['presence-'+chatter_server_data.chatroom_name].options.auth.headers
-      /**
-       * let ch = window.Echo.connector.channels["presence-lochat"]
-          ch.subscription.subscribed = true // OK!
-       */
     }
   },
 
@@ -353,7 +345,13 @@ export default {
       if (el.id === this.activeRoom) foundActive = true
     })
     if (!foundActive) this.activeRoom = null
-    else console.log('all good!')
+
+    //TODO: Safety Check! Look if the presence channel has an active subscription!
+    if (this.firstRun) return
+    this.firstRun = false
+    if (! window.Echo.connector.channels['presence-'+chatter_server_data.chatroom_name].subscription.subscribed) {
+      window.console.warn('Presence channel not active! Reload session!')
+    }
   }
 
 }
