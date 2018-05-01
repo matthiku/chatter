@@ -34,8 +34,8 @@ export default {
     },
     addRoom(state, payload) {
       // window.console.log('addRoom', payload)
-      // first, make sure we do not have a 'deserted' room
-      state.rooms = state.rooms.filter(el => el.id !== 0)
+      // first, make sure we do not have a 'deserted' room or duplicate rooms
+      state.rooms = state.rooms.filter(el => el.id !== 0 && el.id !== payload.id)
       // insert the new room at the top of the list
       state.rooms.unshift(payload)
     },
@@ -64,7 +64,9 @@ export default {
       state.onlineUsers = payload
     },
     addToOnlineUsers(state, payload) {
-      state.onlineUsers.push(payload)
+      // not to show the same user twice
+      if (!state.onlineUsers.find(el => el.id === payload.id))
+        state.onlineUsers.push(payload)
     },
     removeFromOnlineUsers(state, payload) {
       state.onlineUsers = state.onlineUsers.filter(u => u !== payload)

@@ -228,6 +228,7 @@ export default {
   watch: {
     activeRoom (val) {
       if (this.activeRoom === 0) this.activeRoom = null
+      this.setPageTitle()
     },
 
     rooms () {
@@ -292,10 +293,33 @@ export default {
           window.Echo.leave('chatroom.' + chName[1])
         }
       }
+
+      this.setPageTitle()
     }
   },
 
   methods: {
+    setPageTitle () {
+      let activeChatName = '(idle)'
+      // show name of open chat room, if any
+      if (this.activeRoom) {
+        activeChatName = this.rooms.find(el => el.id === this.activeRoom).name
+      }
+      let newMsgCount = this.newMessagesArrived.length
+      // if there are new messages, show name of first chat containing new messages
+      if (newMsgCount) {
+        activeChatName = this.newMessagesArrived[0].room.name
+        newMsgCount = `(${newMsgCount}) `
+      } else {
+        newMsgCount = ''
+      }
+
+      window.document.title = `${this.appName} ${newMsgCount}${activeChatName}`
+
+      // make sure we are properly connected to the presence channel
+      this.safetyCheck()
+    },
+
     openNewMessage () {
       // show room for which a new message has arrived! (newMessagesArrived)
       let msg = this.newMessagesArrived[0]
@@ -389,6 +413,23 @@ export default {
 
     logoff () {
       document.getElementById('logout-form').submit()
+    },
+
+    safetyCheck () {
+      // Safety Check - Look if the presence channel has an active subscription!
+      if (this.firstRun) { // but not on the first run, as the async action is not complete yet
+        this.firstRun = false
+        return
+      }
+      if (! window.Echo.connector.channels['presence-'+chatter_server_data.chatroom_name].subscription.subscribed) {
+        if (this.secondRun) {
+          window.location.reload()
+        } else {
+          window.console.warn('Presence channel not active! Re-Joining it now!')
+          this.$store.dispatch('joinChatroom', this.user)
+          this.secondRun = true
+        }
+      }
     }
   },
 
@@ -408,22 +449,8 @@ export default {
       }
     })
     if (!foundActive) this.activeRoom = null
-    
 
-    // Safety Check - Look if the presence channel has an active subscription!
-    if (this.firstRun) { // but not on the first run, as the async action is not complete yet
-      this.firstRun = false
-      return
-    }
-    if (! window.Echo.connector.channels['presence-'+chatter_server_data.chatroom_name].subscription.subscribed) {
-      if (this.secondRun) {
-        window.location.reload()
-      } else {
-        window.console.warn('Presence channel not active! Re-Joining it now!')
-        this.$store.dispatch('joinChatroom', this.user)
-        this.secondRun = true
-      }
-    }
+    this.safetyCheck()
   }
 
 }
