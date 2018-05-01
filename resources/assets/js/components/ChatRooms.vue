@@ -195,6 +195,9 @@ export default {
     appName () {
       return this.$store.state.shared.appName
     },
+    chatroomName () {
+      return this.$store.state.shared.chatroomName
+    },
     rooms () {
       return this.$store.state.chat.rooms
     },
@@ -231,7 +234,7 @@ export default {
         if (window.Echo.connector.channels[`private-chatroom.${room.id}`]) return
 
         // start listening to our backend broadcast channel for this Chat Room
-        window.Echo.private('chatroom.' + room.id)
+        window.Echo.private(this.chatroomName + '.chatroom.' + room.id)
 
           .listen('MessagePosted', e => {
             if (e.message) {

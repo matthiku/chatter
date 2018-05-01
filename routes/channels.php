@@ -26,7 +26,8 @@ Broadcast::channel(
 
 // specific channels for specific chat rooms (only chat room members can join)
 Broadcast::channel(
-    'chatroom.{room}', function ($user, App\Room $room) {
+    env('MAIN_CHATROOM_NAME', 'chatroom') . '.chatroom.{room}',
+    function ($user, App\Room $room) {
         // check if user is member of this room
         return $room->users->contains('id', $user->id);
     }
