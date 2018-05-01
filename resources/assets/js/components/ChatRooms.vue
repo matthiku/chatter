@@ -21,8 +21,8 @@
                 </div>
               </div>
 
-              <span class="d-none d-xl-inline">My Chat Rooms</span>
-              <span class="d-xl-none">{{ appName }}</span>
+              <span @click="closeAllChats" class="cursor-pointer d-none d-xl-inline">My Chat Rooms</span>
+              <span @click="closeAllChats" class="cursor-pointer d-xl-none">{{ appName }}</span>
 
               <span v-if="newMessagesArrived.length"
                   title="click to open new message"
@@ -315,6 +315,10 @@ export default {
       }
     },
 
+    closeAllChats () {
+      this.activeRoom = null
+    },
+
     launchNewRoomModal (user_id) {
       if (user_id)
         this.$store.commit('setNewRoomMembers', [user_id])
@@ -386,7 +390,6 @@ export default {
 
       // check if user created a new room, then open it
       if (el.id === this.userCreatedNewRoom) {
-        console.log('userCreatedNewRoom!', el.id)
         let elem = document.getElementById('collapse-' + el.id)
         elem.classList.add('show')
         this.$store.commit('clearUserCreatedNewRoom')
