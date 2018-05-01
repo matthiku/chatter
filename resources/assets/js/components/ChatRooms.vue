@@ -215,6 +215,7 @@ export default {
   data () {
     return {
       firstRun: true,
+      secondRun: false,
       activeRoom: null,
       newMessagesArrived: []
     }
@@ -400,8 +401,13 @@ export default {
       return
     }
     if (! window.Echo.connector.channels['presence-'+chatter_server_data.chatroom_name].subscription.subscribed) {
-      window.console.warn('Presence channel not active! Re-Joining it now!')
-      this.$store.dispatch('joinChatroom', this.user)
+      if (this.secondRun) {
+        window.location.reload()
+      } else {
+        window.console.warn('Presence channel not active! Re-Joining it now!')
+        this.$store.dispatch('joinChatroom', this.user)
+        this.secondRun = true
+      }
     }
   }
 
