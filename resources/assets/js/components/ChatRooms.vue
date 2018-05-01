@@ -22,11 +22,11 @@
               </div>
 
               <span @click="closeAllChats"
-                  :class="[activeRoom ? 'cursor-pointer' : '']"
-                  class="d-none d-xl-inline">All Chat Rooms</span>
-              <span @click="closeAllChats"
-                  :class="[activeRoom ? 'cursor-pointer' : '']"
-                  class="d-xl-none">{{ appName }}</span>
+                  :class="[activeRoom ? 'cursor-pointer' : '']">
+                <span class="d-none d-xl-inline">All Chat Rooms</span>
+                <span class="d-xl-none">{{ appName }}</span>
+                <span class="border border-light rounded-circle text-center px-1">{{ rooms.length }}</span>
+              </span>              
 
               <span v-if="newMessagesArrived.length"
                   title="click to open new message"
