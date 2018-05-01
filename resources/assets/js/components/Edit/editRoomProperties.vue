@@ -172,7 +172,6 @@ export default {
     deleteRoom () {
       let room = this.rooms.find(el => el.id === this.dialog.option)
       if (this.user.id !== room.owner_id) return
-      window.console.log('deleting', room)
       this.$store.dispatch('deleteRoom', {'room_id': room.id})
       this.$store.commit('setDialog', '')
       this.deletingRoom = false

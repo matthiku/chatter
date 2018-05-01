@@ -70,6 +70,9 @@ class MessagePosted implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('chatroom.'.$this->message->room_id);
+        return new PrivateChannel(
+            env('MAIN_CHATROOM_NAME', 'chatroom') . 
+                '.chatroom.'.$this->message->room_id
+        );
     }
 }

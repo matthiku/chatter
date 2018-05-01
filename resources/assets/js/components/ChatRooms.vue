@@ -21,13 +21,17 @@
                 </div>
               </div>
 
-              <span @click="closeAllChats" class="cursor-pointer d-none d-xl-inline">My Chat Rooms</span>
-              <span @click="closeAllChats" class="cursor-pointer d-xl-none">{{ appName }}</span>
+              <span @click="closeAllChats"
+                  :class="[activeRoom ? 'cursor-pointer' : '']"
+                  class="d-none d-xl-inline">All Chat Rooms</span>
+              <span @click="closeAllChats"
+                  :class="[activeRoom ? 'cursor-pointer' : '']"
+                  class="d-xl-none">{{ appName }}</span>
 
               <span v-if="newMessagesArrived.length"
                   title="click to open new message"
                   @click="openNewMessage"
-                  class="badge badge-danger">{{ newMessagesArrived.length }}</span>
+                  class="cursor-pointer badge badge-danger">{{ newMessagesArrived.length }}</span>
             </span>
 
             <!-- show online users -->
@@ -231,8 +235,8 @@ export default {
 
         // check if room is already connected: 
         //          check if the entity "window.Echo.connector.channels"
-        //          contains an object with name 'private-chatroom.{id}'
-        if (window.Echo.connector.channels[`private-chatroom.${room.id}`]) return
+        //          contains an object with name 'private-{chatroomName}.chatroom.{id}'
+        if (window.Echo.connector.channels[`private-${this.chatroomName}.chatroom.${room.id}`]) return
 
         // start listening to our backend broadcast channel for this Chat Room
         window.Echo.private(this.chatroomName + '.chatroom.' + room.id)
@@ -294,6 +298,12 @@ export default {
   methods: {
     openNewMessage () {
       // show room for which a new message has arrived! (newMessagesArrived)
+      let msg = this.newMessagesArrived[0]
+      let elem = document.getElementById('collapse-' + msg.room_id)
+      elem.classList.add('show')
+      this.activeRoom = msg.room_id
+      // mark this message as read
+      this.userReadAllMessages(msg.room_id)
     },
 
     messagesForThisRoom(roomId) {
@@ -393,6 +403,8 @@ export default {
         let elem = document.getElementById('collapse-' + el.id)
         elem.classList.add('show')
         this.$store.commit('clearUserCreatedNewRoom')
+        foundActive = true
+        this.activeRoom = el.id
       }
     })
     if (!foundActive) this.activeRoom = null
