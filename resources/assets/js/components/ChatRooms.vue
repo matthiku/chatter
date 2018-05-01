@@ -5,6 +5,7 @@
 
         <div class="card-header all-rooms-header d-flex justify-content-between p-0 p-sm-1 p-md-2">
             
+            <!-- show page title and main menu -->
             <span>
               <div class="dropdown d-inline">
                 <a class="chatter-menu btn btn-secondary btn-sm dropdown-toggle" 
@@ -69,11 +70,11 @@
                       <span v-if="room.name" class="room-name ml-1">{{ room.name }}</span>
                       <span v-else class="small">(unnamed)</span>
                       <i v-if="room.owner_id === user.id"
-                          @click="editRoom(room)"
+                          @click.stop="editRoom(room)"
                           title="edit room properties"
                           class="material-icons">edit</i>
                       <i v-else-if="room.id !== 0"
-                          @click="leaveRoom(room)"
+                          @click.stop="leaveRoom(room)"
                           title="leave this chat room"
                           class="material-icons">open_in_new</i>
                     </span>
