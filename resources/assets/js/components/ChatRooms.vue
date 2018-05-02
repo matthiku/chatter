@@ -3,131 +3,28 @@
     <div class="col-xl-8 col-lg-10 col-md-12 mw-1k px-0 px-sm-1">
       <div class="card shadow-sm">
 
-        <div class="card-header all-rooms-header d-flex justify-content-between p-0 p-sm-1 p-md-2">
-            
-            <!-- show page title and main menu -->
-            <span>
-              <div class="dropdown d-inline">
-                <a class="chatter-menu btn btn-secondary btn-sm dropdown-toggle" 
-                    href="#" role="button" 
-                    id="dropdownMenuLink" 
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <i class="material-icons">more_vert</i>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                  <a class="dropdown-item" href="#">Settings (WIP)</a>
-                  <a class="dropdown-item" href="#">Another action</a>
-                  <a class="dropdown-item" href="#" @click="logoff">Logoff</a>
-                </div>
-              </div>
-
-              <span @click="closeAllChats"
-                  :class="[activeRoom ? 'cursor-pointer' : '']">
-                <span class="d-none d-xl-inline">All Chat Rooms</span>
-                <span class="d-xl-none">{{ appName }}</span>
-                <span class="border border-light rounded-circle text-center px-1">{{ rooms.length }}</span>
-              </span>              
-
-              <span v-if="newMessagesArrived.length"
-                  title="click to open new message"
-                  @click="openNewMessage"
-                  class="cursor-pointer badge badge-danger">{{ newMessagesArrived.length }}</span>
-            </span>
-
-            <!-- show online users -->
-            <chat-show-online-members
-                :onlineUsers="onlineUsers" :user="user">
-            </chat-show-online-members>
-
-            <button @click="launchNewRoomModal()"
-                title="create a new chat room"
-                class="btn btn-sm btn-success float-right"
-              ><i class="material-icons">add</i>
-              <span class="d-none d-md-inline">new chat</span>  
-            </button>
-
-        </div>
+        <chat-show-page-header
+            :activeRoom="activeRoom"
+            :newMessagesArrived="newMessagesArrived"
+            @open-new-message="openNewMessage"
+            @close-all-chats="closeAllChats"
+          ></chat-show-page-header>
 
         <div class="card-body p-0 p-sm-1 p-md-2 p-lg-3 p-xl-4">
 
           <div class="accordion shadow" id="chatrooms">
 
-            <div v-for="(room, index) in rooms" :key="index"
+            <chat-room
+                v-for="(room, index) in rooms"
                 v-if="activeRoom === null || activeRoom === room.id"
-                class="card mb-1 mb-sm-2">
-
-              
-              <!-- chatRoom header
-               -->
-              <div class="card-header p-0 my-0" :id="'heading-'+room.id">
-                <div class="d-flex justify-content-between mb-0 w-100 p-0 chatroom-header cursor-pointer"
-                    @click="hideOtherRooms(room.id)"
-                    aria-expanded="true"
-                    :aria-controls="'#collapse-'+room.id"
-                    data-toggle="collapse"
-                    :data-target="'#collapse-'+room.id"
-                  >
-                    <!-- show room name -->
-                    <span>
-                      <i class="ml-1 material-icons">menu</i>
-                      
-                      <span v-if="room.name" class="room-name ml-1">{{ room.name }}</span>
-                      <span v-else class="small">(unnamed)</span>
-                      <i v-if="room.owner_id === user.id"
-                          @click.stop="editRoom(room)"
-                          title="edit room properties"
-                          class="material-icons">edit</i>
-                      <i v-else-if="room.id !== 0"
-                          @click.stop="leaveRoom(room)"
-                          title="leave this chat room"
-                          class="material-icons">open_in_new</i>
-                    </span>
-
-                    <!-- show room members inline on wider screens -->
-                    <chat-show-room-members class="d-none d-md-inline"
-                        :room="room" :user="user"
-                      ></chat-show-room-members>
-
-                  <!-- show messages counter -->
-                  <span>
-                    <!-- <small class="mr-2">{{ $moment(room.updated_at).fromNow() }}</small> -->
-                    <span v-if="newMessagesArrived.length && messagesForThisRoom(room.id)"
-                        class="badge badge-danger badge-pill mt-1 mr-">{{ messagesForThisRoom(room.id) }}</span>
-                    <span class="badge badge-secondary badge-pill mt-1 mr-1">{{ room.messages ? room.messages.length : 0 }}</span>
-                  </span>
-                </div>
-
-                <!-- show room members on extra line on smaller screens -->
-                <chat-show-room-members class="d-md-none"
-                    :room="room" :user="user"
-                  ></chat-show-room-members>
-
-              </div>
-
-
-              <!-- show the actual chat content (the messages) 
-               -->
-              <div :id="'collapse-'+room.id" 
-                  :aria-labelledby="'heading-'+room.id"
-                  class="collapse"
-                  :class="[rooms.length===1 || activeRoom === room.id ? 'show' : '']"
-                  data-parent="#chatrooms">
-
-                <div class="card-body chat-room-body p-0 p-sm-1 p-md-2 p-lg-3 p-xl-4">
-
-                  <chat-log v-if="room.id !== 0"
-                      :room="room"></chat-log>
-
-                  <div v-else
-                      class="text-center"
-                    ><button class="btn btn-sm btn-outline-primary" @click="delayedCleanUp">OK</button>
-                  </div>
-
-                </div>
-              </div>
-
-
-            </div> <!-- end of LOOP (room in rooms) -->
+                :key="index"
+                :room="room"
+                :activeRoom="activeRoom"
+                @set-active-room="setActiveRoom"
+                @user-read-all-messages="userReadAllMessages"
+                :newMessagesArrived="newMessagesArrived"
+                class="card mb-1 mb-sm-2"
+              ></chat-room>
 
           </div>
         </div>
@@ -299,6 +196,10 @@ export default {
   },
 
   methods: {
+    setActiveRoom (val) {
+      this.activeRoom = val
+    },
+
     setPageTitle () {
       let activeChatName = '(idle)'
       // show name of open chat room, if any
@@ -330,59 +231,8 @@ export default {
       this.userReadAllMessages(msg.room_id)
     },
 
-    messagesForThisRoom(roomId) {
-      let num = 0
-      this.newMessagesArrived.map(el => {
-        if (el.room_id === roomId) num += 1
-      })
-      return num
-    },
-
-    hideOtherRooms (roomId) {
-      let elem = document.getElementById('collapse-'+roomId)
-      if (elem.classList.contains('show')) {
-        this.activeRoom = null
-      } else {
-        this.activeRoom = roomId
-        if (roomId !== 0) this.cleanUpRooms()
-        this.userReadAllMessages(roomId)
-      }
-    },
-
     closeAllChats () {
       this.activeRoom = null
-    },
-
-    launchNewRoomModal (user_id) {
-      if (user_id)
-        this.$store.commit('setNewRoomMembers', [user_id])
-      else
-        this.$store.commit('setNewRoomMembers', [])
-      this.$store.commit('setDialog', {what: 'createNewRoom', option: ''})
-    },
-
-    editRoom (room) {
-      // only for the owner...
-      if (room.owner_id !== this.user.id) return
-      // edit room name and memberships
-      let members = []
-      room.users.map(el => members.push(el.id))
-      this.$store.commit('setNewRoomMembers', members)
-      this.$store.commit('setDialog',
-        {
-          what: 'updateRoom',
-          option: room.id,
-          roomName: room.name
-        }
-      )
-    },
-
-    leaveRoom (room) {
-      this.$store.dispatch('sendMessage', {
-        message: `user ${this.user.username} has left this chatroom`,
-        room_id: room.id
-      })
-      this.$store.dispatch('leaveRoom', room)
     },
 
     onlyOneRoom () {
@@ -392,27 +242,11 @@ export default {
       }
     },
 
-    cleanUpRooms () {
-      // make sure 'leftover' rooms are removed; ie. rooms
-      //    of which the current user is no longer a member
-      this.$store.commit('cleanUpRooms')
-    },
-
-    delayedCleanUp () {
-      let elem = document.getElementById('collapse-0')
-      elem.classList.remove('show')
-      this.cleanUpRooms()
-    },
-
     userReadAllMessages (roomId) {
       // remove messages from this array which the user has seen (because he opened the room)
       this.newMessagesArrived = this.newMessagesArrived.filter(el => {
         return el.room_id !== roomId
       })      
-    },
-
-    logoff () {
-      document.getElementById('logout-form').submit()
     },
 
     safetyCheck () {
