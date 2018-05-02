@@ -2,11 +2,13 @@
 /**
  * Messages Controller
  * 
+ * PHP version 7
+ * 
  * @category Controller
  * @package  Chatter
  * @author   Matthias Kuhs <matthiku@yahoo.com>
  * @license  MIT http://mit.org
- * @link     http://github.org/matthiku/chatter
+ * @link     http://github.org/matthiku/chatter * 
  */
 
 namespace App\Http\Controllers;
@@ -63,8 +65,13 @@ class MessageController extends Controller
             $room = Room::find($room_id);
             $room->messages()->save($message);
 
+            // Set the update_at date in the pivot table
+            // to indicate the reading progress of this user in this room
+            $membership = $user->memberships()->where('id', $room_id)->first();
+            $membership->pivot->touch();
+
             // Announce that a new message was posted 
-            // (will be received by the MessagePosted event)
+            // - received and forwarded to the clients by the MessagePosted event
             broadcast(new MessagePosted($message, $user));
 
             // return all messages incl the new
