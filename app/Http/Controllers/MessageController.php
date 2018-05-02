@@ -67,7 +67,7 @@ class MessageController extends Controller
 
             // Set the update_at date in the pivot table
             // to indicate the reading progress of this user in this room
-            $membership = $user->memberships()->where('id', $room_id)->first();
+            $membership = $user->memberships()->where('room_id', $room_id)->first();
             $membership->pivot->touch();
 
             // Announce that a new message was posted 

@@ -4,7 +4,9 @@
     <chat-message
         v-for="(message, index) in room.messages"
         :key="index"
+        :index="index"
         :message="message"
+        :messages="room.messages"
         :members="room.users"
       ></chat-message>
 
