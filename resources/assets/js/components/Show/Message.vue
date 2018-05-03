@@ -39,7 +39,7 @@
           :title="$moment(message.updated_at).format('LLLL')"
         ><strong>{{ usersObj[message.user_id].username }}</strong>
           -
-          <span class="text-primary">{{ message.updated_at }}</span>
+          <span class="text-primary">{{ adaptiveDate(message.updated_at)  }}</span>
       </small>
 
     </div>
@@ -89,6 +89,16 @@ export default {
   },
 
   methods: {
+    adaptiveDate (val) {
+      if (!val) return ''
+      let dt = this.$moment(val)
+      let now = this.$moment()
+      if (dt.isSame(now, 'day')) return dt.format('H:mm')
+      if (dt.isSame(now, 'week')) return dt.format('ddd H:mm')
+      if (dt.isSame(now, 'year')) return dt.format('D MMM H:mm')
+      return dt.format('D MM YYYY')
+    },
+
     showLinks (text) {
       let urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig
       return text.replace(urlRegex, function(url) {
