@@ -11,10 +11,10 @@
         :class="[message.user_id === user.id ? 'text-right' : '']"
       >
 
+      <!-- show the actual message -->
       <span class="border border-primary rounded shadow text-white mb-0 p-1"
         :class="[deleted ? 'bg-dark' : message.user_id === user.id ? 'bg-info' : 'bg-secondary']">
 
-        <!-- show the actual message -->
         <span v-if="!deleting && !deleted" v-html="showLinks(message.message)"></span>
 
         <small v-if="deleted">(The user deleted this message {{ message.message }})</small>

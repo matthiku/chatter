@@ -4,25 +4,20 @@
       <div class="modal-content">
 
         <div class="modal-header">
-          <h5 class="modal-title" id="selectEmoticonsLabel">Modal title</h5>
+          <h5 class="modal-title" id="selectEmoticonsLabel">Insert Emoticon</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
 
         <div class="modal-body">
-          <div class="d-flex bd-highlight">
-            <div class="p-2 flex-fill bd-highlight">Flex item</div>
-            <div class="p-2 flex-fill bd-highlight">Flex item</div>
-            <div class="p-2 flex-fill bd-highlight">Flex item</div>
-            <div class="p-2 flex-fill bd-highlight">Flex item</div>
-            <div class="p-2 flex-fill bd-highlight">Flex item</div>
+          <div v-for="n in 8" :key="n" class="d-flex">
+            <div v-for="m in 10" :key="m"
+                @click="insert(10 * (n-1) + m)"
+                class="m-1 py-sm-1 text-center flex-fill border border-info bg-light cursor-pointer rounded"
+                v-html="'&' + `#${emoticons[10 * (n-1) + m]};`">
+            </div>
           </div>
-        </div>
-        
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
         </div>
 
       </div>
@@ -40,9 +35,16 @@ export default {
 
   mounted () {
     // create an array with all emoticon character HTML values
-    let start = 128512
-    for (let index = 0; index < 80; index++) {
-      this.emoticons.push(start + index)
+    let start = 128511
+    for (let idx = 0; idx < 81; idx++) {
+      this.emoticons.push(start + idx)
+    }
+  },
+
+  methods: {
+    insert (index) {
+      this.$emit('insert-emo', this.emoticons[index])
+      $('#selectEmoticons').modal('toggle')
     }
   }
 }

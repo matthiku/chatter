@@ -17,7 +17,7 @@
       <div class="input-group-append">
         <button class="btn btn-secondary" type="button"
             title="insert emoticon"
-            @click="insertEmoticon"
+            @click="selectEmoticonDlg"
           ><i class="material-icons">insert_emoticon</i></button>
 
         <button class="btn btn-secondary" type="button"
@@ -32,7 +32,9 @@
       </div>
     </div>
 
-    <chat-show-emoticons></chat-show-emoticons>
+    <chat-show-emoticons
+        v-on:insert-emo="insertEmo"
+      ></chat-show-emoticons>
 
   </div>  
 </template>
@@ -72,8 +74,13 @@ export default {
   },
 
   methods: {
-    insertEmoticon () {
+    selectEmoticonDlg () {
       $('#selectEmoticons').modal('toggle')
+    },
+
+    insertEmo (emo) {
+      let unichar = String.fromCodePoint(emo)
+      this.messageText = this.messageText + unichar + ' '
     },
 
     sendMessage () {
