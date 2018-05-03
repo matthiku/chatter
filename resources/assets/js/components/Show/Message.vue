@@ -15,7 +15,7 @@
         :class="[deleted ? 'bg-dark' : message.user_id === user.id ? 'bg-info' : 'bg-secondary']">
 
         <!-- show the actual message -->
-        <span v-if="!deleting && !deleted" v-html="linksOrSmileys(message.message)"></span>
+        <span v-if="!deleting && !deleted" v-html="showLinks(message.message)"></span>
 
         <small v-if="deleted">(The user deleted this message {{ message.message }})</small>
 
@@ -89,7 +89,7 @@ export default {
   },
 
   methods: {
-    linksOrSmileys (text) {
+    showLinks (text) {
       let urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig
       return text.replace(urlRegex, function(url) {
           return '<a href="' + url + '">' + url + '</a>';
