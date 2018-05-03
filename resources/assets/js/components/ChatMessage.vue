@@ -90,6 +90,7 @@ export default {
 
   methods: {
     readingProgressBefore (member) {
+      if (member.id === this.user.id) return false // don't show the current user
       // check if this member's reading progress is before this and after the previous message
 
       let userProgress = this.$moment(member.pivot.updated_at)
@@ -108,6 +109,7 @@ export default {
     },
     
     readingProgressAfter (member) {
+      if (member.id === this.user.id) return false // don't show the current user
       // check if this member's reading progress is after the current (newest) message
       if (this.index + 1 < this.messages.length) return false // only on the last message
 
