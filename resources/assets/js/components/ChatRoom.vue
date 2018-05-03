@@ -3,7 +3,8 @@
     <!-- chatRoom header
       -->
     <div class="card-header p-0 my-0" :id="'heading-'+room.id">
-      <div class="d-flex justify-content-between mb-0 w-100 p-0 chatroom-header cursor-pointer"
+      <div class="d-flex justify-content-between mb-0 w-100 p-0 cursor-pointer"
+          :class="[room.id === activeRoom ? '' : 'chatroom-header']"
           @click="hideOtherRooms(room.id)"
           aria-expanded="true"
           :aria-controls="'#collapse-'+room.id"

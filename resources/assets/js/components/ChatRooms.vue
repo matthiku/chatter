@@ -166,7 +166,7 @@ export default {
                 this.$store.commit('addToNewMessagesArrived', msg)
                 // TODO: play a sound!
               }
-              this('sortRooms') // make sure the room list is refreshed
+              this.$store.commit('sortRooms') // make sure the room list is refreshed
             } else {
               window.console.warn(e)
             }
