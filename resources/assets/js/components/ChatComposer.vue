@@ -9,6 +9,7 @@
           class="rounded-left message-input-field"
           tabindex="room.id"
           placeholder="write your message"
+          @click="markMessagesAsRead"
           @keyup.enter="sendMessage"
           v-model="messageText"
         >
@@ -44,7 +45,10 @@ export default {
   computed: {
     action () {
       return this.$store.state.shared.action
-    }    
+    },
+    user () {
+      return this.$store.state.user.user
+    },
   },
 
   mounted () {
@@ -70,6 +74,16 @@ export default {
         room_id: this.room.id
       })
       this.messageText = ''
+    },
+
+    markMessagesAsRead () {
+      let roomLastUpdate = this.room.updated_at
+      let usersReadingProgress = this.room.users.find(el => el.id === this.user.id).pivot.updated_at
+      // update the reading progress of this user for this room
+      if (this.$moment(usersReadingProgress).isBefore(this.$moment(roomLastUpdate))) {
+        this.$store.dispatch('setReadingProgress', this.room.id)
+      }
+      this.$store.commit('clearRoomFromNewMessagesArrived', this.room.id)
     }
   }
 }

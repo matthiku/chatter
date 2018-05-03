@@ -4,6 +4,7 @@ export default {
     onlineUsers: [],
     chatroomName: 'chatroom',
     newRoomMembers: [],
+    newMessagesArrived: [],
     userCreatedNewRoom: null
   },
 
@@ -35,7 +36,9 @@ export default {
     addRoom(state, payload) {
       // window.console.log('addRoom', payload)
       // first, make sure we do not have a 'deserted' room or duplicate rooms
-      state.rooms = state.rooms.filter(el => el.id !== 0 && el.id !== payload.id)
+      state.rooms = state.rooms.filter(
+        el => el.id !== 0 && el.id !== payload.id
+      )
       // insert the new room at the top of the list
       state.rooms.unshift(payload)
     },
@@ -84,6 +87,13 @@ export default {
     },
     clearUserCreatedNewRoom(state) {
       state.userCreatedNewRoom = null
+    },
+    addToNewMessagesArrived(state, payload) {
+      state.newMessagesArrived.push(payload)
+    },
+    clearRoomFromNewMessagesArrived(state, payload) {
+      state.newMessagesArrived = state.newMessagesArrived
+        .filter(el => el.room_id !== payload)
     }
   },
 
@@ -146,9 +156,10 @@ export default {
         .catch(err => window.console.log(err))
     },
 
-    setReadingProgress(context, payload) {
+    setReadingProgress(context, room_id) {
+      //
       window.axios
-        .post(`/api/rooms/${payload}/setreading`, payload)
+        .post(`/api/rooms/${room_id}/setreading`)
         .then(response => {
           if (!response.data) {
             window.console.warn(response)

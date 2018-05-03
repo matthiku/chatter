@@ -33,7 +33,7 @@
 
         <!-- show messages counter -->
         <span>
-          <!-- <small class="mr-2">{{ $moment(room.updated_at).fromNow() }}</small> -->
+          <small class="mr-2">{{ $moment(room.updated_at).fromNow() }}</small>
           <span v-if="unreadMessages + arrivedMessages"
               class="badge badge-danger badge-pill mt-1 mr-">{{ unreadMessages }}</span>
           <span class="badge badge-secondary badge-pill mt-1 mr-1">{{ room.messages ? room.messages.length : 0 }}</span>
@@ -73,7 +73,7 @@
 
 <script>
 export default {
-  props: ['room', 'newMessagesArrived', 'activeRoom'],
+  props: ['room', 'activeRoom'],
 
   computed: {
     user () {
@@ -90,10 +90,13 @@ export default {
     },
     arrivedMessages () {
       let num = 0
-      this.newMessagesArrived.map(el => {
+      this.newMessagesArrived.forEach(el => {
           if (el.room_id === this.room.id) num += 1
       })
       return num      
+    },
+    newMessagesArrived () {
+      return this.$store.state.chat.newMessagesArrived
     }
   },
 

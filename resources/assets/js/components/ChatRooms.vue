@@ -5,7 +5,6 @@
 
         <chat-show-page-header
             :activeRoom="activeRoom"
-            :newMessagesArrived="newMessagesArrived"
             @open-new-message="openNewMessage"
             @close-all-chats="closeAllChats"
           ></chat-show-page-header>
@@ -22,7 +21,6 @@
                 :activeRoom="activeRoom"
                 @set-active-room="setActiveRoom"
                 @user-read-all-messages="userReadAllMessages"
-                :newMessagesArrived="newMessagesArrived"
                 class="card mb-1 mb-sm-2"
               ></chat-room>
 
@@ -110,6 +108,9 @@ export default {
     },
     userCreatedNewRoom () {
       return this.$store.state.chat.userCreatedNewRoom
+    },
+    newMessagesArrived () {
+      return this.$store.state.chat.newMessagesArrived
     }
   },
 
@@ -117,12 +118,15 @@ export default {
     return {
       firstRun: true,
       secondRun: false,
-      activeRoom: null,
-      newMessagesArrived: []
+      activeRoom: null
     }
   },
 
   watch: {
+    newMessagesArrived () {
+      this.setPageTitle() // update page title when this entity changes
+    },
+
     activeRoom (val) {
       if (this.activeRoom === 0) this.activeRoom = null
       this.setPageTitle()
@@ -156,12 +160,13 @@ export default {
               room.messages.push(msg)
               // make sure the room gets in first place now
               room.updated_at = msg.updated_at
-              // show warning for new message (but not this user's own msg and not when the room is already open!)
-              if (e.user.id !== this.user.id && msg.room_id !== this.activeRoom) {
-                this.newMessagesArrived.push(msg)
+              // show warning for new messages (but not this user's own msg)
+              // REMOVED: and not when the room is already open! "&& msg.room_id !== this.activeRoom"
+              if (e.user.id !== this.user.id) {
+                this.$store.commit('addToNewMessagesArrived', msg)
                 // TODO: play a sound!
               }
-              this.$store.commit('sortRooms') // make sure the room list is refreshed
+              this('sortRooms') // make sure the room list is refreshed
             } else {
               window.console.warn(e)
             }
@@ -254,9 +259,7 @@ export default {
 
     userReadAllMessages (roomId) {
       // remove messages from this array which the user has seen (because he opened the room)
-      this.newMessagesArrived = this.newMessagesArrived.filter(el => {
-        return el.room_id !== roomId
-      })      
+      this.$store.commit('clearRoomFromNewMessagesArrived', roomId)
     },
 
     safetyCheck () {

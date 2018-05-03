@@ -48,7 +48,7 @@
 
 <script>
 export default {
-  props: ['activeRoom', 'newMessagesArrived'],
+  props: ['activeRoom'],
 
   computed: {
     appName () {
@@ -62,7 +62,10 @@ export default {
     },
     onlineUsers () {
       return this.$store.state.chat.onlineUsers
-    },    
+    },
+    newMessagesArrived () {
+      return this.$store.state.chat.newMessagesArrived
+    }
   },
 
   methods: {
