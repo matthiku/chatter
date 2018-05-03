@@ -37,7 +37,7 @@
 
       <button @click="launchNewRoomModal()"
           title="create a new chat room"
-          class="btn btn-sm btn-success float-right"
+          class="btn btn-sm btn-success"
         ><i class="material-icons">add</i>
         <span class="d-none d-md-inline">new chat</span>  
       </button>

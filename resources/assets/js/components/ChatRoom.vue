@@ -34,8 +34,8 @@
         <!-- show messages counter -->
         <span>
           <!-- <small class="mr-2">{{ $moment(room.updated_at).fromNow() }}</small> -->
-          <span v-if="newMessagesArrived.length && messagesForThisRoom(room.id)"
-              class="badge badge-danger badge-pill mt-1 mr-">{{ messagesForThisRoom(room.id) }}</span>
+          <span v-if="unreadMessages + arrivedMessages"
+              class="badge badge-danger badge-pill mt-1 mr-">{{ unreadMessages }}</span>
           <span class="badge badge-secondary badge-pill mt-1 mr-1">{{ room.messages ? room.messages.length : 0 }}</span>
         </span>
       </div>
@@ -82,6 +82,19 @@ export default {
     rooms () {
       return this.$store.state.chat.rooms
     },
+    unreadMessages () {
+      const usersReadingProgress = this.room.users.find(usr => usr.id === this.user.id).pivot.updated_at
+      let lastReadMessageIdx = this.room.messages.findIndex(msg => msg.updated_at >= usersReadingProgress)
+      if (lastReadMessageIdx < 0) return 0
+      return this.room.messages.length - lastReadMessageIdx + 1
+    },
+    arrivedMessages () {
+      let num = 0
+      this.newMessagesArrived.map(el => {
+          if (el.room_id === this.room.id) num += 1
+      })
+      return num      
+    }
   },
 
   methods: {
@@ -122,14 +135,6 @@ export default {
         room_id: room.id
       })
       this.$store.dispatch('leaveRoom', room)
-    },
-
-    messagesForThisRoom(roomId) {
-      let num = 0
-      this.newMessagesArrived.map(el => {
-        if (el.room_id === roomId) num += 1
-      })
-      return num
     },
 
     delayedCleanUp () {
