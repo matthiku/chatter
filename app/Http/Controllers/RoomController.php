@@ -126,17 +126,31 @@ class RoomController extends Controller
             return 'failed';
         }
 
-        // update optional name
+        // update optional chatroom name
         if ($request->has('name')) {
             $room->name = $request->name;
             $room->save();
         }
 
-        // re-add all members to this chat room
-        $room->users()->detach();
-        $room->users()->attach($request->members);
+        // attach/detach members to this chat room according to the request
+        $existingUsers = $room->users->pluck('id')->all();
+        $requestedUsers = $request->members;
+        foreach ($requestedUsers as $member) {
+            // do we have a new user for this room?
+            if (!in_array($member, $existingUsers)) {
+                // To indicate the reading progress of this user in this room,
+                // set update_at in the pivot table to the creation date of this room
+                $room->users()->attach($member, ['updated_at' => $room->created_at]);
+            }
+        }
+        foreach ($existingUsers as $member) {
+            // Do we have a user removed from this room?
+            if (!in_array($member, $requestedUsers)) {
+                $room->users()->detach($member);
+            }
+        }
 
-        // also add the current user if missing in the list of members
+        // In any case, add the current user to the list of members
         if (! in_array($user->id, $request->members)) {
             $room->users()->attach($user->id); 
         }
