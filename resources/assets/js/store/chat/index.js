@@ -146,6 +146,17 @@ export default {
         .catch(err => window.console.log(err))
     },
 
+    setReadingProgress(context, payload) {
+      window.axios
+        .post(`/api/rooms/${payload}/setreading`, payload)
+        .then(response => {
+          if (!response.data) {
+            window.console.warn(response)
+          }
+        })
+        .catch(err => window.console.log(err))
+    },
+
     leaveRoom({ commit }, payload) {
       window.axios
         .post(`/api/rooms/${payload.id}/leave`)

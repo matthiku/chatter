@@ -34,5 +34,8 @@ Route::middleware('auth:api')->group(
 
         // allow user to leave a room
         Route::post('rooms/{room}/leave', 'RoomController@leaveRoom');
+
+        // set reading progress of a user in a room
+        Route::post('rooms/{room}/setreading', 'RoomController@setreading');
     }
 );

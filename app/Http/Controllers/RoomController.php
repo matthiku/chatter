@@ -176,6 +176,31 @@ class RoomController extends Controller
     }
 
 
+    /**
+     * Set reading progress of a user in a room
+     *
+     * @param \App\Room $room Model
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function setreading(Room $room)
+    {
+        // get current user
+        $user = Auth::user();
+
+        // Set the update_at date in the pivot table
+        // to indicate the reading progress of the user in this room
+        $membership = $room->users()->where('user_id', $user->id)->first();
+        $membership->pivot->touch();
+
+        // inform all subscribers of this change
+        broadcast(new RoomUpdated($room, $user));
+
+        return $room;
+    }
+
+
+
 
     /**
      * Remove the specified resource from storage.

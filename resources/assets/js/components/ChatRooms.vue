@@ -198,6 +198,16 @@ export default {
   methods: {
     setActiveRoom (val) {
       this.activeRoom = val
+      if (!val) return
+
+      // check if this user has the full reading progress for this room
+      let room = this.rooms.find(el => el.id === val)
+      let roomLastUpdate = room.updated_at
+      let usersReadingProgress = room.users.find(el => el.id === this.user.id).pivot.updated_at
+      // update the reading progress of this user for this room
+      if (this.$moment(usersReadingProgress).isBefore(this.$moment(roomLastUpdate))) {
+        this.$store.dispatch('setReadingProgress', val)
+      }
     },
 
     setPageTitle () {

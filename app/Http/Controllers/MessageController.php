@@ -17,6 +17,7 @@ use Auth;
 use App\Room;
 use App\Message;
 use Illuminate\Http\Request;
+use App\Events\RoomUpdated;
 use App\Events\MessagePosted;
 use App\Events\MessageUpdated;
 
@@ -69,6 +70,9 @@ class MessageController extends Controller
             // to indicate the reading progress of this user in this room
             $membership = $user->memberships()->where('room_id', $room_id)->first();
             $membership->pivot->touch();
+
+            // inform all subscribers of this change
+            broadcast(new RoomUpdated($room, $user));
 
             // Announce that a new message was posted 
             // - received and forwarded to the clients by the MessagePosted event
