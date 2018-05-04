@@ -52,7 +52,8 @@
         v-if="readingProgressAfter(member)"
         :title="member.pivot.updated_at"
       >
-      {{ member.username }}<small v-if="isTyping(member)">typing...</small>,
+      {{ member.username }}
+      <span v-if="member.typing" class="typing"><span>@</span><span>@</span><span>@</span></span>,
     </small>
   </span>
 </template>
@@ -61,6 +62,69 @@
 <style>
 .bg-grey {
   background-color: lightgrey;
+}
+
+/* from https://codepen.io/xwildeyes/pen/KpqVzN */
+@keyframes blink {
+    /**
+     * At the start of the animation the dot
+     * has an opacity of .2
+     */
+    0% {
+      opacity: .2;
+    }
+    /**
+     * At 20% the dot is fully visible and
+     * then fades out slowly
+     */
+    20% {
+      opacity: 1;
+    }
+    /**
+     * Until it reaches an opacity of .2 and
+     * the animation can start again
+     */
+    100% {
+      opacity: .2;
+    }
+}
+.typing span {
+    /**
+     * Use the blink animation, which is defined above
+     */
+    animation-name: blink;
+    /**
+     * The animation should take 1.4 seconds
+     */
+    animation-duration: 1.4s;
+    /**
+     * It will repeat itself forever
+     */
+    animation-iteration-count: infinite;
+    /**
+     * This makes sure that the starting style (opacity: .2)
+     * of the animation is applied before the animation starts.
+     * Otherwise we would see a short flash or would have
+     * to set the default styling of the dots to the same
+     * as the animation. Same applies for the ending styles.
+     */
+    animation-fill-mode: both;
+}
+.typing span:nth-child(2) {
+    /**
+     * Starts the animation of the third dot
+     * with a delay of .2s, otherwise all dots
+     * would animate at the same time
+     */
+    animation-delay: .2s;
+}
+.typing span:nth-child(3) {
+    /**
+     * Starts the animation of the third dot
+     * with a delay of .4s, otherwise all dots
+     * would animate at the same time
+     */
+    animation-delay: .4s;
 }
 </style>
 
@@ -101,12 +165,6 @@ export default {
   },
 
   methods: {
-    isTyping (user) {
-      // check if user has a typing date and if it's less than 9 seconds old
-      if (!user.typing) return false
-      if ( Math.floor((new Date() - user.typing)) < 9000 ) return true
-      return false
-    },
 
     adaptiveDate (val) {
       if (!val) return ''

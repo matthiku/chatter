@@ -51,7 +51,6 @@ export default {
         }
       })
     },
-
     removeRoom(state, room) {
       state.rooms.map(elem => {
         if (elem.id === room.id) {

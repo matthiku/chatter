@@ -101,7 +101,25 @@ export default {
     }
   },
 
+  mounted () {
+    // check if user's last typing dates are outdated
+    setTimeout(() => {
+      this.checkTypingState()
+    }, 15000);
+  },
+
   methods: {
+    checkTypingState () {
+      this.room.users.forEach(usr => {
+        if (usr.typing) {
+          let diff = Math.floor((new Date() - usr.typing))
+          if ( diff > 9000 ) usr.typing = false
+        }
+      });      
+      setTimeout(() => {
+        this.checkTypingState()
+      }, 15000);
+    },
 
     hideOtherRooms (roomId) {
       let elem = document.getElementById('collapse-'+roomId)
