@@ -105,7 +105,7 @@ export default {
     // check if user's last typing dates are outdated
     setTimeout(() => {
       this.checkTypingState()
-    }, 15000);
+    }, 9000);
   },
 
   methods: {
@@ -118,7 +118,7 @@ export default {
       });      
       setTimeout(() => {
         this.checkTypingState()
-      }, 15000);
+      }, 9000);
     },
 
     hideOtherRooms (roomId) {

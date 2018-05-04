@@ -15,7 +15,7 @@
       >
 
       <!-- show the actual message -->
-      <span class="border border-light rounded shadow mb-0 p-1"
+      <span class="show-message border border-light rounded shadow mb-0 p-1"
         :class="[deleted ? 'text-white bg-dark' : message.user_id === user.id ? 'bg-grey' : 'bg-white']">
 
         <span v-if="!deleting && !deleted" v-html="showLinks(message.message)"></span>
@@ -31,7 +31,7 @@
         <i v-if="message.user_id === user.id && !deleting"
             @click="deleting = true"
             title="delete this message"
-            class="text-danger cursor-pointer material-icons">delete</i>
+            class="delete-message cursor-pointer text-danger material-icons">delete</i>
 
       </span>
       <br>
@@ -51,10 +51,10 @@
     <small v-for="member in members" :key="member.id"
         v-if="readingProgressAfter(member)"
         :title="member.pivot.updated_at"
-      >
-      {{ member.username }}
-      <span v-if="member.typing" class="typing"><span>@</span><span>@</span><span>@</span></span>,
+      >{{ member.username
+      }}<span v-if="member.typing" class="typing"><span>&bull;</span><span>&bull;</span><span>&bull;</span></span>,
     </small>
+
   </span>
 </template>
 
@@ -62,6 +62,12 @@
 <style>
 .bg-grey {
   background-color: lightgrey;
+}
+.delete-message {
+  display: none;
+}
+.show-message:hover .delete-message {
+  display: inline;
 }
 
 /* from https://codepen.io/xwildeyes/pen/KpqVzN */
