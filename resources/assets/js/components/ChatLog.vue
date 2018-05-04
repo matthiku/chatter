@@ -1,6 +1,7 @@
 <template>
   <div class="chat-log">
 
+
     <chat-show-message
         v-for="(message, index) in room.messages"
         :key="index"
@@ -10,11 +11,20 @@
         :members="room.users"
       ></chat-show-message>
 
-    <div class="empty" v-if="!room.messages || (room.messages && !room.messages.length)">
+
+    <div
+        v-if="!room.messages || (room.messages && !room.messages.length)"
+        class="empty" 
+      >
       Chat room empty. Send a message!
     </div>
 
-    <chat-edit-message :room="room"></chat-edit-message>
+
+    <chat-edit-message 
+        :room="room"
+        @close-all-chats="closeAllChats"
+      ></chat-edit-message>
+
 
   </div>  
 </template>
@@ -31,8 +41,13 @@
 <script>
 export default {
 
-  props: ['room']
+  props: ['room'],
 
+  methods: {
+    closeAllChats () {
+      this.$emit('close-all-chats')
+    }    
+  }
 }
 </script>
 

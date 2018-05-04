@@ -19,6 +19,7 @@
                 :key="index"
                 :room="room"
                 :activeRoom="activeRoom"
+                @close-all-chats="closeAllChats"
                 @set-active-room="setActiveRoom"
                 @user-read-all-messages="userReadAllMessages"
                 class="card mb-1 mb-sm-2"

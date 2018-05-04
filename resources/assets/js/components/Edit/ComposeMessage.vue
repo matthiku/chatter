@@ -11,6 +11,7 @@
           placeholder="write your message"
           @click="markMessagesAsRead"
           @keyup.enter="sendMessage"
+          @keyup.esc="closeAllChats"
           @keyup="userIsTyping"
           v-model="messageText"
         >
@@ -113,6 +114,10 @@ export default {
         this.$store.dispatch('setReadingProgress', this.room.id)
       }
       this.$store.commit('clearRoomFromNewMessagesArrived', this.room.id)
+    },
+
+    closeAllChats () {
+      this.$emit('close-all-chats')
     }
   }
 }

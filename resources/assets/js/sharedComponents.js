@@ -6,6 +6,8 @@
 import Vue from 'vue'
 
 export default function sharedComponents() {
+  Vue.component('user-settings', require('./components/User/Settings.vue'))
+
   Vue.component('chat-log', require('./components/ChatLog.vue'))
   Vue.component('chat-room', require('./components/ChatRoom.vue'))
   Vue.component('chat-rooms', require('./components/ChatRooms.vue'))

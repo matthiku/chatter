@@ -31,12 +31,30 @@ export default {
           }
         })
         .catch(err => window.console.error(err))
+    },
+
+    updateUserData ({ commit }, payload) {
+      window.axios
+        .post(`/api/user/{$payload.id}`, payload)
+        .then(response => {
+          if (response.data) {
+            commit('updateUser', response.data)
+          } else {
+            window.console.warn('failed to update user record, response data:', response)
+          }
+        })
+        .catch(err => window.console.error(err))
     }
   },
 
   getters: {
     user (state) {
       return state.user
+    },
+    userNames (state) {
+      let names = []
+      state.users.forEach(u => names.push(u.username))
+      return names
     }
   }
 }

@@ -57,10 +57,16 @@
         :class="[rooms.length===1 || activeRoom === room.id ? 'show' : '']"
         data-parent="#chatrooms">
 
-      <div class="card-body chat-room-body p-0 p-sm-1 p-md-2 p-lg-3 p-xl-4">
+      <div 
+          @keyup.esc="closeAllChats"
+          tabindex="-1"
+          class="card-body chat-room-body p-0 p-sm-1 p-md-2 p-lg-3 p-xl-4">
 
-        <chat-log v-if="room.id !== 0"
-            :room="room"></chat-log>
+        <chat-log 
+            v-if="room.id !== 0"
+            @close-all-chats="closeAllChats"
+            :room="room">
+        </chat-log>
 
         <div v-else
             class="text-center"
@@ -166,6 +172,10 @@ export default {
       //    of which the current user is no longer a member
       this.$store.commit('cleanUpRooms')
     },
+
+    closeAllChats () {
+      this.$emit('close-all-chats')
+    }
     
   }
 

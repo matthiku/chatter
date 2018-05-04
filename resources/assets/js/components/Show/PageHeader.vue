@@ -14,7 +14,7 @@
             <i v-else class="material-icons">more_vert</i>
           </a>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-            <a class="dropdown-item" href="#">Settings (WIP)</a>
+            <a class="dropdown-item" href="#" @click="showSettings">Settings</a>
             <a class="dropdown-item" href="#">Another action</a>
             <a class="dropdown-item" href="#" @click="logoff">Logoff</a>
           </div>
@@ -45,6 +45,9 @@
         ><i class="material-icons">add</i>
         <span class="d-none d-md-inline">new chat</span>  
       </button>
+
+      <!-- modal for user settings -->
+      <user-settings></user-settings>
 
   </div>
 </template>
@@ -84,6 +87,9 @@ export default {
   },
 
   methods: {
+    showSettings () {
+      $('#userSettings').modal('toggle')
+    },
 
     launchNewRoomModal () {
       this.$store.commit('setNewRoomMembers', [])
