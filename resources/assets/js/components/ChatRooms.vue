@@ -187,6 +187,17 @@ export default {
             }
           })
 
+          .listen('RoomTyping', e => {
+            if (e.user) {
+              this.$store.commit('setUserIsTyping', e.user.id)
+              room.users.forEach(usr => {
+                if (usr.id === e.user.id) usr.typing = new Date()
+              })
+            } else {
+              window.console.warn(e)
+            }
+          })
+
           .on('pusher:subscription_succeeded', e => {
             window.console.log(`Subscription to chatroom ${room.id} was successful`)
           })        

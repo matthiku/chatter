@@ -11,6 +11,7 @@
           placeholder="write your message"
           @click="markMessagesAsRead"
           @keyup.enter="sendMessage"
+          @keyup="userIsTyping"
           v-model="messageText"
         >
 
@@ -47,7 +48,8 @@ export default {
   
   data () {
     return {
-      messageText: ''
+      messageText: '',
+      lastTime: 0
     }
   },
 
@@ -74,6 +76,15 @@ export default {
   },
 
   methods: {
+    userIsTyping () {
+      // only sent a broadcast every 10 secs
+      if ( Math.floor((new Date() - this.lastTime)/1000) > 10 ) {
+          // send the broadcast and reset the timer
+          this.$store.dispatch('userIsTyping', this.room.id)
+          this.lastTime =  new Date();
+      }
+    },
+
     selectEmoticonDlg () {
       $('#selectEmoticons').modal('toggle')
     },

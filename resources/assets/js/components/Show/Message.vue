@@ -1,5 +1,7 @@
 <template>
   <span>
+
+    <!-- show names of members depending on their reading progress -->
     <small v-for="member in members" :key="member.id"
         v-if="readingProgressBefore(member)"
         :title="member.pivot.updated_at"
@@ -7,13 +9,14 @@
       {{ member.username }},
     </small>
 
+
     <div class="mb-2"
         :class="[message.user_id === user.id ? 'text-right' : '']"
       >
 
       <!-- show the actual message -->
-      <span class="border border-primary rounded shadow text-white mb-0 p-1"
-        :class="[deleted ? 'bg-dark' : message.user_id === user.id ? 'bg-info' : 'bg-secondary']">
+      <span class="border border-light rounded shadow mb-0 p-1"
+        :class="[deleted ? 'text-white bg-dark' : message.user_id === user.id ? 'bg-grey' : 'bg-white']">
 
         <span v-if="!deleting && !deleted" v-html="showLinks(message.message)"></span>
 
@@ -44,14 +47,23 @@
 
     </div>
 
+    <!-- show names of members depending on their reading progress -->
     <small v-for="member in members" :key="member.id"
         v-if="readingProgressAfter(member)"
         :title="member.pivot.updated_at"
       >
-      {{ member.username }},
+      {{ member.username }}<small v-if="isTyping(member)">typing...</small>,
     </small>
   </span>
 </template>
+
+
+<style>
+.bg-grey {
+  background-color: lightgrey;
+}
+</style>
+
 
 
 <script>
@@ -89,6 +101,13 @@ export default {
   },
 
   methods: {
+    isTyping (user) {
+      // check if user has a typing date and if it's less than 9 seconds old
+      if (!user.typing) return false
+      if ( Math.floor((new Date() - user.typing)) < 9000 ) return true
+      return false
+    },
+
     adaptiveDate (val) {
       if (!val) return ''
       let dt = this.$moment(val)
@@ -102,7 +121,7 @@ export default {
     showLinks (text) {
       let urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig
       return text.replace(urlRegex, function(url) {
-          return '<a href="' + url + '">' + url + '</a>';
+          return '<a target="new" href="' + url + '">' + url + '</a>';
       });
     },
 
@@ -145,8 +164,3 @@ export default {
   }
 }
 </script>
-
-
-<style>
-
-</style>

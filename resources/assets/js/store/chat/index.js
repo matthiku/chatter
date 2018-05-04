@@ -168,6 +168,18 @@ export default {
         .catch(err => window.console.log(err))
     },
 
+    userIsTyping(context, room_id) {
+      // backend will trigger the broadcast to other room members
+      window.axios
+        .post(`/api/rooms/${room_id}/typing`)
+        .then(response => {
+          if (!response.data) {
+            window.console.warn(response)
+          }
+        })
+        .catch(err => window.console.log(err))
+    },
+
     leaveRoom({ commit }, payload) {
       window.axios
         .post(`/api/rooms/${payload.id}/leave`)

@@ -14,6 +14,7 @@ namespace App\Http\Controllers;
 
 use Auth;
 use App\Room;
+use App\Events\RoomTyping;
 use App\Events\RoomCreated;
 use App\Events\RoomUpdated;
 use App\Events\RoomDeleted;
@@ -213,6 +214,22 @@ class RoomController extends Controller
         return $room;
     }
 
+
+    /**
+     * Display the specified resource.
+     *
+     * @param \App\Room $room Model
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function typing(Room $room)
+    {
+        // get current users and send the 'typing' broadcast
+        $user = Auth::user();
+        broadcast(new RoomTyping($room, $user));
+
+        return "OK";
+    }
 
 
 

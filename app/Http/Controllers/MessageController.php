@@ -21,6 +21,8 @@ use App\Events\RoomUpdated;
 use App\Events\MessagePosted;
 use App\Events\MessageUpdated;
 
+
+
 /**
  * Handles all requests related to Chat Messages
  * 
@@ -82,18 +84,6 @@ class MessageController extends Controller
             return ['status' => 'OK'];
         }
         return 'failed!';
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param \App\Message $message Message model data
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Message $message)
-    {
-        //
     }
 
 

@@ -16,6 +16,13 @@ export default {
       if (!state.users.find(u => u.id === payload.id)) {
         state.users.push(payload)
       }
+    },
+    setUserIsTyping (state, userId) {
+      state.users.forEach(usr => {
+        if (usr.id === userId) {
+          usr.typing = new Date()
+        }
+      })
     }
   },
 
