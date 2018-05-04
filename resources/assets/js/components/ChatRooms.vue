@@ -42,9 +42,6 @@ body {
   height: 100%;
   /* overflow: hidden; */
 }
-.chatter-menu.dropdown-toggle::after {
-  content: none;
-}
 .all-rooms-header {
   background-color: darkseagreen;  
 }

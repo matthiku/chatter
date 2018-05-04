@@ -15,7 +15,7 @@ return [
 
     'failed' => 'These credentials do not match our records.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
-    'Login with your' => 'Login with your',
+    'Login with' => 'Login using your account at',
     'Account' => 'Account',
     'emailUnverified' => 'Your E-Mail address :email has not been verified yet.',
 

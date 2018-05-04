@@ -8,7 +8,10 @@
               href="#" role="button" 
               id="dropdownMenuLink" 
               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="material-icons">more_vert</i>
+            <img v-if="user.avatar"
+                class="user-avatar rounded-circle"
+                :src="user.avatar">
+            <i v-else class="material-icons">more_vert</i>
           </a>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
             <a class="dropdown-item" href="#">Settings (WIP)</a>
@@ -19,9 +22,10 @@
 
         <span @click="closeAllChats"
             :class="[activeRoom ? 'cursor-pointer' : '']">
-          <span class="d-none d-xl-inline">All Chat Rooms</span>
+          <!-- <span class="border border-light rounded-circle text-center px-2 py-1">{{ rooms.length }}</span> -->
+          <span class="font-weight-bold">{{ rooms.length }}</span>
+          <span class="d-none d-xl-inline">Chat Rooms</span>
           <span class="d-xl-none">{{ appName }}</span>
-          <span class="border border-light rounded-circle text-center px-1">{{ rooms.length }}</span>
         </span>              
 
         <span v-if="newMessagesArrived.length"
@@ -44,6 +48,17 @@
 
   </div>
 </template>
+
+
+<style>
+.chatter-menu.dropdown-toggle::after {
+  content: none;
+}
+.member-avatar {
+  width: 25px;
+  height: 25px;
+}
+</style>
 
 
 <script>

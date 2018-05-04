@@ -2,13 +2,13 @@
   <span>
 
     <!-- show names of members depending on their reading progress -->
-    <small v-for="member in members" :key="member.id"
-        v-if="readingProgressBefore(member)"
-        :title="member.pivot.updated_at"
-      >
-      {{ member.username }},
-    </small>
-
+    <chat-show-reading-progress
+        simple="true"
+        :index="index"
+        :members="members"
+        :message="message"
+        :messages="messages"
+      ></chat-show-reading-progress>
 
     <div class="mb-2"
         :class="[message.user_id === user.id ? 'text-right' : '']"
@@ -48,12 +48,12 @@
     </div>
 
     <!-- show names of members depending on their reading progress -->
-    <small v-for="member in members" :key="member.id"
-        v-if="readingProgressAfter(member)"
-        :title="member.pivot.updated_at"
-      >{{ member.username
-      }}<span v-if="member.typing" class="typing"><span>&bull;</span><span>&bull;</span><span>&bull;</span></span>,
-    </small>
+    <chat-show-reading-progress
+        :index="index"
+        :members="members"
+        :message="message"
+        :messages="messages"
+      ></chat-show-reading-progress>
 
   </span>
 </template>
@@ -68,69 +68,6 @@
 }
 .show-message:hover .delete-message {
   display: inline;
-}
-
-/* from https://codepen.io/xwildeyes/pen/KpqVzN */
-@keyframes blink {
-    /**
-     * At the start of the animation the dot
-     * has an opacity of .2
-     */
-    0% {
-      opacity: .2;
-    }
-    /**
-     * At 20% the dot is fully visible and
-     * then fades out slowly
-     */
-    20% {
-      opacity: 1;
-    }
-    /**
-     * Until it reaches an opacity of .2 and
-     * the animation can start again
-     */
-    100% {
-      opacity: .2;
-    }
-}
-.typing span {
-    /**
-     * Use the blink animation, which is defined above
-     */
-    animation-name: blink;
-    /**
-     * The animation should take 1.4 seconds
-     */
-    animation-duration: 1.4s;
-    /**
-     * It will repeat itself forever
-     */
-    animation-iteration-count: infinite;
-    /**
-     * This makes sure that the starting style (opacity: .2)
-     * of the animation is applied before the animation starts.
-     * Otherwise we would see a short flash or would have
-     * to set the default styling of the dots to the same
-     * as the animation. Same applies for the ending styles.
-     */
-    animation-fill-mode: both;
-}
-.typing span:nth-child(2) {
-    /**
-     * Starts the animation of the third dot
-     * with a delay of .2s, otherwise all dots
-     * would animate at the same time
-     */
-    animation-delay: .2s;
-}
-.typing span:nth-child(3) {
-    /**
-     * Starts the animation of the third dot
-     * with a delay of .4s, otherwise all dots
-     * would animate at the same time
-     */
-    animation-delay: .4s;
 }
 </style>
 
@@ -208,18 +145,6 @@ export default {
       return false
     },
     
-    readingProgressAfter (member) {
-      if (member.id === this.user.id) return false // don't show the current user
-      // check if this member's reading progress is after the current (newest) message
-      if (this.index + 1 < this.messages.length) return false // only on the last message
-
-      let userProgress = this.$moment(member.pivot.updated_at)
-      let messageDate = this.$moment(this.message.updated_at)
-      if (userProgress.isSameOrAfter(messageDate)) 
-        return true
-      return false
-    },
-
     deleteMessage () {
       this.message.message = 'deleting...'
       this.deleting = false

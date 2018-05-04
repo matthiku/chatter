@@ -15,7 +15,7 @@ return [
 
     'failed' => 'Diese Anmeldedaten stimmen nicht mit unseren Einträgen überein.',
     'throttle' => 'Zu viele Versuche. Bitte versuche es in :seconds seconds wieder.',
-    'Login with your' => 'Melde dich an mit deinem',
+    'Login with' => 'Melde dich an mit deinem Konto bei',
     'Account' => 'Konto',
     'emailUnverified' => 'Deine E-Mailaddresse :email wurde noch nicht verifiziert.',
 
