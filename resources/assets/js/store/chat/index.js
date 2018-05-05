@@ -219,7 +219,7 @@ export default {
         .catch(err => window.console.log(err))
     },
 
-    joinChatroom({ state, commit, rootState }, payload) {
+    joinChatroom({ state, commit, dispatch, rootState }, payload) {
       // payload must be the current user object!
 
       // make sure we make a clean start
@@ -282,6 +282,11 @@ export default {
           } else {
             window.console.warn(e)
           }
+        })
+
+        // there was a change in the users list
+        .listen('UsersChanged', e => {
+          dispatch('loadUsers')
         })
 
         .on('pusher:subscription_succeeded', () => {

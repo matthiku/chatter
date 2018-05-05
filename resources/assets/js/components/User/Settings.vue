@@ -4,7 +4,7 @@
       <div class="modal-content">
 
         <div class="modal-header">
-          <h5 class="modal-title" id="userSettingsLabel">Modal title</h5>
+          <h5 class="modal-title" id="userSettingsLabel">Settings</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -12,19 +12,22 @@
 
         <div class="modal-body">
           
+          <label for="inputUsername">Change:</label>
+
           <div class="input-group mb-3">
             <div class="input-group-prepend">
-              <span class="input-group-text" id="basic-addon1">@</span>
+              <span class="input-group-text" id="basic-addon1">User name</span>
             </div>
             <input 
                 type="text"
                 id="inputUsername"
                 v-model="newUserName"
                 @keyup="checkUsername"
+                @keyup.enter="changeUsername"
                 class="form-control"
                 placeholder="Username (min. 5 characters!)"
                 aria-label="Username" aria-describedby="basic-addon1">
-            <div class="username-invalid-value invalid-feedback">
+            <div class="username-invalid invalid-feedback">
               This username has already been taken.
             </div>
           </div>
@@ -72,14 +75,18 @@ export default {
 
   methods: {
     changeUsername () {
+      this.checkUsername()
+      if (!this.userNameValid) return
+
       this.$store.dispatch(
         'updateUserData',
         {'id': this.user.id, 'username': this.newUserName}
       )
+      $('#userSettings').modal('toggle')      
     },
 
     checkUsername () {
-      let err = document.getElementsByClassName('username-invalid-value')[0]
+      let err = document.getElementsByClassName('username-invalid')[0]
       err.classList.remove('visible')
       this.userNameValid = false
       if (this.newUserName === this.user.username) return

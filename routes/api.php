@@ -13,24 +13,24 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get(
-    '/user', function (Request $request) {
-        return $request->user();
-    }
-);
+// Route::middleware('auth:api')->get(
+//     '/user', function (Request $request) {
+//         return $request->user();
+//     }
+// );
 
 
 Route::middleware('auth:api')->group(
     function () {
 
         // routes for chat rooms
+        Route::apiResource('users', 'UserController');
+
+        // routes for chat rooms
         Route::apiResource('rooms', 'RoomController');
         
         // routes for messages
         Route::apiResource('messages', 'MessageController');
-
-        // simple list of all users
-        Route::get('users', 'HomeController@usersList');
 
         // allow user to leave a room
         Route::post('rooms/{room}/leave', 'RoomController@leaveRoom');

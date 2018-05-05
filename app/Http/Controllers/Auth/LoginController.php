@@ -6,6 +6,7 @@ use Log;
 use Auth;
 use App\User;
 use Socialite;
+use App\Events\UsersChanged;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -99,6 +100,7 @@ class LoginController extends Controller
         return Socialite::driver($provider)->redirect();
     }
 
+
     /**
      * Obtain the user information from the Socialite Provider.
      * 
@@ -170,6 +172,9 @@ class LoginController extends Controller
                 ]
             );
             $status = 'Account created using credentials from ';
+
+            // broadcast the change in the users table
+            broadcast(New UsersChanged());
         }
 
         // in any case, log in the user now

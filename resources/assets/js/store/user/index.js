@@ -35,10 +35,14 @@ export default {
 
     updateUserData ({ commit }, payload) {
       window.axios
-        .post(`/api/user/{$payload.id}`, payload)
+        .patch(`/api/users/${payload.id}`, payload)
         .then(response => {
           if (response.data) {
-            commit('updateUser', response.data)
+            commit('setUser', response.data)
+            // write the new username into the navbar
+            if (response.data.username) {
+              $('#show-username').text(response.data.username)
+            }
           } else {
             window.console.warn('failed to update user record, response data:', response)
           }

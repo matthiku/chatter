@@ -11,8 +11,9 @@
 
 namespace App\Http\Controllers;
 
-use DB;
+
 use Illuminate\Http\Request;
+
 
 /**
  * Handles some basic requests
@@ -26,6 +27,9 @@ use Illuminate\Http\Request;
  */
 class HomeController extends Controller
 {
+
+
+
     /**
      * Create a new controller instance.
      *
@@ -54,16 +58,5 @@ class HomeController extends Controller
         return view('home');
     }
 
-
-
-    /**
-     * Provide simple list of all users
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function usersList()
-    {
-        return DB::table('users')->select('id', 'name', 'username', 'avatar')->get();
-    }
 
 }

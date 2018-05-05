@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Events\UsersChanged;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -100,6 +101,11 @@ class RegisterController extends Controller
             'token' => str_random(25),
             ]
         );
+
+
+        // broadcast the change in the users table
+        broadcast(New UsersChanged());
+       
 
         $user->sendVerificationEmail();
 
