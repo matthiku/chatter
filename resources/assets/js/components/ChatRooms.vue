@@ -272,13 +272,14 @@ export default {
     },
 
     safetyCheck () {
-      // Safety Check - Look if the presence channel has an active subscription!
+      // Safety Check - Make sure the presence channel has an active subscription!
       if (this.firstRun) { // but not on the first run, as the async action is not complete yet
         this.firstRun = false
         return
       }
       if (! window.Echo.connector.channels['presence-'+chatter_server_data.chatroom_name].subscription.subscribed) {
         if (this.secondRun) {
+          window.console.warn('Presence channel not active! Re-loading page!')
           window.location.reload()
         } else {
           window.console.warn('Presence channel not active! Re-Joining it now!')
@@ -290,15 +291,19 @@ export default {
   },
 
   updated () {
-    let foundActive = false
     // check if the activeRoom still exists in the list of rooms
+    let foundActive = false
     this.rooms.map((el) => {
       if (el.id === this.activeRoom) foundActive = true
 
       // check if user created a new room, then open it
       if (el.id === this.userCreatedNewRoom) {
+        // first, we need to close any other open room
+        if (this.activeRoom !== null) {
+          this.activeRoom = null
+        }
         let elem = document.getElementById('collapse-' + el.id)
-        elem.classList.add('show')
+        if (elem) elem.classList.add('show')
         this.$store.commit('clearUserCreatedNewRoom')
         foundActive = true
         this.activeRoom = el.id

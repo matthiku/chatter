@@ -90,8 +90,9 @@ export default {
       return this.$store.state.chat.rooms
     },
     unreadMessages () {
-      const usersReadingProgress = this.room.users.find(usr => usr.id === this.user.id).pivot.updated_at
-      let lastReadMessageIdx = this.room.messages.findIndex(msg => msg.updated_at >= usersReadingProgress)
+      const usersReadingProgress = this.room.users.find(usr => usr.id === this.user.id)
+      if (!usersReadingProgress) return 0
+      let lastReadMessageIdx = this.room.messages.findIndex(msg => msg.updated_at >= usersReadingProgress.pivot.updated_at)
       if (lastReadMessageIdx < 0) return 0
       return this.room.messages.length - lastReadMessageIdx + 1
     },
