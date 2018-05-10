@@ -180,7 +180,7 @@ export default {
       // set the current room accordingly
       if (val.option) {
         this.room = this.rooms.find(el => el.id === val.option)
-        this.emailNotification = this.room.pivot.emailNotification
+        this.emailNotification = this.room.pivot.email_notification
         if (this.room.owner_id === this.user.id)
           this.userIsOwner = true
         else
@@ -207,8 +207,12 @@ export default {
           emailNotification: this.emailNotification
         }
         this.$store.dispatch('setEmailNotification', obj)
-        // if user is not room owner, this is the only action
-        if (!this.userIsOwner) return
+
+        // if user is not room owner, this is the only possible action
+        if (!this.userIsOwner) {
+          this.closeDialog()
+          return
+        }
       }
 
       // at least one (other) member is needed (besides the current user)
@@ -224,8 +228,7 @@ export default {
         obj.id = this.dialog.option
         this.$store.dispatch('updateRoomProperties', obj)
       }
-      this.$store.commit('setDialog', '')
-      this.deletingRoom = false
+      this.closeDialog()
     },
 
     leaveRoom () {
