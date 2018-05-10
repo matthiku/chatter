@@ -74,7 +74,9 @@ class User extends Authenticatable
     {
         return $this
             ->belongsToMany('App\Room', 'room_user', 'user_id', 'room_id')
-            ->withTimestamps();
+            ->withTimestamps()
+            ->withPivot('email_notification')
+            ->using('App\RoomUser');
     }
 
 

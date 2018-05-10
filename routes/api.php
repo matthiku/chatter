@@ -38,6 +38,9 @@ Route::middleware('auth:api')->group(
         // set reading progress of a user in a room
         Route::post('rooms/{room}/setreading', 'RoomController@setreading');
 
+        // set reading progress of a user in a room
+        Route::post('rooms/{room}/setemailnotification', 'RoomController@setemailnotification');
+
         // indicate that a user starts typing a message in a room
         Route::post('rooms/{room}/typing', 'RoomController@typing');
     }

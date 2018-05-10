@@ -216,6 +216,29 @@ class RoomController extends Controller
 
 
     /**
+     * Change email notification setting of a user for new messages in a room
+     *
+     * @param \App\Room                $room    Room Model
+     * @param \Illuminate\Http\Request $request HTTP data
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function setemailnotification(Room $room, Request $request)
+    {
+        // get current user
+        $user = Auth::user();
+
+        $user->memberships()
+            ->updateExistingPivot(
+                $room->id,
+                ['email_notification' => $request->emailNotification]
+            );
+
+        return $room;
+    }
+
+
+    /**
      * Display the specified resource.
      *
      * @param \App\Room $room Model
