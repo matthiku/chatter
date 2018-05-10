@@ -156,6 +156,20 @@ export default {
         .catch(err => window.console.log(err))
     },
 
+    setEmailNotification(context, payload) {
+      window.axios
+        .post(
+          `/api/rooms/${payload.room_id}/setemailnotification`,
+          payload
+        )
+        .then(response => {
+            if (!response.data) {
+              window.console.warn(response)
+            }
+          })
+          .catch(err => window.console.log(err))
+    },
+
     setReadingProgress(context, room_id) {
       //
       window.axios

@@ -27,9 +27,10 @@
         </div>
 
 
-        <div v-if="!deletingRoom && userIsOwner" class="modal-body">
+        <div v-if="!deletingRoom" class="modal-body">
 
-          <div class="input-group mb-3">
+          <!-- edit room name (only owner) -->
+          <div v-if="userIsOwner" class="input-group mb-3">
             <div class="input-group-prepend">
               <span class="input-group-text" id="basic-addon1">Edit Title</span>
             </div>
@@ -42,17 +43,20 @@
                 aria-label="Room name">
           </div>
 
-          <!-- <p>Add new members</p> 
+          <!-- email notification setting (all) -->
           <div class="input-group mb-3">
-            <input type="text"
-                v-model="nameHint"
-                class="form-control"
-                placeholder="hint member's names" 
-                aria-label="Member's username">
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox"
+                  v-model="emailNotification"
+                  class="custom-control-input"
+                  id="emailNotification">
+              <label class="custom-control-label" for="emailNotification">Get email notification on new messages?</label>
+            </div>
           </div>
-          -->
 
-          <div class="form-group">
+
+          <!-- Edit member list (only room owner) -->
+          <div v-if="userIsOwner" class="form-group">
             <label for="selectMembers">Select Members:</label>
             
             <select v-model="members"
@@ -63,19 +67,8 @@
             </select>
           </div>
 
-        </div>
-
-        
-        <div v-else-if="!deletingRoom" class="modal-body">
-
-          <div class="input-group mb-3">
-            <div class="custom-control custom-checkbox">
-              <input type="checkbox" class="custom-control-input" id="emailNotification">
-              <label class="custom-control-label" for="emailNotification">Get email notification on new messages?</label>
-            </div>
-          </div>
-
-          <div v-if="room">
+          <!-- Show member list -->
+          <div v-else-if="room">
             <label for="membersList">Members:</label>
             <chat-show-room-members
                 :room="room"
@@ -84,6 +77,7 @@
           </div>
 
         </div>
+
 
 
         <div v-if="deletingRoom" class="modal-body">
@@ -131,8 +125,8 @@ export default {
       buttonText: 'undecided...',
       roomName: null,
       userIsOwner: false,
+      emailNotification: false,
       members: [],
-      nameHint: null,
       deletingRoom: false
     }
   },
@@ -186,10 +180,11 @@ export default {
       // set the current room accordingly
       if (val.option) {
         this.room = this.rooms.find(el => el.id === val.option)
+        this.emailNotification = this.room.pivot.emailNotification
         if (this.room.owner_id === this.user.id)
           this.userIsOwner = true
         else
-          this.title = `Settings for chat room ${this.roomName}`
+          this.title = `Settings for chat room "${this.roomName}"`
       }
     }
   },
@@ -204,6 +199,18 @@ export default {
     },
 
     executeAction () {
+
+      // Submit the email notification setting
+      if (this.emailNotification !== undefined) {
+        let obj = {
+          room_id: this.room.id,
+          emailNotification: this.emailNotification
+        }
+        this.$store.dispatch('setEmailNotification', obj)
+        // if user is not room owner, this is the only action
+        if (!this.userIsOwner) return
+      }
+
       // at least one (other) member is needed (besides the current user)
       if (!this.members.length) return
 
