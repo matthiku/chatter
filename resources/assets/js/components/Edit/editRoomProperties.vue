@@ -1,3 +1,18 @@
+/**
+ * VUE.JS Component to create, edit or configure chat rooms
+ * 
+ * 
+ * Depending on the state of 'shared.dialog', this component will be used to
+ *
+ * - create a new chatroom
+ *
+ * - edit the name and/or members of a chatroom or delete the whole room
+ *
+ * - for members: change the email notification settings or leave the chat
+ * 
+ * 
+ * (C) 2018 Matthias Kuhs, Ireland + Germany
+ */
 <template>
   <div class="modal fade" id="chatRoomProperties" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
@@ -12,7 +27,7 @@
         </div>
 
 
-        <div v-if="!deletingRoom" class="modal-body">
+        <div v-if="!deletingRoom && userIsOwner" class="modal-body">
 
           <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -50,22 +65,45 @@
 
         </div>
 
-        <div v-else class="modal-body">
-          <strong>Do you really want to delete this chat room?</strong>
+        
+        <div v-else-if="!deletingRoom" class="modal-body">
+
+          <div class="input-group mb-3">
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" id="emailNotification">
+              <label class="custom-control-label" for="emailNotification">Get email notification on new messages?</label>
+            </div>
+          </div>
+
+          <div v-if="room">
+            <label for="membersList">Members:</label>
+            <chat-show-room-members
+                :room="room"
+                :user="user"
+              ></chat-show-room-members>
+          </div>
+
+        </div>
+
+
+        <div v-if="deletingRoom" class="modal-body">
+          <strong>Do you really want to {{ userIsOwner ? 'delete' : 'leave'}} this chat room?</strong>
           <br>
           <br>
-          All messages will be deleted and this cannot be reversed.
+          <span v-if="userIsOwner">
+            All messages will be deleted and this cannot be reversed.
+          </span>
         </div>
 
 
         <div class="modal-footer">
 
           <button v-if="deletingRoom"
-              @click="deleteRoom" type="button" class="btn btn-danger" >Delete Room</button>
+              @click="deleteOrLeaveRoom" type="button" class="btn btn-danger" >{{ userIsOwner ? 'Delete' : 'Leave'}} Room</button>
 
           <button v-if="!deletingRoom && buttonText==='Save'"
               @click="deletingRoom = true"
-              type="button" class="btn btn-sm btn-alert float-left">Delete Room</button>
+              type="button" class="btn btn-sm btn-alert float-left">{{ userIsOwner ? 'Delete' : 'Leave'}} Room</button>
 
           <button 
               @click="closeDialog" type="button" 
@@ -88,9 +126,11 @@ export default {
 
   data () {
     return {
+      room: null,
       title: 'undecided...',
       buttonText: 'undecided...',
       roomName: null,
+      userIsOwner: false,
       members: [],
       nameHint: null,
       deletingRoom: false
@@ -130,6 +170,7 @@ export default {
         this.title = 'New Conversation'
         this.roomName = this.user.username
         this.buttonText = 'Start Chat'
+        this.userIsOwner = true
         $('#chatRoomProperties').modal('show')
       }
       if (val.what === 'updateRoom') {
@@ -141,6 +182,15 @@ export default {
       if (val === '') {
         $('#chatRoomProperties').modal('hide')
       }
+
+      // set the current room accordingly
+      if (val.option) {
+        this.room = this.rooms.find(el => el.id === val.option)
+        if (this.room.owner_id === this.user.id)
+          this.userIsOwner = true
+        else
+          this.title = `Settings for chat room ${this.roomName}`
+      }
     }
   },
 
@@ -149,6 +199,8 @@ export default {
       this.$store.commit('setDialog', '')
       this.$store.commit('setNewRoomMembers', [])
       this.deletingRoom = false
+      this.userIsOwner = false
+      this.room = null
     },
 
     executeAction () {
@@ -169,12 +221,23 @@ export default {
       this.deletingRoom = false
     },
 
-    deleteRoom () {
-      let room = this.rooms.find(el => el.id === this.dialog.option)
-      if (this.user.id !== room.owner_id) return
-      this.$store.dispatch('deleteRoom', {'room_id': room.id})
-      this.$store.commit('setDialog', '')
-      this.deletingRoom = false
+    leaveRoom () {
+      // allow a member to leave this room
+      this.$store.dispatch('sendMessage', {
+        message: `user ${this.user.username} has left this chatroom`,
+        room_id: this.room.id
+      })
+      this.$store.dispatch('leaveRoom', this.room)
+      this.closeDialog()
+    },
+
+    deleteOrLeaveRoom () {
+      if (!this.userIsOwner) {
+        this.leaveRoom()
+        return
+      }
+      this.$store.dispatch('deleteRoom', {'room_id': this.room.id})
+      this.closeDialog()
     }
   }
 }

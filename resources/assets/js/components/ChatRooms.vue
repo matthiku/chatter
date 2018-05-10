@@ -280,7 +280,7 @@ export default {
       if (! window.Echo.connector.channels['presence-'+chatter_server_data.chatroom_name].subscription.subscribed) {
         if (this.secondRun) {
           window.console.warn('Presence channel not active! Re-loading page!')
-          window.location.reload()
+          // window.location.reload()
         } else {
           window.console.warn('Presence channel not active! Re-Joining it now!')
           this.$store.dispatch('joinChatroom', this.user)

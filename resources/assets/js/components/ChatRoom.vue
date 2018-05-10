@@ -17,14 +17,10 @@
             
             <span v-if="room.name" class="room-name ml-1">{{ room.name }}</span>
             <span v-else class="small">(unnamed)</span>
-            <i v-if="room.owner_id === user.id"
+            <i  title="room settings dialog"
+                v-if="room.id !== 0"
                 @click.stop="editRoom(room)"
-                title="edit room properties"
-                class="material-icons">edit</i>
-            <i v-else-if="room.id !== 0"
-                @click.stop="leaveRoom(room)"
-                title="leave this chat room"
-                class="material-icons">open_in_new</i>
+                class="material-icons">settings</i>
           </span>
 
           <!-- show room members inline on wider screens -->
@@ -141,10 +137,7 @@ export default {
     },
 
     editRoom (room) {
-      // edit properties of this room, but
-      // only for the owner...
-      if (room.owner_id !== this.user.id) return
-      // edit room name and memberships
+      // edit properties of or settings for this room
       let members = []
       room.users.map(el => members.push(el.id))
       this.$store.commit('setNewRoomMembers', members)
@@ -155,15 +148,6 @@ export default {
           roomName: room.name
         }
       )
-    },
-
-    leaveRoom (room) {
-      // allow a member to leave this room
-      this.$store.dispatch('sendMessage', {
-        message: `user ${this.user.username} has left this chatroom`,
-        room_id: room.id
-      })
-      this.$store.dispatch('leaveRoom', room)
     },
 
     delayedCleanUp () {
