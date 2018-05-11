@@ -201,7 +201,7 @@ export default {
     executeAction () {
 
       // Submit the email notification setting
-      if (this.emailNotification !== undefined) {
+      if (this.emailNotification !== undefined && this.room) {
         let obj = {
           room_id: this.room.id,
           emailNotification: this.emailNotification
