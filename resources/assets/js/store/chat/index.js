@@ -93,6 +93,30 @@ export default {
     clearRoomFromNewMessagesArrived(state, payload) {
       state.newMessagesArrived = state.newMessagesArrived
         .filter(el => el.room_id !== payload)
+    },
+    axiosError(state, error) {
+      window.console.warn(error)
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.log(error.response.data);
+        console.log(error.response.status);
+        console.log(error.response.headers);
+        if (error.response.status === 401) {
+          // user is not authenticated, redirect to the login page
+          window.location = '/login'
+          // TODO: better is to redirect to a page with a message (like session has expired)
+        }
+      } else if (error.request) {
+        // The request was made but no response was received
+        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+        // http.ClientRequest in node.js
+        console.log(error.request);
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.log('Error', error.message);
+      }
+      console.log(error.config);
     }
   },
 
@@ -109,10 +133,10 @@ export default {
             commit('setRooms', response.data)
           }
         })
-        .catch(err => window.console.log(err))
+        .catch(err => commit('axiosError', err))
     },
 
-    sendMessage(context, payload) {
+    sendMessage({ commit }, payload) {
       window.axios
         .post('/api/messages', payload)
         .then(response => {
@@ -120,10 +144,10 @@ export default {
             window.console.warn(response)
           }
         })
-        .catch(err => window.console.log(err))
+        .catch(err => commit('axiosError', err))
     },
 
-    deleteMessage(context, payload) {
+    deleteMessage({ commit }, payload) {
       window.axios
         .delete(`/api/messages/${payload}`)
         .then(response => {
@@ -131,10 +155,10 @@ export default {
             window.console.warn(response)
           }
         })
-        .catch(err => window.console.log(err))
+        .catch(err => commit('axiosError', err))
     },
 
-    createNewRoom(context, payload) {
+    createNewRoom({ commit }, payload) {
       window.axios
         .post('api/rooms', payload)
         .then(response => {
@@ -142,10 +166,10 @@ export default {
             window.console.warn(response)
           }
         })
-        .catch(err => window.console.log(err))
+        .catch(err => commit('axiosError', err))
     },
 
-    updateRoomProperties(context, payload) {
+    updateRoomProperties({ commit }, payload) {
       window.axios
         .patch(`api/rooms/${payload.id}`, payload)
         .then(response => {
@@ -153,10 +177,10 @@ export default {
             window.console.warn(response)
           }
         })
-        .catch(err => window.console.log(err))
+        .catch(err => commit('axiosError', err))
     },
 
-    setEmailNotification(context, payload) {
+    setEmailNotification({ commit }, payload) {
       window.axios
         .post(
           `/api/rooms/${payload.room_id}/setemailnotification`,
@@ -167,10 +191,10 @@ export default {
               window.console.warn(response)
             }
           })
-          .catch(err => window.console.log(err))
+          .catch(err => commit('axiosError', err))
     },
 
-    setReadingProgress(context, room_id) {
+    setReadingProgress({ commit }, room_id) {
       //
       window.axios
         .post(`/api/rooms/${room_id}/setreading`)
@@ -179,10 +203,10 @@ export default {
             window.console.warn(response)
           }
         })
-        .catch(err => window.console.log(err))
+        .catch(err => commit('axiosError', err))
     },
 
-    userIsTyping(context, room_id) {
+    userIsTyping({ commit }, room_id) {
       // backend will trigger the broadcast to other room members
       window.axios
         .post(`/api/rooms/${room_id}/typing`)
@@ -191,7 +215,7 @@ export default {
             window.console.warn(response)
           }
         })
-        .catch(err => window.console.log(err))
+        .catch(err => commit('axiosError', err))
     },
 
     leaveRoom({ commit }, payload) {
@@ -207,7 +231,7 @@ export default {
           })
           window.console.log(response.data)
         })
-        .catch(err => window.console.log(err))
+        .catch(err => commit('axiosError', err))
     },
 
     getMessagesForRoom({ commit }, payload) {
@@ -220,10 +244,12 @@ export default {
             commit('setMessagesForRoom', response.data)
           }
         })
-        .catch(err => window.console.log(err))
+        .catch(err => commit('axiosError', err))
     },
 
-    deleteRoom(x, payload) {
+    deleteRoom({
+        commit
+      }, payload) {
       window.axios
         .delete(`api/rooms/${payload.room_id}`)
         .then(response => {
@@ -231,7 +257,7 @@ export default {
             window.console.warn(response)
           }
         })
-        .catch(err => window.console.log(err))
+        .catch(err => commit('axiosError', err))
     },
 
     joinChatroom({ state, commit, dispatch, rootState }, payload) {
