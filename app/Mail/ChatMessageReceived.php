@@ -21,6 +21,7 @@ class ChatMessageReceived extends Mailable
      */
     public $user;
     public $room;
+    public $author;
     public $message;
 
 
@@ -29,11 +30,12 @@ class ChatMessageReceived extends Mailable
      *
      * @return void
      */
-    public function __construct(User $user, Room $room, Message $message)
+    public function __construct(User $user, Room $room, Message $message, User $author)
     {
         //
         $this->user = $user;
         $this->room = $room;
+        $this->author = $author;
         $this->message = $message;
     }
 

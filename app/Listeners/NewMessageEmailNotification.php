@@ -36,7 +36,7 @@ class NewMessageEmailNotification
         // the event contains a message and it's author
         $author = $event->user;
         $message = $event->message;
-        $room = Room::find($message->room->id);
+        $room = Room::find( $message->room->id );
         $members = $room->users; // all members of this room
 
         // get list of currently online users
@@ -54,20 +54,20 @@ class NewMessageEmailNotification
             $users = $response['result']['users'];
         }
         $online_users = [];
-        foreach ($users as $user) {
-            array_push($online_users, $user['id']);
+        foreach ( $users as $user ) {
+            array_push( $online_users, $user['id'] );
         }
         
         // check for each room member if they want to have email notifications sent
         foreach ($members as $member) {
             // no notification for the sender - for others only when offline
-            if ($author->id !== $member->id && $member->pivot->email_notification) {
+            if ( $author->id !== $member->id && $member->pivot->email_notification ) {
                 // check if this member is NOT online
-                if (!array_search($member->id, $online_users)) {
+                if ( !array_search($member->id, $online_users) ) {
                     // send the notification
                     Log::info( 'sending email notification to '. $member->username );
                     Mail::to( $member->email )
-                        ->send( new ChatMessageReceived($author, $room, $message, $room) );
+                        ->send( new ChatMessageReceived($member, $room, $message, $author) );
                 }
             }
         }

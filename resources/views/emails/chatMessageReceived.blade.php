@@ -5,9 +5,10 @@ Dear {{ $user->username }},
 
 You have opted to receive notifications when there are new messages in your chat.
 
-This was the most recent message:
-
+The latest message was from {{ $author->username }}:
+@component('mail::panel')
 "{{ $message->message }}"
+@endcomponent
 
 
 @component('mail::button', ['url' => env('APP_URL')])
