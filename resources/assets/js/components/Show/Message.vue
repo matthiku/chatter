@@ -9,15 +9,24 @@
         :message="message"
       ></chat-show-reading-progress>
 
-    <div class="mb-2"
-        :class="[message.user_id === user.id ? 'text-right' : '']"
+    <div :class="{
+          'text-right' : message.user_id === user.id,
+          'mb-2' : showUsername || showMessageDate
+        }"
       >
 
       <!-- show the actual message -->
       <span class="show-message border border-light rounded shadow mb-0 p-1"
         :class="[deleted ? 'text-white bg-dark' : message.user_id === user.id ? 'bg-grey' : 'bg-white']">
 
-        <span v-if="!deleting && !deleted" v-html="showLinks(message.message)"></span>
+        <span v-if="!deleting">
+          <span v-if="!deleted" v-html="showLinks(message.message)"></span>
+
+          <i v-if="message.user_id === user.id"
+              @click="deleting = true"
+              title="delete this message"
+              class="delete-message cursor-pointer text-danger material-icons">delete</i>
+        </span>
 
         <small v-if="deleted">(The user deleted this message {{ message.message }})</small>
 
@@ -27,21 +36,25 @@
           <span class="badge badge-secondary cursor-pointer" @click="deleting = false">Cancel</span>
         </span>
 
-        <i v-if="message.user_id === user.id && !deleting"
-            @click="deleting = true"
-            title="delete this message"
-            class="delete-message cursor-pointer text-danger material-icons">delete</i>
-
       </span>
-      <br>
 
       <!-- show message date and time -->
-      <small v-if="usersObj[message.user_id]" 
+      <small v-if="showUsername || showMessageDate"
           class="mx-3"
           :title="$moment(message.updated_at).format('LLLL')"
-        ><strong>{{ usersObj[message.user_id].username }}</strong>
-          -
-          <span class="text-primary">{{ adaptiveDate(message.updated_at)  }}</span>
+        >
+        <br>
+        <strong>
+          <span v-if="usersObj[message.user_id] && showUsername"
+            >{{ usersObj[message.user_id].username }} -
+          </span>
+
+          <span v-if="showMessageDate"
+              class="text-primary"
+            >{{ adaptiveDate(message.updated_at)  }}
+          </span>          
+        </strong>
+
       </small>
 
     </div>
@@ -88,6 +101,10 @@ export default {
     user () {
       return this.$store.state.user.user
     },
+    nextMessage () {
+      if (this.index === this.room.messages.length) return null
+      return this.room.messages[this.index+1]
+    },
     messages () {
       return this.room.messages
     },
@@ -108,11 +125,19 @@ export default {
       let tm = dt[1].split(':')
       if (tm.length !== 3) return false
       return true
+    },
+    showMessageDate () {
+      if (!this.nextMessage) return true
+      if (this.message.user_id !== this.nextMessage.user_id) return true
+      return this.$moment( this.message.updated_at ).add( 2, 'minutes' ).isBefore( this.$moment(this.nextMessage.updated_at) )
+    },
+    showUsername () {
+      if (!this.nextMessage) return true
+      return this.message.user_id !== this.nextMessage.user_id
     }
   },
 
   methods: {
-
     adaptiveDate (val) {
       if (!val) return ''
       let dt = this.$moment(val)

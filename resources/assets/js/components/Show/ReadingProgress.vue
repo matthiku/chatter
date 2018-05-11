@@ -1,5 +1,5 @@
 <template>
-  <div class="pt-1 pb-2">
+  <div :class="{'pt-1 pb-2' : avatarPresent}">
 
     <span v-for="member in members" :key="member.id"
         v-if="readingProgress(member)"
@@ -29,6 +29,12 @@
 export default {
   props: ['message', 'room', 'index', 'simple'],
 
+  data () {
+    return {
+      avatarPresent: false
+    }
+  },
+
   computed: {
     user () {
       return this.$store.state.user.user
@@ -54,21 +60,27 @@ export default {
 
       // check if reading progress is at the newest message
       if (!this.simple) {
-        if (userProgress.isSameOrAfter(messageDate)) 
+        if (userProgress.isSameOrAfter(messageDate))  {
+          this.avatarPresent = true
           return true
+        }
         return false
       }
 
       // if index is 0, we are at the very first message in this room
       if (this.index === 0) {
-        if (userProgress.isBefore(messageDate))
+        if (userProgress.isBefore(messageDate)) {
+          this.avatarPresent = true
           return true
+        }
         else
           return false
       }
       let prevMessageDate = this.$moment(this.messages[this.index-1].updated_at)
-      if (userProgress.isBefore(messageDate) && userProgress.isAfter(prevMessageDate))
+      if (userProgress.isBefore(messageDate) && userProgress.isAfter(prevMessageDate)) {
+        this.avatarPresent = true
         return true
+      }
       return false
     }
   }

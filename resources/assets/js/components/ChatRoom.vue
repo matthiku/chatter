@@ -137,13 +137,12 @@ export default {
         if (roomId !== 0)
           this.$store.commit('cleanUpRooms')        
         this.$emit('user-read-all-messages', roomId)
-        // make sure the input field is visible (bottom of the messages)
+        // make sure the input field is visible (scroll to bottom of the messages)
         setTimeout(() => {          
           elem = document.getElementById('message-room-id-' + roomId)
-          console.log(elem)
           elem.focus()
           elem.scrollIntoView({behavior: 'smooth'})
-        }, 1000);
+        }, 500);
       }
     },
 
