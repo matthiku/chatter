@@ -27,11 +27,17 @@
 
 <script>
 export default {
-  props: ['message', 'messages', 'index', 'members', 'simple'],
+  props: ['message', 'room', 'index', 'simple'],
 
   computed: {
     user () {
       return this.$store.state.user.user
+    },
+    messages () {
+      return this.room.messages
+    },
+    members () {
+      return this.room.users
     }
   },
 

@@ -92,7 +92,7 @@ export default {
         msg => msg.updated_at > usersReadingProgress.pivot.updated_at
       )
       if (lastReadMessageIdx < 0) return 0
-      console.log(usersReadingProgress.pivot.updated_at, lastReadMessageIdx)
+      // console.log(usersReadingProgress.pivot.updated_at, lastReadMessageIdx)
       return this.room.messages.length - lastReadMessageIdx
     },
     arrivedMessages () {
@@ -129,6 +129,7 @@ export default {
 
     hideOtherRooms (roomId) {
       let elem = document.getElementById('collapse-'+roomId)
+      // are we closing or opening this room?
       if (elem.classList.contains('show')) {
         this.$emit('set-active-room', null)
       } else {
@@ -136,6 +137,13 @@ export default {
         if (roomId !== 0)
           this.$store.commit('cleanUpRooms')        
         this.$emit('user-read-all-messages', roomId)
+        // make sure the input field is visible (bottom of the messages)
+        setTimeout(() => {          
+          elem = document.getElementById('message-room-id-' + roomId)
+          console.log(elem)
+          elem.focus()
+          elem.scrollIntoView({behavior: 'smooth'})
+        }, 1000);
       }
     },
 

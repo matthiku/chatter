@@ -5,9 +5,8 @@
     <chat-show-reading-progress
         simple="true"
         :index="index"
-        :members="members"
+        :room="room"
         :message="message"
-        :messages="messages"
       ></chat-show-reading-progress>
 
     <div class="mb-2"
@@ -50,9 +49,8 @@
     <!-- show names of members depending on their reading progress -->
     <chat-show-reading-progress
         :index="index"
-        :members="members"
+        :room="room"
         :message="message"
-        :messages="messages"
       ></chat-show-reading-progress>
 
   </span>
@@ -75,7 +73,7 @@
 
 <script>
 export default {
-  props: ['message', 'messages', 'index', 'members'],
+  props: ['message', 'room', 'index'],
 
   data () {
     return {
@@ -89,6 +87,12 @@ export default {
     },
     user () {
       return this.$store.state.user.user
+    },
+    messages () {
+      return this.room.messages
+    },
+    members () {
+      return this.room.users
     },
     usersObj () {
       let obj = {}

@@ -7,8 +7,7 @@
         :key="index"
         :index="index"
         :message="message"
-        :messages="room.messages"
-        :members="room.users"
+        :room="room"
       ></chat-show-message>
 
 
