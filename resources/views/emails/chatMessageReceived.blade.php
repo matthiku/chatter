@@ -1,10 +1,17 @@
 @component('mail::message')
-# Introduction
+# There's a new message in your chat room "{{ $room->name }}"
 
-The body of your message.
+Dear {{ $user->username }},
 
-@component('mail::button', ['url' => ''])
-Button Text
+You have opted to receive notifications when there are new messages in your chat.
+
+This was the most recent message:
+
+"{{ $message->message }}"
+
+
+@component('mail::button', ['url' => env('APP_URL')])
+Open chatroom
 @endcomponent
 
 Thanks,<br>

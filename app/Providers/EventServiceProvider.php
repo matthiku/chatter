@@ -17,10 +17,13 @@ class EventServiceProvider extends ServiceProvider
         'Illuminate\Auth\Events\Registered' => [
             'App\Listeners\NewUserRegistered',
         ],
+        'App\Events\MessagePosted' => [
+            'App\Listeners\NewMessageEmailNotification',
+        ]
     ];
 
     /**
-     * Register any events for your application.
+     * Register any (other) events for your application.
      *
      * @return void
      */
@@ -28,6 +31,5 @@ class EventServiceProvider extends ServiceProvider
     {
         parent::boot();
 
-        //
     }
 }
