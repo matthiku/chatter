@@ -35,8 +35,7 @@ class Room extends Model
     {
         return $this->belongsToMany('App\User')
             ->withTimestamps()
-            ->withPivot('email_notification')
-            ->using('App\RoomUser');
+            ->withPivot('email_notification');
     }
     
 
