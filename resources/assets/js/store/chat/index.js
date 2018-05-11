@@ -43,11 +43,17 @@ export default {
       state.rooms.unshift(payload)
     },
     updateRoom(state, payload) {
-      // window.console.log('updateRoom', payload)
       state.rooms.map(elem => {
         if (elem.id === payload.id) {
           elem.name = payload.name
           elem.users = payload.users
+        }
+      })
+    },
+    setEmailNotification(state, payload) {
+      state.rooms.map(elem => {
+        if (elem.id === payload.room_id) {
+          elem.pivot.email_notification = payload.emailNotification
         }
       })
     },
@@ -190,6 +196,7 @@ export default {
             if (!response.data) {
               window.console.warn(response)
             }
+            commit('setEmailNotification', payload)
           })
           .catch(err => commit('axiosError', err))
     },
