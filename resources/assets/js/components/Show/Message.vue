@@ -22,15 +22,25 @@
         <span v-if="!deleting">
 
           <span v-if="message.filename">
+
             <img v-if="message.filetype === 'image'"
-              :src="'/images/'+message.filename"
-              width="250" :alt="message.message">
+                :src="'/images/'+message.filename"
+                width="250"
+                :title="message.message"
+                :alt="message.message">
+
             <audio v-if="message.filetype === 'audio'"
               :src="'/images/'+message.filename"
               controls></audio>
+
             <video v-if="message.filetype === 'video'"
               :src="'/images/'+message.filename"
               width="250" controls></video>
+
+            <span v-if="notSupportedFileType()">
+              <a :href="'/images/'+message.filename">{{ message.filename }}</a>
+            </span>
+
           </span>
 
           <span v-else-if="!deleted" v-html="showLinks(message.message)"></span>
@@ -159,6 +169,12 @@ export default {
       if (dt.isSame(now, 'week')) return dt.format('ddd H:mm')
       if (dt.isSame(now, 'year')) return dt.format('D MMM H:mm')
       return dt.format('D MM YYYY')
+    },
+
+    notSupportedFileType() {
+      let supported = ['image', 'audio', 'video']
+      if ( supported.indexOf(this.message.filetype) >= 0 ) return false
+      return true
     },
 
     showLinks (text) {

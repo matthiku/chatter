@@ -1,5 +1,9 @@
 <template>
-  <div class="modal fade" id="insertFiles" tabindex="-1" role="dialog" aria-labelledby="insertFilesLabel" aria-hidden="true">
+  <div id="insertFiles"
+      class="modal fade"
+      @keyup.esc="closeDialog"
+      tabindex="-1" role="dialog" 
+      aria-labelledby="insertFilesLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
 
@@ -22,13 +26,6 @@
   </div>
 </template>
 
-<style>
-@media (min-width: 768px) {
-  .modal-dialog {
-    max-width: 600px;
-  }
-}
-</style>
 
 <script>
 // DropZone to upload files
@@ -54,11 +51,14 @@ export default {
   },
 
   methods: {
+    closeDialog() {
+      $('#insertFiles').modal('hide')      
+    },
     afterComplete(file) {
       console.log(file);
-      alert('filename was: ' + file.upload.filename);
+      // alert('filename was: ' + file.upload.filename);
       // close the modal
-      $('#insertFiles').modal('toggle')
+      this.closeDialog()
     }
   }
 }

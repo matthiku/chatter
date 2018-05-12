@@ -13,10 +13,15 @@
 
 namespace App\Http\Controllers;
 
+use Log;
 use Auth;
+use File;
+
 use App\Room;
 use App\Message;
+
 use Illuminate\Http\Request;
+
 use App\Events\RoomUpdated;
 use App\Events\MessagePosted;
 use App\Events\MessageUpdated;
@@ -115,7 +120,7 @@ class MessageController extends Controller
                 case 'mp4': $type = 'video'; break;
                 case 'jpg': $type = 'image'; break;
                 case 'png': $type = 'image'; break;
-                default: $type = $image->getMimeType(); // for other file extensions...
+                default: $type = explode('/', $image->getMimeType()); // for other file extensions...
             }
             // if still not clear, we assume audio
             if (!$type) $type = 'audio'; 
@@ -160,11 +165,26 @@ class MessageController extends Controller
         // check if user owns this message
         $user = Auth::user();
         if ($user->id === $message->user_id) {
-            // instead of actually deleting a message, we replace it with the date
-            // it was created or last updated to avoid inconsistencies in the chat
-            $message->update(['message' => $message->updated_at]);
 
+            // Delete file if there was one attached to this message
+            if ($message->filename) {
+                $path = public_path().'/images/';
+                unlink($path.$message->filename);
+                if (file_exists($path.$message->filename))
+                    Log::info($path." file $message->filename was NOT deleted");
+                else
+                    Log::info($path." file $message->filename was deleted");                
+            }
+
+            // instead of actually deleting the message, we replace it with the date
+            // it was created or last updated to avoid inconsistencies in the chat room
+            $message->update([
+                'message' => $message->updated_at,
+                'filename' => null,
+                'filetype' => null,
+            ]);
             broadcast(new MessageUpdated($message, $user));
+
             return 'deleted';
         }
     }
