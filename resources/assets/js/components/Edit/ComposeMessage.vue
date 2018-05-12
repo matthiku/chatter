@@ -46,6 +46,7 @@
 
     <chat-insert-files
         :room="room"
+        :capture="capture"
       ></chat-insert-files>
 
   </div>  
@@ -60,7 +61,8 @@ export default {
   data () {
     return {
       messageText: '',
-      lastTime: 0
+      lastTime: 0,
+      capture: 'microphone'
     }
   },
 

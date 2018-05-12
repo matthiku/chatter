@@ -117,9 +117,11 @@ class MessageController extends Controller
             switch ($extension) {
                 case 'mp3': $type = 'audio'; break;
                 case 'aac': $type = 'audio'; break;
+                case 'amr': $type = 'audio'; break;
                 case 'mp4': $type = 'video'; break;
-                case 'jpg': $type = 'image'; break;
                 case 'png': $type = 'image'; break;
+                case 'jpg': $type = 'image'; break;
+                case 'jpeg': $type = 'image'; break;
                 default: $type = explode('/', $image->getMimeType()); // for other file extensions...
             }
             // if still not clear, we assume audio

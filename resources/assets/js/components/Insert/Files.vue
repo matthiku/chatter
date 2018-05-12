@@ -15,9 +15,10 @@
         </div>
 
         <div class="modal-body">
-          <vue-dropzone id="upload"
+          <vue-dropzone id="uploadDropZone"
               :options="config"
               @vdropzone-complete="afterComplete"
+              ref="uploadDropZone"
             ></vue-dropzone>
         </div>
 
@@ -32,7 +33,7 @@
 import vueDropzone from "vue2-dropzone";
 
 export default {
-  props: ['room'],
+  props: ['room', 'capture'],
   
   data () {
     return {
@@ -56,8 +57,9 @@ export default {
     },
     afterComplete(file) {
       console.log(file);
-      // alert('filename was: ' + file.upload.filename);
-      // close the modal
+      // remove the just uploaded file from the dropzone
+      this.$refs.uploadDropZone.removeFile(file)
+      // and close the dialog
       this.closeDialog()
     }
   }
