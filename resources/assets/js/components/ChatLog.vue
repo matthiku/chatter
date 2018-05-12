@@ -25,6 +25,10 @@
       ></chat-edit-message>
 
 
+    <chat-show-images
+        :messages="room.messages"
+      ></chat-show-images>
+
   </div>  
 </template>
 

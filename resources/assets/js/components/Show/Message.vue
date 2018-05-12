@@ -26,6 +26,8 @@
             <img v-if="message.filetype === 'image'"
                 :src="'/images/'+message.filename"
                 width="250"
+                class="cursor-pointer"
+                @click="showSlideshow"
                 :title="message.message"
                 :alt="message.message">
 
@@ -207,6 +209,11 @@ export default {
       this.message.message = 'deleting...'
       this.deleting = false
       this.$store.dispatch('deleteMessage', this.message.id)
+    },
+
+    showSlideshow () {
+      this.$store.commit('setDialog', {messageId: this.message.id})
+      $('#imagesSlideShow').modal('show')
     }
   }
 }
