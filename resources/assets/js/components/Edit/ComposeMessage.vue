@@ -2,6 +2,14 @@
   <div class="chat-composer">
 
     <div class="input-group input-group-sm rounded">
+      
+      <div class="input-group-prepend">
+        <button class="btn btn-secondary" type="button"
+            title="insert emoticon"
+            @click="selectEmoticonDlg"
+          ><i class="material-icons">insert_emoticon</i></button>
+      </div>
+
       <input
           type="text"
           :id="'message-room-id-' + room.id"
@@ -17,10 +25,6 @@
         >
 
       <div class="input-group-append">
-        <button class="btn btn-secondary" type="button"
-            title="insert emoticon"
-            @click="selectEmoticonDlg"
-          ><i class="material-icons">insert_emoticon</i></button>
 
         <button class="btn btn-secondary" type="button"
             title="send photos or documents"
@@ -32,6 +36,7 @@
           ><i class="material-icons">mic</i></button>
 
         <button class="btn btn-primary rounded-right" type="button" @click="sendMessage">Send</button>
+
       </div>
     </div>
 

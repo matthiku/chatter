@@ -11,13 +11,24 @@
         </div>
 
         <div class="modal-body">
-          <vue-dropzone id="upload" :options="config"></vue-dropzone>
+          <vue-dropzone id="upload"
+              :options="config"
+              @vdropzone-complete="afterComplete"
+            ></vue-dropzone>
         </div>
 
       </div>
     </div>
   </div>
 </template>
+
+<style>
+@media (min-width: 768px) {
+  .modal-dialog {
+    max-width: 600px;
+  }
+}
+</style>
 
 <script>
 // DropZone to upload files
@@ -43,10 +54,12 @@ export default {
   },
 
   methods: {
+    afterComplete(file) {
+      console.log(file);
+      alert('filename was: ' + file.upload.filename);
+      // close the modal
+      $('#insertFiles').modal('toggle')
+    }
   }
 }
 </script>
-
-<style>
-
-</style>

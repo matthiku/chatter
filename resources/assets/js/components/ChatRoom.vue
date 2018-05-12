@@ -142,7 +142,7 @@ export default {
           elem = document.getElementById('message-room-id-' + roomId)
           elem.focus()
           elem.scrollIntoView({behavior: 'smooth'})
-        }, 500);
+        }, 800);
       }
     },
 
