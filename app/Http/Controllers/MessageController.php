@@ -88,16 +88,60 @@ class MessageController extends Controller
 
 
     /**
-     * Update the specified resource in storage.
+     * Upload a file (photos, videos, documents) into this room
      *
      * @param \Illuminate\Http\Request $request HTTP request data
-     * @param \App\Message             $message Message Model data
+     * @param \App\Room                $room    Room Model data
      * 
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Message $message)
+    public function upload(Request $request, Room $room)
     {
-        //
+        $user = Auth::user();
+
+        // check if user is member of this room and for the file
+        if($user->isMemberOf($room->id) && $request->file('file')) 
+        {
+            // get the file and store it in the images folder
+            $image = $request->file('file');
+            $filename = $image->getClientOriginalName();
+            $extension = $image->getClientOriginalExtension();
+            $name = time().$filename;
+            $image->move(public_path().'/images/', $name);
+            
+            // determine the proper file type
+            $type = $extension;
+            switch ($extension) {
+                case 'mp3': $type = 'audio'; break;
+                case 'mp4': $type = 'video'; break;
+                case 'jpg': $type = 'image'; break;
+                default: $type = $extension;
+            }
+
+            // create a new message for this room
+            $message = new Message([
+                'message' => $filename,
+                'filename' => $name,
+                'filetype' => $type,
+            ]);
+            $message->user_id = $user->id;
+            $room->messages()->save($message);
+
+            // Set the update_at date in the pivot table
+            // to indicate the reading progress of this user in this room
+            $membership = $user->memberships()->where('room_id', $room->id)->first();
+            $membership->pivot->touch();
+
+            // inform all subscribers of this change
+            broadcast(new RoomUpdated($room, $user));
+
+            // Announce that a new message was posted 
+            // - received and forwarded to the clients by the MessagePosted event
+            broadcast(new MessagePosted($message, $user));
+
+            return $name;
+        }
+        return 'failed!';
     }
 
     /**

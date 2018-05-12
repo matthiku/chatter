@@ -23,7 +23,8 @@
           ><i class="material-icons">insert_emoticon</i></button>
 
         <button class="btn btn-secondary" type="button"
-            title="send photo or documents (coming soon!)"
+            title="send photos or documents"
+            @click="selectFilesDlg"
           ><i class="material-icons">attach_file</i></button>
 
         <button class="btn btn-secondary" type="button"
@@ -34,9 +35,13 @@
       </div>
     </div>
 
-    <chat-show-emoticons
+    <chat-insert-emoticons
         v-on:insert-emo="insertEmo"
-      ></chat-show-emoticons>
+      ></chat-insert-emoticons>
+
+    <chat-insert-files
+        :room="room"
+      ></chat-insert-files>
 
   </div>  
 </template>
@@ -88,6 +93,10 @@ export default {
 
     selectEmoticonDlg () {
       $('#selectEmoticons').modal('toggle')
+    },
+
+    selectFilesDlg () {
+      $('#insertFiles').modal('toggle')
     },
 
     insertEmo (emo) {

@@ -20,7 +20,20 @@
         :class="[deleted ? 'text-white bg-dark' : message.user_id === user.id ? 'bg-grey' : 'bg-white']">
 
         <span v-if="!deleting">
-          <span v-if="!deleted" v-html="showLinks(message.message)"></span>
+
+          <span v-if="message.filename">
+            <img v-if="message.filetype === 'image'"
+              :src="'/images/'+message.filename"
+              width="250" :alt="message.message">
+            <audio v-if="message.filetype === 'audio'"
+              :src="'/images/'+message.filename"
+              controls></audio>
+            <video v-if="message.filetype === 'video'"
+              :src="'/images/'+message.filename"
+              width="250" controls></video>
+          </span>
+
+          <span v-else-if="!deleted" v-html="showLinks(message.message)"></span>
 
           <i v-if="message.user_id === user.id"
               @click="deleting = true"

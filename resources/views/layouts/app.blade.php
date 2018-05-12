@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -22,7 +23,11 @@
 
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('/static/vue2Dropzone.css') }}" rel="stylesheet">
+
 </head>
+
+
 <body>
     <div id="app">
         <nav class="d-none d-xl-flex navbar navbar-expand-md navbar-light navbar-laravel">

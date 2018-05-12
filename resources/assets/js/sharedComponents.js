@@ -15,8 +15,10 @@ export default function sharedComponents() {
   Vue.component('chat-edit-message', require('./components/Edit/ComposeMessage.vue'))
   Vue.component('chat-room-properties', require('./components/Edit/editRoomProperties.vue'))
 
+  Vue.component('chat-insert-files', require('./components/Insert/Files.vue'))
+  Vue.component('chat-insert-emoticons', require('./components/Insert/Emoticons.vue'))
+
   Vue.component('chat-show-message', require('./components/Show/Message.vue'))
-  Vue.component('chat-show-emoticons', require('./components/Show/Emoticons.vue'))
   Vue.component('chat-show-page-header', require('./components/Show/PageHeader.vue'))
   Vue.component('chat-show-room-members', require('./components/Show/RoomMembers.vue'))
   Vue.component('chat-show-online-members', require('./components/Show/OnlineMembers.vue'))
