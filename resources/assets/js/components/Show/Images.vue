@@ -70,7 +70,7 @@ export default {
 
   mounted () {
     this.messages.forEach(el => {
-      if (el.filename) {
+      if (el.filename && el.filetype === 'image') {
         this.slides.push(el)
       }
     })

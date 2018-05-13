@@ -276,9 +276,16 @@ class RoomController extends Controller
 
         // remove all attached users (chatroom members)
         $room->users()->detach();
+        // delete all attached files to those messages
+        $room->messages->map(function ($message, $key) {
+            if ($message->filename) {
+                $path = public_path().'/images/';
+                unlink($path.$message->filename);
+            }
+        });
         // delete all related messages
         $room->messages()->delete();
-        // now delete the room (messages should be deleted by foreignKey/cascade)
+        // now delete the room
         $room->delete();
 
         return 'deleted!';
