@@ -25,8 +25,7 @@
 
             <img v-if="message.filetype === 'image'"
                 :src="'/images/'+message.filename"
-                width="250"
-                class="cursor-pointer"
+                class="cursor-pointer image-preview"
                 @click="showSlideshow"
                 :title="message.message"
                 :alt="message.message">
@@ -96,6 +95,19 @@
 
 
 <style>
+.image-preview {
+  width: 200px;
+}
+@media (min-width768px) {
+  .image-preview {
+    width: 250px;
+  }  
+}
+@media (min-width: 1200px) {
+  .image-preview {
+    width: 350px;
+  }  
+}
 .bg-grey {
   background-color: lightgrey;
 }

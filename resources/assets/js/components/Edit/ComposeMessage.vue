@@ -53,6 +53,19 @@
 </template>
 
 
+<style>
+.chat-composer {
+  display: flex;
+}
+.chat-composer input {
+  flex: 1 auto;
+}
+.chat-composer button {
+  border-radius: 0;
+}
+</style>
+
+
 <script>
 export default {
 
@@ -138,16 +151,3 @@ export default {
   }
 }
 </script>
-
-
-<style>
-.chat-composer {
-  display: flex;
-}
-.chat-composer input {
-  flex: 1 auto;
-}
-.chat-composer button {
-  border-radius: 0;
-}
-</style>

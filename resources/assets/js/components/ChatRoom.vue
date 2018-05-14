@@ -74,6 +74,7 @@
   </span>  
 </template>
 
+
 <script>
 export default {
   props: ['room', 'activeRoom'],
@@ -176,7 +177,3 @@ export default {
 
 }
 </script>
-
-<style>
-
-</style>
