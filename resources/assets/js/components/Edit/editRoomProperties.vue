@@ -165,7 +165,13 @@ export default {
         this.roomName = this.user.username
         this.buttonText = 'Start Chat'
         this.userIsOwner = true
-        $('#chatRoomProperties').modal('show')
+        // if user clicked on a single, currently online, user
+        if (val.option === 'single') {
+          // directly create the new chat, no dialog needed
+          this.executeAction()
+        } else {
+          $('#chatRoomProperties').modal('show')
+        }        
       }
       if (val.what === 'updateRoom') {
         this.title = 'Edit Chat Room'

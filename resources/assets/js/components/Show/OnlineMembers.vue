@@ -28,7 +28,7 @@ export default {
   methods: {
     launchNewRoomModal (user_id) {
       this.$store.commit('setNewRoomMembers', [user_id])
-      this.$store.commit('setDialog', {what: 'createNewRoom', option: ''})
+      this.$store.commit('setDialog', {what: 'createNewRoom', option: 'single'})
     }    
   }
 }
