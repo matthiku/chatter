@@ -112,21 +112,30 @@ class MessageController extends Controller
             $filename = $image->getClientOriginalName();
             $extension = $image->getClientOriginalExtension();
             $name = time().$filename;
-            
+
             // determine the proper file type
             switch ($extension) {
-                case 'mp3': $type = 'audio'; break;
-                case 'aac': $type = 'audio'; break;
-                case 'amr': $type = 'audio'; break;
-                case 'mp4': $type = 'video'; break;
-                case 'png': $type = 'image'; break;
-                case 'jpg': $type = 'image'; break;
-                case 'jpeg': $type = 'image'; break;
-                default: $type = explode('/', $image->getMimeType()); // for other file extensions...
+            case 'mp3': $type = 'audio';
+                break;
+            case 'aac': $type = 'audio';
+                break;
+            case 'amr': $type = 'audio';
+                break;
+            case 'mp4': $type = 'video';
+                break;
+            case 'png': $type = 'image';
+                break;
+            case 'gif': $type = 'image';
+                break;
+            case 'jpg': $type = 'image';
+                break;
+            case 'jpeg': $type = 'image';
+                break;
+            default: $type = explode('/', $image->getMimeType())[0]; // for other file extensions...
             }
             // if still not clear, we assume audio
             if (!$type) $type = 'audio'; 
-            
+
             $image->move(public_path().'/images/', $name);
 
             // create a new message for this room

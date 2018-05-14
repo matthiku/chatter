@@ -31,9 +31,9 @@
             @click="selectFilesDlg"
           ><i class="material-icons">attach_file</i></button>
 
-        <button class="btn btn-secondary" type="button"
+        <!-- TODO: (for desktops) <button class="btn btn-secondary" type="button"
             title="record a message (coming soon!)"
-          ><i class="material-icons">mic</i></button>
+          ><i class="material-icons">mic</i></button> -->
 
         <button class="btn btn-primary rounded-right" type="button" @click="sendMessage">Send</button>
 
