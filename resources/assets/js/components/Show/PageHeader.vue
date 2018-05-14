@@ -23,6 +23,7 @@
         </div>
 
         <span @click="closeAllChats"
+            class="all-rooms-title"
             :class="[activeRoom ? 'cursor-pointer text-primary' : '']">
           <!-- <span class="border border-light rounded-circle text-center px-2 py-1">{{ rooms.length }}</span> -->
           <span v-if="activeRoom"
@@ -57,6 +58,13 @@
 
 
 <style>
+.all-rooms-header {
+  line-height: 29px;
+  font-size: 25px;
+}
+.all-rooms-title {
+  font-size: 15px;
+}
 .chatter-menu.dropdown-toggle::after {
   content: none;
 }

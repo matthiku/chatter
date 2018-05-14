@@ -30,14 +30,9 @@
 
       </div>
 
-      <small>&copy; 2018 Matthias Kuhs</small>
-      <small v-if="latestFrontendVersion && latestFrontendVersion !== frontendTimestamp"
-          class="float-right ml-2">
-        &bull; New version available: 
-        <a href="/home">Reload!</a></small>
-      <small v-if="!latestFrontendVersion || (latestFrontendVersion && latestFrontendVersion === frontendTimestamp)"
-          class="float-right" :title="frontendTimestamp">
-        Version: latest</small>
+      <chat-show-page-footer
+          v-if="!activeRoom"
+        ></chat-show-page-footer>
 
     </div>
 

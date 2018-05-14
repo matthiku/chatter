@@ -21,6 +21,7 @@ export default function sharedComponents() {
   Vue.component('chat-show-images', require('./components/Show/Slideshow.vue'))
   Vue.component('chat-show-message', require('./components/Show/Message.vue'))
   Vue.component('chat-show-page-header', require('./components/Show/PageHeader.vue'))
+  Vue.component('chat-show-page-footer', require('./components/Show/PageFooter.vue'))
   Vue.component('chat-show-room-members', require('./components/Show/RoomMembers.vue'))
   Vue.component('chat-show-online-members', require('./components/Show/OnlineMembers.vue'))
   Vue.component('chat-show-reading-progress', require('./components/Show/ReadingProgress.vue'))

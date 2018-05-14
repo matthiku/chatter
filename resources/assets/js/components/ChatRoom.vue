@@ -13,14 +13,13 @@
         >
           <!-- show room name -->
           <span>
-            <i class="ml-1 material-icons">menu</i>
-            
-            <span v-if="room.name" class="room-name ml-1">{{ room.name }}</span>
-            <span v-else class="small">(unnamed)</span>
             <i  title="room settings dialog"
                 v-if="room.id !== 0"
                 @click.stop="editRoom(room)"
                 class="material-icons">settings</i>
+            
+            <span v-if="room.name" class="room-name ml-1">{{ room.name }}</span>
+            <span v-else class="small">(unnamed)</span>
           </span>
 
           <!-- show room members inline on wider screens -->
