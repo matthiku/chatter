@@ -125,7 +125,7 @@ export default {
       buttonText: 'undecided...',
       roomName: null,
       userIsOwner: false,
-      emailNotification: false,
+      emailNotification: true,
       members: [],
       deletingRoom: false
     }
@@ -180,11 +180,13 @@ export default {
       // set the current room accordingly
       if (val.option) {
         this.room = this.rooms.find(el => el.id === val.option)
-        this.emailNotification = this.room.pivot.email_notification
-        if (this.room.owner_id === this.user.id)
-          this.userIsOwner = true
-        else
-          this.title = `Settings for chat room "${this.roomName}"`
+        if (this.room) {
+          this.emailNotification = this.room.pivot.email_notification
+          if (this.room.owner_id === this.user.id)
+            this.userIsOwner = true
+          else
+            this.title = `Settings for chat room "${this.roomName}"`
+        }
       }
     }
   },
@@ -221,6 +223,7 @@ export default {
       // close the modal, then create a new chat room
       let obj = {}
       obj.members = this.members
+      obj.email_notification = this.emailNotification
       if (this.roomName) obj.name = this.roomName
       if (this.dialog.what === 'createNewRoom')
         this.$store.dispatch('createNewRoom', obj)

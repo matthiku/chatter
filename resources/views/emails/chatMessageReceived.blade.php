@@ -17,7 +17,7 @@ The latest message was from {{ $author->username }}:
 @endcomponent
 
 
-@component('mail::button', ['url' => env('APP_URL')])
+@component('mail::button', ['url' => url('/').'?room='.$room->id])
 Open chatroom
 @endcomponent
 

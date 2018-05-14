@@ -76,12 +76,19 @@ class RoomController extends Controller
         }
         // define the owner of the new room
         $user->rooms()->save($room);
+
         // also make the owner a member (other members can see the list of members)
-        $room->users()->attach($user->id);
+        $room->users()->attach(
+            $user->id,
+            ['email_notification' => $request->email_notification]
+        );
 
         // add other members to this chat room
         if ($request->has('members')) {
-            $room->users()->attach($request->members);
+            $room->users()->attach(
+                $request->members,
+                ['email_notification' => true] // default to send email notif.
+            );
         }
 
         // create a new broadcasted for this event

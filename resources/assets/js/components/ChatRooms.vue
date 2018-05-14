@@ -264,6 +264,20 @@ export default {
       if (this.rooms.length === 1) {
         this.activeRoom = this.rooms[0].id
       }
+      // check URL to see if a specific room was requested
+      let search = window.location.search
+      let roomId
+      if (search) {
+        let sr = search.split('room=')
+        if (sr[1]) {
+          roomId = parseInt(sr[1].split('&')[0])
+        }
+      }
+      if (roomId && this.rooms.length > 1) {
+        this.activeRoom = roomId
+        // remove the searchstring from the URL
+        window.history.pushState({}, document.title, "/home")
+      }
     },
 
     userReadAllMessages (roomId) {
