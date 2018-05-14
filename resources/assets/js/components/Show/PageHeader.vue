@@ -17,7 +17,6 @@
           </a>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
             <a class="dropdown-item" href="#" @click="showSettings">Settings</a>
-            <a class="dropdown-item" href="#">Another action</a>
             <a class="dropdown-item" href="#" @click="logoff">Logoff</a>
           </div>
         </div>
@@ -40,6 +39,7 @@
 
       <!-- show online users -->
       <chat-show-online-members
+          class="all-rooms-title"
           :onlineUsers="onlineUsers" :user="user">
       </chat-show-online-members>
 
