@@ -4,7 +4,8 @@
       <!-- show page title and main menu -->
       <span>
         <div class="dropdown d-inline">
-          <a class="chatter-menu btn btn-secondary btn-sm dropdown-toggle p-0"
+          <a class="chatter-menu dropdown-toggle p-0"
+              :class="{'btn btn-secondary btn-sm': !user.avatar}"
               style="height: 30px; min-width: 30px; font-size: 20px;"
               href="#" role="button" 
               id="dropdownMenuLink" 
