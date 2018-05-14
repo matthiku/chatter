@@ -21,9 +21,10 @@
         </div>
 
         <span @click="closeAllChats"
-            :class="[activeRoom ? 'cursor-pointer' : '']">
+            :class="[activeRoom ? 'cursor-pointer text-primary' : '']">
           <!-- <span class="border border-light rounded-circle text-center px-2 py-1">{{ rooms.length }}</span> -->
-          <span class="font-weight-bold">{{ rooms.length }}</span>
+          <span v-if="activeRoom"
+            class="font-weight-bold">{{ rooms.length }}</span>
           <span class="d-none d-xl-inline">Chat Rooms</span>
           <span class="d-xl-none">{{ appName }}</span>
         </span>              

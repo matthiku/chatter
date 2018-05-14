@@ -2,7 +2,7 @@
   <span>              
     <!-- chatRoom header
       -->
-    <div class="card-header p-0 my-0" :id="'heading-'+room.id">
+    <div class="card-header p-1 p-sm-2 my-0" :id="'heading-'+room.id">
       <div class="d-flex justify-content-between mb-0 w-100 p-0 cursor-pointer"
           :class="[room.id === activeRoom ? '' : 'chatroom-header']"
           @click="hideOtherRooms(room.id)"
@@ -38,7 +38,7 @@
       </div>
 
       <!-- show room members on extra line on smaller screens -->
-      <chat-show-room-members class="d-md-none"
+      <chat-show-room-members class="d-md-none d-block text-center"
           :room="room" :user="user"
         ></chat-show-room-members>
 
