@@ -62,7 +62,23 @@
 .all-rooms-header {
   line-height: 29px;
   font-size: 25px;
+  overflow: hidden;
 }
+
+/* The sticky class is added to the navbar with JS when it reaches its scroll position */
+.sticky {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+}
+/* Add some top padding to the page content to prevent sudden quick movement 
+   (as the navigation bar gets a new position at the top of the page (position:fixed and top:0) */
+.sticky + .chatroom-canvas {
+  padding-top: 60px;
+}
+
 .all-rooms-title {
   font-size: 15px;
 }
@@ -98,7 +114,22 @@ export default {
     }
   },
 
+  mounted () {
+    window.onscroll = () => {this.cardHeaderSticky()}
+  },
+
   methods: {
+    cardHeaderSticky () {
+      let headerBar = document.getElementsByClassName('all-rooms-header')[0]
+      let sticky = headerBar.offsetTop
+      console.log(window.pageYOffset, sticky)
+      if (window.pageYOffset > sticky) {
+        headerBar.classList.add('sticky')
+      } else {
+        headerBar.classList.remove('sticky')
+      }
+    },
+
     showSettings () {
       $('#userSettings').modal('toggle')
     },

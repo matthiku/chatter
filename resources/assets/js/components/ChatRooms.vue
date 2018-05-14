@@ -9,7 +9,7 @@
             @close-all-chats="closeAllChats"
           ></chat-show-page-header>
 
-        <div class="card-body p-0 p-sm-1 p-md-2 p-lg-3 p-xl-4">
+        <div class="card-body chatroom-canvas p-0 p-sm-1 p-md-2 p-lg-3 p-xl-4">
 
           <div class="accordion shadow" id="chatrooms">
 
