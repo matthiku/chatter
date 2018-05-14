@@ -149,6 +149,9 @@ export default {
           if (!response.data) {
             window.console.warn(response)
           }
+          if (response.data.frontendVersion) {
+            commit('setLatestFrontendVersion', response.data.frontendVersion)
+          }
         })
         .catch(err => commit('axiosError', err))
     },
@@ -193,12 +196,12 @@ export default {
           payload
         )
         .then(response => {
-            if (!response.data) {
-              window.console.warn(response)
-            }
-            commit('setEmailNotification', payload)
-          })
-          .catch(err => commit('axiosError', err))
+          if (!response.data) {
+            window.console.warn(response)
+          }
+          commit('setEmailNotification', payload)
+        })
+        .catch(err => commit('axiosError', err))
     },
 
     setReadingProgress({ commit }, room_id) {
@@ -220,6 +223,9 @@ export default {
         .then(response => {
           if (!response.data) {
             window.console.warn(response)
+          }
+          if (response.data.frontendVersion) {
+            commit('setLatestFrontendVersion', response.data.frontendVersion)
           }
         })
         .catch(err => commit('axiosError', err))
@@ -254,9 +260,7 @@ export default {
         .catch(err => commit('axiosError', err))
     },
 
-    deleteRoom({
-        commit
-      }, payload) {
+    deleteRoom({commit}, payload) {
       window.axios
         .delete(`api/rooms/${payload.room_id}`)
         .then(response => {

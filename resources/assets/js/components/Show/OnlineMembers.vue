@@ -12,7 +12,7 @@
       >{{ u.username }}
     </a>
 
-    <strong v-if="onlineUsers.length < 2">no one!</strong>
+    <strong v-if="onlineUsers.length < 2"><i class="material-icons">settings_ethernet</i></strong>
 
   </div>
 </template>

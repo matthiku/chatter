@@ -4,12 +4,14 @@
       <!-- show page title and main menu -->
       <span>
         <div class="dropdown d-inline">
-          <a class="chatter-menu btn btn-secondary btn-sm dropdown-toggle" 
+          <a class="chatter-menu btn btn-secondary btn-sm dropdown-toggle p-0"
+              style="height: 30px; min-width: 30px; font-size: 20px;"
               href="#" role="button" 
               id="dropdownMenuLink" 
               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <img v-if="user.avatar"
                 class="user-avatar rounded-circle"
+                width="30px"
                 :src="user.avatar">
             <i v-else class="material-icons">more_vert</i>
           </a>

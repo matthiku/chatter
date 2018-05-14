@@ -3,7 +3,9 @@ export default {
     appName: 'ChatterBox',
     chatroomName: 'chatroom',
     dialog: '',
-    action: null
+    action: null,
+    frontendTimestamp: null,
+    latestFrontendVersion: null
   },
 
   mutations: {
@@ -18,6 +20,12 @@ export default {
     },
     addRoom (state, payload) {
       state.action = { type: 'roomAdded', what: payload }
+    },
+    setFrontendTimestamp (state, payload) {
+      state.frontendTimestamp = payload
+    },
+    setLatestFrontendVersion (state, payload) {
+      state.latestFrontendVersion = payload
     }
   }
 }

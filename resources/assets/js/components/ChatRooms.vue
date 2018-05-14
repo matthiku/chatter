@@ -29,6 +29,16 @@
         </div>
 
       </div>
+
+      <small>&copy; 2018 Matthias Kuhs</small>
+      <small v-if="latestFrontendVersion && latestFrontendVersion !== frontendTimestamp"
+          class="float-right ml-2">
+        &bull; New version available: 
+        <a href="/home">Reload!</a></small>
+      <small v-if="!latestFrontendVersion || (latestFrontendVersion && latestFrontendVersion === frontendTimestamp)"
+          class="float-right" :title="frontendTimestamp">
+        Version: latest</small>
+
     </div>
 
     <!-- modal dialog to edit chat room properties or create a new room -->
@@ -109,6 +119,12 @@ export default {
     },
     newMessagesArrived () {
       return this.$store.state.chat.newMessagesArrived
+    },
+    frontendTimestamp () {
+      return this.$store.state.shared.frontendTimestamp
+    },
+    latestFrontendVersion () {
+      return this.$store.state.shared.latestFrontendVersion
     }
   },
 

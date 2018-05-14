@@ -218,7 +218,7 @@ class RoomController extends Controller
         // inform all subscribers of this change
         broadcast(new RoomUpdated($room, $user));
 
-        return $room;
+        return response($room);
     }
 
 
@@ -258,7 +258,12 @@ class RoomController extends Controller
         $user = Auth::user();
         broadcast(new RoomTyping($room, $user));
 
-        return "OK";
+        return response(
+            [
+                'status' => 'OK',
+                'frontendVersion' => filemtime(base_path().'/public/js/app.js')
+            ]
+        );
     }
 
 
@@ -284,12 +289,14 @@ class RoomController extends Controller
         // remove all attached users (chatroom members)
         $room->users()->detach();
         // delete all attached files to those messages
-        $room->messages->map(function ($message, $key) {
-            if ($message->filename) {
-                $path = public_path().'/images/';
-                unlink($path.$message->filename);
+        $room->messages->map(
+            function ($message, $key) {
+                if ($message->filename) {
+                    $path = public_path().'/images/';
+                    unlink($path.$message->filename);
+                }
             }
-        });
+        );
         // delete all related messages
         $room->messages()->delete();
         // now delete the room

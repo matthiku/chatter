@@ -40,6 +40,8 @@ use App\Events\MessageUpdated;
  */
 class MessageController extends Controller
 {
+
+
     /**
      * Display a listing of the resource.
      *
@@ -85,8 +87,13 @@ class MessageController extends Controller
             // - received and forwarded to the clients by the MessagePosted event
             broadcast(new MessagePosted($message, $user));
 
-            // return all messages incl the new
-            return ['status' => 'OK'];
+            // return confirmation and latest frontend version timestamp
+            return response(
+                [
+                    'status' => 'OK',
+                    'frontendVersion' => filemtime(base_path().'/public/js/app.js')
+                ]
+            );
         }
         return 'failed!';
     }
@@ -105,8 +112,8 @@ class MessageController extends Controller
         $user = Auth::user();
 
         // check if user is member of this room and for the file
-        if($user->isMemberOf($room->id) && $request->file('file')) 
-        {
+        if ($user->isMemberOf($room->id) && $request->file('file')) {
+
             // get the file and store it in the images folder
             $image = $request->file('file');
             $filename = $image->getClientOriginalName();
@@ -139,11 +146,13 @@ class MessageController extends Controller
             $image->move(public_path().'/images/', $name);
 
             // create a new message for this room
-            $message = new Message([
-                'message' => $filename,
-                'filename' => $name,
-                'filetype' => $type,
-            ]);
+            $message = new Message(
+                [
+                    'message' => $filename,
+                    'filename' => $name,
+                    'filetype' => $type,
+                ]
+            );
             $message->user_id = $user->id;
             $room->messages()->save($message);
 
@@ -189,11 +198,13 @@ class MessageController extends Controller
 
             // instead of actually deleting the message, we replace it with the date
             // it was created or last updated to avoid inconsistencies in the chat room
-            $message->update([
-                'message' => $message->updated_at,
-                'filename' => null,
-                'filetype' => null,
-            ]);
+            $message->update(
+                [
+                    'message' => $message->updated_at,
+                    'filename' => null,
+                    'filetype' => null,
+                ]
+            );
             broadcast(new MessageUpdated($message, $user));
 
             return 'deleted';
