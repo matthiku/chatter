@@ -18,7 +18,7 @@
           v-if="!latestFrontendVersion || (latestFrontendVersion && latestFrontendVersion === frontendTimestamp)"
 
           class="float-right"
-          :title="$moment.unix(frontendTimestamp).format()"
+          :title="'Last software update:' + $moment.unix(frontendTimestamp).format()"
         >
         Version: latest!
       </small>
