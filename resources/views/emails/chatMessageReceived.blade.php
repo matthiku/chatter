@@ -6,8 +6,14 @@ Dear {{ $user->username }},
 You have opted to receive notifications when there are new messages in your chat.
 
 The latest message was from {{ $author->username }}:
+
 @component('mail::panel')
-"{{ $message->message }}"
+  @if ($message->filename && $message->filetype === 'image')
+    <img src=" {{ url('/images') . '/' . $message->filename }}" width="350">
+  @else
+    "{{ $message->message }}"
+  @endif
+
 @endcomponent
 
 
