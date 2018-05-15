@@ -134,8 +134,9 @@ export default {
         this.$emit('set-active-room', null)
       } else {
         this.$emit('set-active-room', roomId)
-        if (roomId !== 0)
-          this.$store.commit('cleanUpRooms')        
+        if (roomId === 0) return
+
+        this.$store.commit('cleanUpRooms')        
         this.$emit('user-read-all-messages', roomId)
         // make sure the input field is visible (scroll to bottom of the messages)
         setTimeout(() => {          

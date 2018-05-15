@@ -187,7 +187,7 @@ export default {
       if (val.option) {
         this.room = this.rooms.find(el => el.id === val.option)
         if (this.room) {
-          this.emailNotification = this.room.pivot.email_notification
+          this.emailNotification = this.room.pivot ? this.room.pivot.email_notification : true
           if (this.room.owner_id === this.user.id)
             this.userIsOwner = true
           else
@@ -209,18 +209,15 @@ export default {
     executeAction () {
 
       // Submit the email notification setting
-      if (this.emailNotification !== undefined && this.room) {
+      if (this.emailNotification !== undefined && this.room && !this.userIsOwner) {
         let obj = {
           room_id: this.room.id,
           emailNotification: this.emailNotification
         }
         this.$store.dispatch('setEmailNotification', obj)
 
-        // if user is not room owner, this is the only possible action
-        if (!this.userIsOwner) {
-          this.closeDialog()
-          return
-        }
+        // if user is not room owner this is the only possible action
+        this.closeDialog()
       }
 
       // at least one (other) member is needed (besides the current user)
