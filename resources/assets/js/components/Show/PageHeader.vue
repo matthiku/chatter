@@ -17,7 +17,12 @@
             <i v-else class="material-icons">more_vert</i>
           </a>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-            <a class="dropdown-item" href="#" @click="showSettings">Settings</a>
+            <span v-if="activeRoom">
+              <a class="dropdown-item" href="#" @click="editRoom">Room settings</a>
+              <a class="dropdown-item" href="#" @click="closeAllChats">Close Room</a>
+              <div class="dropdown-divider"></div>               
+            </span>
+            <a class="dropdown-item" href="#" @click="showSettings">User settings</a>
             <a class="dropdown-item" href="#" @click="logoff">Logoff</a>
           </div>
         </div>
@@ -135,6 +140,22 @@ export default {
     launchNewRoomModal () {
       this.$store.commit('setNewRoomMembers', [])
       this.$store.commit('setDialog', {what: 'createNewRoom', option: ''})
+    },
+
+    editRoom () {
+      // get the current (active) room
+      let room = this.rooms.find(el => el.id === this.activeRoom)
+      // edit properties of or settings for this room
+      let members = []
+      room.users.map(el => members.push(el.id))
+      this.$store.commit('setNewRoomMembers', members)
+      this.$store.commit('setDialog',
+        {
+          what: 'updateRoom',
+          option: room.id,
+          roomName: room.name
+        }
+      )
     },
 
     closeAllChats () {
