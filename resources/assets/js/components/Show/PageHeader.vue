@@ -3,11 +3,11 @@
       
       <!-- show page title and main menu -->
       <span>
+
         <div class="dropdown d-inline">
-          <a class="chatter-menu dropdown-toggle p-0"
-              :class="{'btn btn-secondary btn-sm': !user.avatar}"
-              style="height: 30px; min-width: 30px; font-size: 20px;"
-              href="#" role="button" 
+          <button class="btn btn-secondary btn-sm chatter-menu dropdown-toggle p-0"
+              style="height: 100%; min-width: 35px; font-size: 20px;"
+              type="button"
               id="dropdownMenuLink" 
               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <img v-if="user.avatar"
@@ -15,7 +15,7 @@
                 width="30px"
                 :src="user.avatar">
             <i v-else class="material-icons">more_vert</i>
-          </a>
+          </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
             <span v-if="activeRoom">
               <a class="dropdown-item" href="#" @click="editRoom">Room settings</a>
@@ -67,6 +67,7 @@
 .all-rooms-header {
   line-height: 29px;
   font-size: 25px;
+  min-height: 45px;
 }
 
 /* The sticky class is added to the navbar with JS when it reaches its scroll position */
