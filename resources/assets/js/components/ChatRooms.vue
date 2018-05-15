@@ -132,8 +132,13 @@ export default {
   },
 
   watch: {
-    newMessagesArrived () {
-      this.setPageTitle() // update page title when this entity changes
+    newMessagesArrived (val) {
+      // update page title when this entity changes
+      this.setPageTitle()
+      // open the chatroom of the first new message if no room is currently open
+      if (val.length && !this.activeRoom) {
+        this.activeRoom = val[0].room.id
+      }
     },
 
     activeRoom (val) {
