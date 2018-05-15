@@ -243,9 +243,9 @@ export default {
       let activeChatName = '(idle)'
       if (this.onlineUsers.length > 1) {
         if (this.onlineUsers.length === 2)
-          activeChatName = '- 1 user online'
+          activeChatName = ' - 1 user online'
         else
-          activeChatName = '-' + this.onlineUsers.length + ' users online'
+          activeChatName = ' -' + this.onlineUsers.length + ' users online'
       }
       // show name of open chat room, if any
       if (this.activeRoom) {

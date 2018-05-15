@@ -62,7 +62,6 @@
 .all-rooms-header {
   line-height: 29px;
   font-size: 25px;
-  overflow: hidden;
 }
 
 /* The sticky class is added to the navbar with JS when it reaches its scroll position */
@@ -122,7 +121,6 @@ export default {
     cardHeaderSticky () {
       let headerBar = document.getElementsByClassName('all-rooms-header')[0]
       let sticky = headerBar.offsetTop
-      console.log(window.pageYOffset, sticky)
       if (window.pageYOffset > sticky) {
         headerBar.classList.add('sticky')
       } else {

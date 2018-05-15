@@ -5,12 +5,14 @@
         v-if="member.id !== user.id"
         :key="index"
         :title="member.id === room.owner_id ? `${member.name} (Chat Owner)` : member.name"
-        :class="[member.id === room.owner_id ? 'font-weight-bold' : 'font-weight-light']"
         class="mr-1"
       >
       <span
-          class="badge badge-pill"
-          :class="[member.typing ? 'badge-primary' : 'badge-secondary']"
+          class="badge badge-secondary badge-pill"
+          :class="{
+            'badge-info': member.id === room.owner_id,
+            'badge-primary': member.typing
+          }"
         >
         {{ member.username }}
       </span>
