@@ -20,6 +20,8 @@ mix
 
   .copyDirectory('resources/assets/static', 'public/static')
 
+  .copy('resources/assets/manifest.json', 'public')
+
   .browserSync({
     proxy: 'chatter.oo'
   })

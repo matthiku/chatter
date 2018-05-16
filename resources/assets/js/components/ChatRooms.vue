@@ -250,7 +250,7 @@ export default {
         if (this.onlineUsers.length === 2)
           activeChatName = ' - 1 user online'
         else
-          activeChatName = ' -' + this.onlineUsers.length + ' users online'
+          activeChatName = ' -' + (this.onlineUsers.length-1) + ' users online'
       }
       // show name of open chat room, if any
       if (this.activeRoom) {
