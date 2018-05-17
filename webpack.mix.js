@@ -23,7 +23,7 @@ mix
   .copy('resources/assets/manifest.json', 'public')
 
   .browserSync({
-    proxy: 'chatter.oo'
+    proxy: 'https://chatter.oo'
   })
 
 // When in produciton, create versioning of the JavaScript files,

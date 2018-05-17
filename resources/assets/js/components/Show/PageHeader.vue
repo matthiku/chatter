@@ -18,12 +18,12 @@
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
             <span v-if="activeRoom">
-              <a class="dropdown-item" href="#" @click="editRoom">Room settings</a>
-              <a class="dropdown-item" href="#" @click="closeAllChats">Close Room</a>
+              <a class="dropdown-item" href="#" @click="closeAllChats"><i class="material-icons">close</i> Close Room</a>
+              <a class="dropdown-item" href="#" @click="editRoom"><i class="material-icons">settings</i> Room settings</a>
               <div class="dropdown-divider"></div>               
             </span>
-            <a class="dropdown-item" href="#" @click="showSettings">User settings</a>
-            <a class="dropdown-item" href="#" @click="logoff">Logoff</a>
+            <a class="dropdown-item" href="#" @click="showSettings"><i class="material-icons">face</i> User settings</a>
+            <a class="dropdown-item" href="#" @click="logoff"><i class="material-icons">transit_enterexit</i> Logoff</a>
           </div>
         </div>
 
@@ -33,7 +33,7 @@
           <!-- <span class="border border-light rounded-circle text-center px-2 py-1">{{ rooms.length }}</span> -->
           <span v-if="activeRoom"
             class="font-weight-bold">{{ rooms.length }}</span>
-          <span class="d-none d-xl-inline">Chat Rooms</span>
+          <span class="d-none d-xl-inline">Chat Room<span v-if="rooms.length>1">s</span></span>
           <span class="d-xl-none">{{ appName }}</span>
         </span>              
 
