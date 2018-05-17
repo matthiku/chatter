@@ -29,7 +29,7 @@
     <link href="{{ asset('/static/vue2Dropzone.css') }}" rel="stylesheet">
 
     <!-- Add to home screen for Safari on iOS -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <!--meta name="apple-mobile-web-app-capable" content="yes" -->
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="Chatter Box">
     <link rel="apple-touch-icon" href="static/icons/icon-152x152.png">

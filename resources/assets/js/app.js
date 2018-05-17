@@ -7,6 +7,11 @@ require('./bootstrap')
 
 var Vue = require('vue')
 
+import VueRouter from 'vue-router'
+
+Vue.use(VueRouter)
+
+
 Vue.config.productionTip = false
 Vue.config.devtools = true
 
