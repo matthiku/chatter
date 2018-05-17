@@ -27,5 +27,25 @@ export default {
     setLatestFrontendVersion (state, payload) {
       state.latestFrontendVersion = payload
     }
+  },
+
+  actions: {
+    getLatestFrontendVersion ({commit, dispatch, rootState}) {
+      window.axios
+        .get('/api/getlatestfrontendversion')
+        .then(response => {
+          if (!response.data) {
+            window.console.warn(response)
+          }
+          if (response.data.frontendVersion) {
+            commit('setLatestFrontendVersion', response.data.frontendVersion)
+            // setTimeout to repeat this
+            setTimeout(() => {
+              dispatch('getLatestFrontendVersion')
+            }, 600000)
+          }
+        })
+        .catch(err => rootState.commit('axiosError', err))
+    }
   }
 }

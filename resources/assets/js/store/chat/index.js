@@ -105,9 +105,9 @@ export default {
       if (error.response) {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx
-        window.console.log(error.response.data);
-        window.console.log(error.response.status);
-        window.console.log(error.response.headers);
+        window.console.log(error.response.data)
+        window.console.log(error.response.status)
+        window.console.log(error.response.headers)
         if (error.response.status === 401) {
           // user is not authenticated, redirect to the login page
           window.location = '/login'
@@ -117,12 +117,12 @@ export default {
         // The request was made but no response was received
         // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
         // http.ClientRequest in node.js
-        window.console.log(error.request);
+        window.console.log(error.request)
       } else {
         // Something happened in setting up the request that triggered an Error
-        window.console.log('Error', error.message);
+        window.console.log('Error', error.message)
       }
-      window.console.log(error.config);
+      window.console.log(error.config)
     }
   },
 
@@ -337,7 +337,7 @@ export default {
         })
 
         // there was a change in the users list
-        .listen('UsersChanged', e => {
+        .listen('UsersChanged', () => {
           dispatch('loadUsers')
         })
 

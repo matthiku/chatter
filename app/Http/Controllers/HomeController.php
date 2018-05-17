@@ -59,4 +59,15 @@ class HomeController extends Controller
     }
 
 
+    public function getLatestFrontendVersion()
+    {
+        return response(
+            [
+                'status' => 'OK',
+                'frontendVersion' => filemtime(base_path().'/public/js/app.js')
+            ]
+        );
+    }
+
+
 }

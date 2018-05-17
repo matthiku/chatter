@@ -46,5 +46,8 @@ Route::middleware('auth:api')->group(
 
         // indicate that a user starts typing a message in a room
         Route::post('rooms/{room}/typing', 'RoomController@typing');
+
+        // getLatestFrontendVersion
+        Route::get('getlatestfrontendversion', 'Homecontroller@getLatestFrontendVersion');
     }
 );

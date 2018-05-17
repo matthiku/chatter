@@ -31,5 +31,8 @@ export default function startUpActions(store) {
 
     // start listening to our backend broadcast channel
     store.dispatch('joinChatroom', user)
+
+    // regularly check for a nwe frontend version
+    store.dispatch('getLatestFrontendVersion')
   }
 }
