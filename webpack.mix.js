@@ -21,6 +21,7 @@ mix
   .copyDirectory('resources/assets/static', 'public/static')
 
   .copy('resources/assets/manifest.json', 'public')
+  .copy('resources/assets/serviceWorker.js', 'public')
 
   .browserSync({
     proxy: 'https://chatter.oo'
