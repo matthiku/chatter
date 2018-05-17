@@ -5,8 +5,8 @@
       <span>
 
         <div class="dropdown d-inline">
-          <button class="btn btn-secondary btn-sm chatter-menu dropdown-toggle p-0"
-              style="height: 100%; min-width: 35px; font-size: 20px;"
+
+          <button class="btn btn-secondary btn-sm chatter-menu user-settings-button dropdown-toggle p-0"
               type="button"
               id="dropdownMenuLink" 
               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -16,21 +16,22 @@
                 :src="user.avatar">
             <i v-else class="material-icons">more_vert</i>
           </button>
+
           <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
             <span v-if="activeRoom">
               <a class="dropdown-item" href="#" @click="closeAllChats"><i class="material-icons">close</i> Close Room</a>
               <a class="dropdown-item" href="#" @click="editRoom"><i class="material-icons">settings</i> Room settings</a>
               <div class="dropdown-divider"></div>               
             </span>
-            <a class="dropdown-item" href="#" @click="showSettings"><i class="material-icons">face</i> User settings</a>
+            <a class="dropdown-item" href="#" @click="showSettings"><i class="material-icons">face</i> User Profile</a>
             <a class="dropdown-item" href="#" @click="logoff"><i class="material-icons">transit_enterexit</i> Logoff</a>
           </div>
+
         </div>
 
         <span @click="closeAllChats"
             class="all-rooms-title"
             :class="[activeRoom ? 'cursor-pointer text-primary' : '']">
-          <!-- <span class="border border-light rounded-circle text-center px-2 py-1">{{ rooms.length }}</span> -->
           <span v-if="activeRoom"
             class="font-weight-bold">{{ rooms.length }}</span>
           <span class="d-none d-xl-inline">Chat Room<span v-if="rooms.length>1">s</span></span>
@@ -40,7 +41,9 @@
         <span v-if="newMessagesArrived.length"
             title="click to open new message"
             @click="openNewMessage"
-            class="cursor-pointer badge badge-danger">{{ newMessagesArrived.length }}</span>
+            class="cursor-pointer badge badge-danger"
+          >{{ newMessagesArrived.length }}</span>
+
       </span>
 
       <!-- show online users -->
@@ -52,8 +55,9 @@
       <button @click="launchNewRoomModal()"
           title="create a new chat room"
           class="btn btn-sm btn-success"
-        ><i class="material-icons">add</i>
-        <span class="d-none d-md-inline">new chat</span>  
+        >
+        <span class="d-none d-md-inline align-text-bottom">new chat</span>
+        <span class="badge badge-light align-bottom"><i class="material-icons">add</i></span>
       </button>
 
   </div>
@@ -61,6 +65,16 @@
 
 
 <style>
+.user-settings-button {
+  height: 100%;
+  min-width: 35px;
+  font-size: 20px;
+}
+@media (max-width: 576px) {
+  .user-settings-button {
+    min-width: 43px;
+  }
+}
 .all-rooms-header {
   line-height: 29px;
   font-size: 25px;

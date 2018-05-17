@@ -98,7 +98,7 @@
 .image-preview {
   width: 200px;
 }
-@media (min-width768px) {
+@media (min-width: 768px) {
   .image-preview {
     width: 250px;
   }  

@@ -42,7 +42,7 @@ export default {
             // setTimeout to repeat this
             setTimeout(() => {
               dispatch('getLatestFrontendVersion')
-            }, 600000)
+            }, 60000)
           }
         })
         .catch(err => rootState.commit('axiosError', err))
