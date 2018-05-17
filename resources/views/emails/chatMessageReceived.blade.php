@@ -21,6 +21,9 @@ The latest message was from {{ $author->username }}:
 Open chatroom
 @endcomponent
 
+<small>To unsubscribe from these emails, open the chat room
+and click on the settings icon in the top left corner.</small>
+
 Thanks,<br>
 {{ config('app.name') }}
 @endcomponent

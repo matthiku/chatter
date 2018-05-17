@@ -144,7 +144,7 @@ class LoginController extends Controller
             $userName = $providerData->getNickname(); // hopefully one from the provider
             $firstName = explode(' ', $providerData->getName())[0];
             $emailName = explode('@', $providerData->getEmail())[0];
-            Log::info("nick: $username - Name: $firstName - email: $emailName");
+            Log::info("nick: $userName - Name: $firstName - email: $emailName");
             // otherwise the firstname
             if (!$userName) {
                 $userName = $firstName;
