@@ -24,7 +24,7 @@
                   id="inputUsername"
                   v-model="newUserName"
                   @keyup="checkUsername"
-                  @keyup.enter="changeUsername"
+                  @keyup.enter="changeSettings"
                   class="form-control"
                   placeholder="Username (min. 5 characters!)"
                   aria-label="Username" aria-describedby="basic-addon1">
@@ -32,6 +32,21 @@
                 This username has already been taken.
               </div>
             </div>
+
+            <hr>
+
+            <div class="form-group">
+
+              <img v-if="user.avatar"
+                class="float-right user-avatar rounded-circle"
+                max-width="45px"
+                :src="user.avatar">
+
+              <label for="avatarFile" class="float-left">Your avatar:</label>
+
+              <input type="file" class="d-inline float-right" id="avatarFile">
+            </div>
+
 
           </form>
 
@@ -42,7 +57,7 @@
           <button type="button"
               class="btn btn-primary"
               :disabled="!userNameValid"
-              @click="changeUsername"
+              @click="changeSettings"
             >Save changes</button>
         </div>
 
@@ -80,7 +95,7 @@ export default {
   },
 
   methods: {
-    changeUsername () {
+    changeSettings () {
       this.checkUsername()
       if (!this.userNameValid) return
 

@@ -56,9 +56,6 @@
         <span class="d-none d-md-inline">new chat</span>  
       </button>
 
-      <!-- modal for user settings -->
-      <user-settings></user-settings>
-
   </div>
 </template>
 

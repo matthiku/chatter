@@ -5,6 +5,10 @@
         &copy; 2018 <a href="https://github.com/matthiku/chatter">Matthias Kuhs</a>
       </small>
 
+      <small v-if="user.id === 1">
+        <a href="/logs" target="new">Logs</a>
+      </small>
+
       <small
           v-if="latestFrontendVersion && latestFrontendVersion !== frontendTimestamp"
 
@@ -31,6 +35,10 @@
 export default {
 
   computed: {
+    user () {
+      return this.$store.state.user.user
+    },
+
     frontendTimestamp () {
       return this.$store.state.shared.frontendTimestamp
     },

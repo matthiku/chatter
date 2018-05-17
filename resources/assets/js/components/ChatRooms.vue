@@ -36,6 +36,9 @@
 
     </div>
 
+    <!-- modal for user settings -->
+    <user-settings></user-settings>
+
     <!-- modal dialog to edit chat room properties or create a new room -->
     <chat-room-properties></chat-room-properties>
 
