@@ -18,8 +18,8 @@
                 @click.stop="editRoom(room)"
                 class="material-icons">settings</i>
             
-            <span v-if="room.name" class="room-name ml-1">{{ room.name }}</span>
-            <span v-else class="small">(unnamed)</span>
+            <span v-if="room.name" class="room-name ml-1">{{ roomName }}</span>
+            
           </span>
 
           <!-- show room members inline on wider screens -->
@@ -81,6 +81,13 @@ export default {
   computed: {
     user () {
       return this.$store.state.user.user
+    },
+    roomName () {
+      if (this.room.users.length !== 2 && this.room.name)
+        return this.room.name
+      if (this.room.users.length === 2 || !this.room.name)
+        return this.room.users.find(el => el.id !== this.user.id).username
+      return '(unnamed)'
     },
     rooms () {
       return this.$store.state.chat.rooms
