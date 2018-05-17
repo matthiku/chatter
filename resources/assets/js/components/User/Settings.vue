@@ -44,7 +44,7 @@
 
               <label for="avatarFile" class="float-left">Your avatar:</label>
 
-              <input type="file" class="d-inline float-right" id="avatarFile">
+              <input disabled type="file" class="d-inline float-right" id="avatarFile">
             </div>
 
 

@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <i class="material-icons">group</i>
+    <i class="align-middle material-icons">group</i>
     <span class="d-none d-sm-inline">Online:</span>
 
     <!-- show names as clickable badges - click opens new chat -->
