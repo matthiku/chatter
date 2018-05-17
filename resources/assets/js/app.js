@@ -7,10 +7,7 @@ require('./bootstrap')
 
 var Vue = require('vue')
 
-import VueRouter from 'vue-router'
-
-Vue.use(VueRouter)
-
+import router from './router'
 
 Vue.config.productionTip = false
 Vue.config.devtools = true
@@ -36,6 +33,8 @@ import startUpActions from './startUpActions'
 
 new Vue({
   el: '#app',
+
+  router,
 
   store,
 

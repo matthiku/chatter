@@ -3,7 +3,7 @@
 @section('content')
 <div class="container-fluid">
     @if (Auth::user() && Auth::user()->isVerified())
-        <chat-rooms></chat-rooms>
+        <router-view></router-view>
     @else
 
         <div class="row justify-content-center">
