@@ -5,22 +5,43 @@
         v-if="member.id !== user.id"
         :key="index"
         :title="member.id === room.owner_id ? `${member.name} (Chat Owner)` : member.name"
-        class="mr-1"
       >
-      <span
-          class="badge badge-secondary badge-pill"
+      <span>
+
+        <img v-if="member.avatar"
+          class="user-avatar rounded-circle"
+          width="32px"
+          :src="member.avatar">
+
+        <span v-if="!member.avatar"
           :class="{
-            'badge-info': member.id === room.owner_id,
-            'badge-primary': member.typing
+            'bg-primary': member.id === room.owner_id,
+            'bg-warning': member.typing,
+            'bg-secondary' : member.id !== room.owner_id && !member.typing
           }"
-        >
-        {{ member.username }}
+          class="p-1 avatar-room-helper text-white rounded-circle mr-2"
+          >{{ member.username.substr(0,1).toUpperCase() }}
+        </span><span
+            v-if="member.typing" class="typing">
+          <span>&bull;</span><span>&bull;</span><span>&bull;</span>
+        </span>
+
       </span>
 
     </span>
 
   </span>  
 </template>
+
+
+<style>
+  .avatar-room-helper {
+    width: 32px;
+    height: 32px;
+    display: inline-block;
+    text-align: center;
+  }
+</style>
 
 
 <script>

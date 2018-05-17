@@ -39,7 +39,7 @@
 
               <img v-if="user.avatar"
                 class="float-right user-avatar rounded-circle"
-                max-width="45px"
+                width="45px"
                 :src="user.avatar">
 
               <label for="avatarFile" class="float-left">Your avatar:</label>
@@ -66,13 +66,14 @@
   </div>
 </template>
 
+
 <style scoped>
-.visible {
-  display: initial;
-}
-label {
-  font-size: 1.1rem;
-}
+  .visible {
+    display: initial;
+  }
+  label {
+    font-size: 1.1rem;
+  }
 </style>
 
 

@@ -7,10 +7,16 @@
     <!-- show names as clickable badges - click opens new chat -->
     <a href="#" v-for="(u, idx) in onlineUsers" :key="idx"
         v-if="user.id !== u.id"
-        class="badge badge-pill badge-info mr-2"
         @click="launchNewRoomModal(u.id)"
         :title="'click to start chatting with ' + u.username"
-      >{{ u.username }}
+      >
+      <img v-if="u.avatar"
+          class="float-right user-avatar rounded-circle"
+          width="35px"
+          :src="u.avatar">
+      <span v-else
+        class="p-1 bg-primary avatar-helper text-white rounded-circle mr-2"
+        >{{ u.username.substr(0,1).toUpperCase() }}</span>
     </a>
 
     <!-- // show icon if no-one is online -->
@@ -18,6 +24,17 @@
 
   </div>
 </template>
+
+
+<style>
+  .avatar-helper {
+    width: 35px;
+    height: 35px;
+    display: inline-block;
+    text-align: center;
+  }
+</style>
+
 
 
 <script>
