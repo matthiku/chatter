@@ -37,6 +37,14 @@ Route::get(
 );
 
 
+/**
+ * Log Viewer for Admins
+ */
+Route::get(
+    'logs',
+    '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index'
+)->middleware('auth');
+
 
 
 /**

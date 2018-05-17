@@ -4,11 +4,15 @@ This is a Web Application that can run on any device -
 
 based on Laravel 5.6 with Laravel Echo, using Pusher. SPA front-end using Vue.js.
 
+## Prerequisites
+
+Some basic understanding of the [Laravel](https://laravel.com) architecture is helpful.
+
 A free [Pusher](https://pusher.com) account is necessary in order for this to work!
 
 ## Installation
 
-1. `git clone [https://github.com/matthiku/chatter.git](https://github.com/matthiku/chatter.git)`
+1. `git clone https://github.com/matthiku/chatter.git`
 1. `composer install`
 1. `cp .env.example .env`
 1. _fill out .env!_
@@ -25,6 +29,5 @@ Note: the first user to register on a new installation will have the id of 1 and
 Screenshot from ChatterBox on a mobile device:
 
 ![screenshot](https://raw.githubusercontent.com/matthiku/chatter/master/public/static/mobile-screenshot-small.png)
-
 
 (C) 2018 Matthias Kuhs, Ireland

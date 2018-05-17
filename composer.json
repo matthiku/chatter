@@ -11,7 +11,8 @@
         "laravel/passport": "^6.0",
         "laravel/socialite": "^3.0",
         "laravel/tinker": "^1.0",
-        "pusher/pusher-php-server": "~3.0"
+        "pusher/pusher-php-server": "~3.0",
+        "rap2hpoutre/laravel-log-viewer": "^0.14.3"
     },
     "require-dev": {
         "filp/whoops": "^2.0",
