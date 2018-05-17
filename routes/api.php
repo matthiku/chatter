@@ -48,6 +48,6 @@ Route::middleware('auth:api')->group(
         Route::post('rooms/{room}/typing', 'RoomController@typing');
 
         // getLatestFrontendVersion
-        Route::get('getlatestfrontendversion', 'Homecontroller@getLatestFrontendVersion');
+        Route::get('getlatestfrontendversion', 'HomeController@getLatestFrontendVersion');
     }
 );

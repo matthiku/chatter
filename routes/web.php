@@ -52,6 +52,7 @@ Route::get(
  */
 
 Route::get('/home/{lang?}', 'HomeController@index')->name('home');
+
 Route::get(
     '/', function () {
         return view('home');
