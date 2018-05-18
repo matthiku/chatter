@@ -8,23 +8,24 @@
 
           <button class="btn btn-secondary btn-sm chatter-menu user-settings-button dropdown-toggle p-0"
               type="button"
-              id="dropdownMenuLink" 
+              id="dropdownMenuLink"
+              data-offset="10,20"
               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <img v-if="user.avatar"
                 class="user-avatar rounded-circle"
                 width="30px"
                 :src="user.avatar">
-            <i v-else class="material-icons">more_vert</i>
+            <i class="material-icons">more_vert</i>
           </button>
 
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <div class="dropdown-menu py-3 px-4" aria-labelledby="dropdownMenuLink">
             <span v-if="activeRoom">
-              <a class="dropdown-item" href="#" @click="closeAllChats"><i class="material-icons">close</i> Close Room</a>
-              <a class="dropdown-item" href="#" @click="editRoom"><i class="material-icons">settings</i> Room settings</a>
+              <a class="dropdown-item rounded border border-dark bg-light mb-3" href="#" @click="closeAllChats"><i class="material-icons">close</i> Close Room</a>
+              <a class="dropdown-item rounded border border-primary mb-3" href="#" @click="editRoom"><i class="material-icons">settings</i> Room settings</a>
               <div class="dropdown-divider"></div>               
             </span>
-            <a class="dropdown-item" href="#" @click="showSettings"><i class="material-icons">face</i> User Profile</a>
-            <a class="dropdown-item" href="#" @click="logoff"><i class="material-icons">transit_enterexit</i> Logoff</a>
+            <a class="dropdown-item rounded bg-info mb-3" href="#" @click="showSettings"><i class="material-icons">face</i> User Profile</a>
+            <a class="dropdown-item rounded bg-warning mb-3" href="#" @click="logoff"><i class="material-icons">power_settings_new</i> Logoff</a>
           </div>
 
         </div>

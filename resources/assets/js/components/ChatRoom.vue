@@ -12,7 +12,7 @@
           :data-target="'#collapse-'+room.id"
         >
           <!-- show room name -->
-          <span>
+          <span class="room-props-and-name">
             <i  title="room settings dialog"
                 v-if="room.id !== 0"
                 @click.stop="editRoom(room)"
@@ -28,11 +28,11 @@
             ></chat-show-room-members>
 
         <!-- show messages counter -->
-        <span>
-          <small class="d-none d-sm-inline mr-1 mr-sm-2">{{ $moment(room.updated_at).fromNow() }}</small>
+        <span class="nowrap overflow-hidden">
+          <small class="mr-1 mr-sm-2">{{ $moment(room.updated_at).fromNow() }}</small>
           <span v-if="unreadMessages + arrivedMessages"
               class="badge badge-danger badge-pill">{{ unreadMessages }}</span>
-          <span class="d-none d-sm-inline badge badge-secondary badge-pill mr-1">{{ room.messages ? room.messages.length : 0 }}</span>
+          <span class="badge badge-secondary badge-pill mr-1">{{ room.messages ? room.messages.length : 0 }}</span>
         </span>
       </div>
 
@@ -86,6 +86,19 @@
 .chat-room-body {
   background-image: url("/static/paper.gif");
   background-repeat: repeat;  
+}
+.room-props-and-name {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;  
+}
+.room-name {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: larger;
+  color:darkred;
+}
+.nowrap {
+  white-space: nowrap;
 }
 </style>
 

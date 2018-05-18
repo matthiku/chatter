@@ -60,11 +60,6 @@ body {
 .mw-1k {
   max-width: 900px;
 }
-.room-name {
-  font-family: 'Times New Roman', Times, serif;
-  font-size: larger;
-  color:darkred;
-}
 .chat-log {
   overflow-y: scroll;
 }
