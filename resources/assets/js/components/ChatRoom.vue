@@ -74,6 +74,22 @@
 </template>
 
 
+<style>
+.chatroom-header {
+  opacity: 0.6;
+  font-size: small;  
+}
+.chatroom-header:hover {
+  opacity: 1;
+  font-size: inherit;
+}
+.chat-room-body {
+  background-image: url("/static/paper.gif");
+  background-repeat: repeat;  
+}
+</style>
+
+
 <script>
 export default {
   props: ['room', 'activeRoom'],

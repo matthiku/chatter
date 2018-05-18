@@ -22,7 +22,7 @@
                 @close-all-chats="closeAllChats"
                 @set-active-room="setActiveRoom"
                 @user-read-all-messages="userReadAllMessages"
-                class="card mb-1 mb-sm-2"
+                class="card mb-1 mb-sm-2 every-chatrooms-card"
               ></chat-room>
 
           </div>
@@ -54,6 +54,9 @@ body {
 .all-rooms-header {
   background-color: darkseagreen;  
 }
+.every-chatrooms-card:nth-child(even) {
+  background-color: beige;
+}
 .mw-1k {
   max-width: 900px;
 }
@@ -61,18 +64,6 @@ body {
   font-family: 'Times New Roman', Times, serif;
   font-size: larger;
   color:darkred;
-}
-.chatroom-header {
-  opacity: 0.6;
-  font-size: small;  
-}
-.chatroom-header:hover {
-  opacity: 1;
-  font-size: inherit;
-}
-.chat-room-body {
-  background-image: url("/static/paper.gif");
-  background-repeat: repeat;  
 }
 .chat-log {
   overflow-y: scroll;
