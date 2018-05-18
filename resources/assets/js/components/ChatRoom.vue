@@ -2,7 +2,7 @@
   <span>              
     <!-- chatRoom header
       -->
-    <div class="card-header p-2 my-0" :id="'heading-'+room.id">
+    <div class="card-header px-1 pt-1 pb-2 p-sm-1 p-md-2 my-0" :id="'heading-'+room.id">
       <div class="d-flex justify-content-between mb-0 w-100 p-0 cursor-pointer"
           :class="[room.id === activeRoom ? '' : 'chatroom-header']"
           @click="hideOtherRooms(room.id)"
@@ -14,7 +14,7 @@
           <!-- show room name -->
           <span class="room-props-and-name">
             <i  title="room settings dialog"
-                v-if="room.id !== 0"
+                v-if="room.id !== 0 && room.id !== activeRoom"
                 @click.stop="editRoom(room)"
                 class="material-icons">settings</i>
             
