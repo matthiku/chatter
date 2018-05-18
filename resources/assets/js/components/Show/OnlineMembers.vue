@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="d-flex flex-nowrap overflow-hidden">
 
+    <span class="d-none d-sm-inline mr-1">Online</span>
     <i class="align-middle material-icons">group</i>
-    <span class="d-none d-sm-inline">Online:</span>
 
     <!-- show names as clickable badges - click opens new chat -->
     <a href="#" v-for="(u, idx) in onlineUsers" :key="idx"
@@ -27,6 +27,9 @@
 
 
 <style>
+  .overflow-hidden {
+    overflow: hidden;
+  }
   .avatar-helper {
     width: 35px;
     height: 35px;

@@ -29,15 +29,15 @@
 
         <!-- show messages counter -->
         <span>
-          <small class="mr-2">{{ $moment(room.updated_at).fromNow() }}</small>
+          <small class="d-none d-sm-inline mr-1 mr-sm-2">{{ $moment(room.updated_at).fromNow() }}</small>
           <span v-if="unreadMessages + arrivedMessages"
-              class="badge badge-danger badge-pill mt-1 mr-">{{ unreadMessages }}</span>
-          <span class="badge badge-secondary badge-pill mt-1 mr-1">{{ room.messages ? room.messages.length : 0 }}</span>
+              class="badge badge-danger badge-pill">{{ unreadMessages }}</span>
+          <span class="d-none d-sm-inline badge badge-secondary badge-pill mr-1">{{ room.messages ? room.messages.length : 0 }}</span>
         </span>
       </div>
 
       <!-- show room members on extra line on smaller screens -->
-      <chat-show-room-members class="d-md-none d-block text-center"
+      <chat-show-room-members class="d-md-none d-block d-flex flex-nowrap overflow-hidden text-center"
           :room="room" :user="user"
         ></chat-show-room-members>
 

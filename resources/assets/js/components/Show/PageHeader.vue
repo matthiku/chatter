@@ -30,7 +30,7 @@
         </div>
 
         <span @click="closeAllChats"
-            class="all-rooms-title"
+            class="d-none d-sm-inline all-rooms-title"
             :class="[activeRoom ? 'cursor-pointer text-primary' : '']">
           <span v-if="activeRoom"
             class="font-weight-bold">{{ rooms.length }}</span>
