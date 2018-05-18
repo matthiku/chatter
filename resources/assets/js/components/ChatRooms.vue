@@ -248,27 +248,29 @@ export default {
     },
 
     setPageTitle () {
-      let activeChatName = '(idle)'
+      let windowTitle = '(idle)'
       if (this.onlineUsers.length > 1) {
-        if (this.onlineUsers.length === 2)
-          activeChatName = ' - 1 user online'
+        if (this.onlineUsers.length === 2) {
+          let otherUser = this.onlineUsers.find(el => el.id !== this.user.id).username
+          windowTitle = ` - ${otherUser} is online`
+        }
         else
-          activeChatName = ' -' + (this.onlineUsers.length-1) + ' users online'
+          windowTitle = ' -' + (this.onlineUsers.length-1) + ' users online'
       }
       // show name of open chat room, if any
       if (this.activeRoom) {
-        activeChatName = this.rooms.find(el => el.id === this.activeRoom).name
+        windowTitle = this.rooms.find(el => el.id === this.activeRoom).name
       }
       let newMsgCount = this.newMessagesArrived.length
       // if there are new messages, show name of first chat containing new messages
       if (newMsgCount) {
-        activeChatName = this.newMessagesArrived[0].room.name
+        windowTitle = this.newMessagesArrived[0].room.name
         newMsgCount = `(${newMsgCount}) `
       } else {
         newMsgCount = ''
       }
 
-      window.document.title = `${this.appName} ${newMsgCount}${activeChatName}`
+      window.document.title = `${this.appName} ${newMsgCount}${windowTitle}`
 
       // make sure we are properly connected to the presence channel
       this.safetyCheck()
