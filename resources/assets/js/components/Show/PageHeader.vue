@@ -9,7 +9,7 @@
           <button class="btn btn-secondary btn-sm chatter-menu user-settings-button dropdown-toggle p-0"
               type="button"
               id="dropdownMenuLink"
-              data-offset="10,20"
+              data-offset="10,10"
               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <img v-if="user.avatar"
                 class="user-avatar rounded-circle"

@@ -14,12 +14,16 @@
  * (C) 2018 Matthias Kuhs, Ireland + Germany
  */
 <template>
-  <div class="modal fade" id="chatRoomProperties" tabindex="-1" role="dialog">
+  <div class="modal fade" 
+      id="chatRoomProperties"
+      tabindex="-1"
+      role="dialog"
+    >
     <div class="modal-dialog" role="document">
-      <div class="modal-content">
+      <div class="modal-content p-0 p-md-2">
 
 
-        <div class="modal-header">
+        <div class="modal-header bg-info text-white p-1 p-md-2">
           <h5 class="modal-title">{{ title }}</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -27,12 +31,12 @@
         </div>
 
 
-        <div v-if="!deletingRoom" class="modal-body">
+        <div v-if="!deletingRoom" class="modal-body p-1 p-md-2">
 
           <!-- edit room name (only owner) -->
           <div v-if="userIsOwner" class="input-group mb-3">
             <div class="input-group-prepend">
-              <span class="input-group-text" id="basic-addon1">Edit Title</span>
+              <span class="input-group-text" id="basic-addon1">Name</span>
             </div>
             <input type="text"
                 v-model="roomName"
@@ -50,7 +54,7 @@
                   v-model="emailNotification"
                   class="custom-control-input"
                   id="emailNotification">
-              <label class="custom-control-label" for="emailNotification">Get email notification on new messages?</label>
+              <label class="custom-control-label" for="emailNotification">Receive email notification on new messages?</label>
             </div>
           </div>
 
@@ -80,7 +84,7 @@
 
 
 
-        <div v-if="deletingRoom" class="modal-body">
+        <div v-if="deletingRoom" class="modal-body p-1 p-md-2">
           <strong>Do you really want to {{ userIsOwner ? 'delete' : 'leave'}} this chat room?</strong>
           <br>
           <br>
@@ -90,7 +94,7 @@
         </div>
 
 
-        <div class="modal-footer">
+        <div class="modal-footer p-1 p-md-2">
 
           <button v-if="deletingRoom"
               @click="deleteOrLeaveRoom" type="button" class="btn btn-danger" >{{ userIsOwner ? 'Delete' : 'Leave'}} Room</button>

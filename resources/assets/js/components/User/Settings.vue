@@ -1,16 +1,21 @@
 <template>
-  <div class="modal fade" id="userSettings" tabindex="-1" role="dialog" aria-labelledby="userSettingsLabel" aria-hidden="true">
+  <div class="modal fade"
+      id="userSettings"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="userSettingsLabel" aria-hidden="true"
+    >
     <div class="modal-dialog" role="document">
-      <div class="modal-content">
+      <div class="modal-content p-0 p-md-2">
 
-        <div class="modal-header">
+        <div class="modal-header bg-info text-white p-1 p-md-2">
           <h5 class="modal-title" id="userSettingsLabel">User Profile</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
 
-        <div class="modal-body">
+        <div class="modal-body p-1 p-md-2">
 
           <form>
           
@@ -42,7 +47,7 @@
                 width="45px"
                 :src="user.avatar">
 
-              <label for="avatarFile" class="float-left">Your avatar:</label>
+              <label for="avatarFile" class="float-left">Your avatar (icon):</label>
 
               <input disabled type="file" class="d-inline float-right" id="avatarFile">
             </div>
@@ -52,7 +57,7 @@
 
         </div>
 
-        <div class="modal-footer">
+        <div class="modal-footer p-1 p-md-2">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           <button type="button"
               class="btn btn-primary"
