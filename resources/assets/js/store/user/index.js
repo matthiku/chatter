@@ -48,6 +48,21 @@ export default {
           }
         })
         .catch(err => window.console.error(err))
+    },
+
+    logoff ({ commit }) {
+      window.axios
+        .post('/logout')
+        .then(response => {
+          if (response.data) {
+            window.location.href = '/home'
+            commit('setUsers', [])
+            commit('setUser', {})
+          } else {
+            window.console.warn('failed to logoff properly!', response)
+          }
+        })
+        .catch(err => window.console.error(err))
     }
   },
 

@@ -179,7 +179,7 @@ export default {
     },
 
     logoff () {
-      document.getElementById('logout-form').submit()
+      this.$store.dispatch('logoff')
     },
     
   }

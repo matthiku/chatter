@@ -1,11 +1,20 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Register') }}</div>
+
+                <div class="card-header">
+                    {{ __('Register') }}
+                    
+                    <span class="float-right">
+                        <a class="btn btn-link" href="{{ route('home') }}">
+                            {{ __('Home') }}
+                        </a>
+                    </span>
+                </div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('register') }}">
@@ -80,6 +89,10 @@
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Register') }}
                                 </button>
+
+                                <a class="btn btn-link" href="{{ route('login') }}">
+                                    {{ __('Already registered? Login here') }}
+                                </a>
                             </div>
                         </div>
                     </form>

@@ -9,7 +9,21 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">@lang('Dashboard')</div>
+                    <div class="card-header">
+                        @lang('Dashboard')
+                        <span class="float-right">
+                            @if (App::isLocale('en'))
+                                Wähle deine Sprache: &nbsp;
+                                <a href="{{ url('/home/de') }}" title="Wechsle nach Deutsch">
+                                <img src="{{ asset('/static/german.png') }}" width="20px" alt="german">DE</a>
+                            @else
+                                Choose your language: &nbsp;
+                                <a href="{{ route('home') }}"
+                                title="switch to English">
+                                <img src="{{ asset('/static/english.png') }}" width="20px" alt="english">EN</a>
+                            @endif
+                        </span>
+                    </div>
 
                     <div class="card-body text-center">
                         @if (session('status'))
@@ -26,6 +40,7 @@
                                 @lang('or') <a href="{{ route('sendVerifyEmail') }}">@lang('request the verification email again').</a>
                             @endif
                         @else
+                        
                             ChatterBox 2.0 - @lang('Please') <a href="{{ route('login') }}">{{ __('log in') }}</a> 
                             @lang('or') <a href="{{ route('register') }}">{{ __('register') }}</a> @lang('to participate') @lang('or')
 

@@ -1,15 +1,21 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container-fluid">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-sm-12 col-lg-8">
             <div class="card">
                 <div class="card-header">
                     <span>{{ __('auth.Login with') }}</span>
                     <a class="btn btn-sm btn-outline-primary ml-2" href="{{ url('/login/google') }}" role="button">Google</a>,
                     <a class="btn btn-sm btn-outline-secondary ml-2" href="{{ url('/login/facebook') }}" role="button">Facebook</a>
                     @lang('or')<a class="btn btn-sm btn-outline-info ml-2" href="{{ url('/login/github') }}" role="button">GitHub</a>
+
+                    <span class="float-right">
+                        <a class="btn btn-link" href="{{ route('home') }}">
+                            {{ __('Home') }}
+                        </a>
+                    </span>
                 </div>
 
 
@@ -66,6 +72,10 @@
 
                                 <a class="btn btn-link" href="{{ route('password.request') }}">
                                     {{ __('Forgot Your Password?') }}
+                                </a>
+
+                                <a class="btn btn-link" href="{{ route('register') }}">
+                                    {{ __('No Account? Register here') }}
                                 </a>
                             </div>
                         </div>
