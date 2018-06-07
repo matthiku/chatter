@@ -6,7 +6,7 @@ based on Laravel 5.6 with Laravel Echo, using Pusher. SPA front-end using Vue.js
 
 ## Prerequisites
 
-Some basic understanding of the [Laravel](https://laravel.com) architecture is helpful.
+Some basic understanding of the [Laravel](https://laravel.com) architecture is mandatory.
 
 A free [Pusher](https://pusher.com) account is necessary in order for this to work!
 
