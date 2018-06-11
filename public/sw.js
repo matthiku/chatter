@@ -1,4 +1,4 @@
-importScripts("precache-manifest.98676f90810c92abe2f2c23362d9e80a.js", "https://storage.googleapis.com/workbox-cdn/releases/3.2.0/workbox-sw.js");
+importScripts("precache-manifest.0cce0f4a464567dcee456b01cff16c70.js", "https://storage.googleapis.com/workbox-cdn/releases/3.2.0/workbox-sw.js");
 
 /*global workbox*/
 /*eslint no-undef: "error"*/
@@ -29,7 +29,7 @@ workbox.routing.registerRoute(
 // third-party images (avatars)
 // see https://developers.google.com/web/tools/workbox/modules/workbox-cacheable-response
 workbox.routing.registerRoute(
-  new RegExp('.*(?:.jpg|.png)'),
+  /\.(?:png|jpg|jpeg|svg)$/,
   workbox.strategies.cacheFirst({
     cacheName: 'image-cache',
     plugins: [
@@ -45,7 +45,7 @@ workbox.routing.registerRoute(
 
 
 /**
- * dynamic caching
+ * dynamic caching of main page
  */
 workbox.routing.registerRoute(
   '/home',

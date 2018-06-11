@@ -27,7 +27,7 @@ workbox.routing.registerRoute(
 // third-party images (avatars)
 // see https://developers.google.com/web/tools/workbox/modules/workbox-cacheable-response
 workbox.routing.registerRoute(
-  new RegExp('.*(?:.jpg|.png)'),
+  /\.(?:png|jpg|jpeg|svg)$/,
   workbox.strategies.cacheFirst({
     cacheName: 'image-cache',
     plugins: [
@@ -43,7 +43,7 @@ workbox.routing.registerRoute(
 
 
 /**
- * dynamic caching
+ * dynamic caching of main page
  */
 workbox.routing.registerRoute(
   '/home',

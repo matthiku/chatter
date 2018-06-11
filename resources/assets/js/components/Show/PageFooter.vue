@@ -5,13 +5,14 @@
         &copy; 2018 <a href="https://github.com/matthiku/chatter">Matthias Kuhs</a>
       </small>
 
-      <small v-if="user.id === 1">
+      <small v-if="user.id === 1"
+          class="float-right ml-2"
+        >
         <a href="/logs" target="new">Logs</a>
       </small>
 
       <small
           v-if="latestFrontendVersion && latestFrontendVersion !== frontendTimestamp"
-
           class="float-right ml-2"
         >
         &bull; New version available: 
@@ -20,7 +21,6 @@
 
       <small
           v-if="!latestFrontendVersion || (latestFrontendVersion && latestFrontendVersion === frontendTimestamp)"
-
           class="float-right"
           :title="'Last software update:' + $moment.unix(frontendTimestamp).format()"
         >
