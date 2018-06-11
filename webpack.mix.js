@@ -17,12 +17,16 @@ let mix = require('laravel-mix')
 const {
   InjectManifest
 } = require('workbox-webpack-plugin')
+
 mix.webpackConfig({
   plugins: [
     new InjectManifest({
       swSrc: './resources/assets/js/sw.js'
     })
-  ]
+  ],
+  output: {
+    publicPath: ''
+  }
 })
 
 

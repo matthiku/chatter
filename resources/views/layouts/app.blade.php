@@ -26,7 +26,7 @@
 
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('/static/vue2Dropzone.css') }}" rel="stylesheet">
+    <link href="{{ asset('static/vue2Dropzone.css') }}" rel="stylesheet">
 
     <!-- Add to home screen for Safari on iOS -->
     <!--meta name="apple-mobile-web-app-capable" content="yes" -->
