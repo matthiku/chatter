@@ -1,4 +1,4 @@
-importScripts("precache-manifest.0cce0f4a464567dcee456b01cff16c70.js", "https://storage.googleapis.com/workbox-cdn/releases/3.2.0/workbox-sw.js");
+importScripts("precache-manifest.6aeb931c1d35560e8f98acab41e214a8.js", "https://storage.googleapis.com/workbox-cdn/releases/3.2.0/workbox-sw.js");
 
 /*global workbox*/
 /*eslint no-undef: "error"*/
@@ -45,10 +45,16 @@ workbox.routing.registerRoute(
 
 
 /**
- * dynamic caching of main page
+ * dynamic caching of main pages
  */
 workbox.routing.registerRoute(
   '/home',
+  workbox.strategies.networkFirst({
+    cacheName: 'semi-static'
+  })
+)
+workbox.routing.registerRoute(
+  '/',
   workbox.strategies.networkFirst({
     cacheName: 'semi-static'
   })

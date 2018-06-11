@@ -43,10 +43,16 @@ workbox.routing.registerRoute(
 
 
 /**
- * dynamic caching of main page
+ * dynamic caching of main pages
  */
 workbox.routing.registerRoute(
   '/home',
+  workbox.strategies.networkFirst({
+    cacheName: 'semi-static'
+  })
+)
+workbox.routing.registerRoute(
+  '/',
   workbox.strategies.networkFirst({
     cacheName: 'semi-static'
   })

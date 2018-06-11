@@ -14,9 +14,7 @@ let mix = require('laravel-mix')
 /**
  * custom webpack configurations
  */
-const {
-  InjectManifest
-} = require('workbox-webpack-plugin')
+const {InjectManifest} = require('workbox-webpack-plugin')
 
 mix.webpackConfig({
   plugins: [

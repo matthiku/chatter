@@ -16,8 +16,19 @@ Vue.use(Router)
 export default new Router({
   mode: 'history',
 
-  routes: [{
-    path: '/home',
-    component: ChatRooms
-  }]
+  routes: [
+    {
+      path: '/',
+      component: ChatRooms
+    },
+    {
+      path: '/index.php',
+      component: ChatRooms
+    },
+    {
+      path: '/home',
+      component: ChatRooms,
+      meta: 'hometa'
+    },
+  ]
 })
