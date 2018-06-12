@@ -24,7 +24,7 @@
               <a class="dropdown-item rounded border border-primary mb-3" href="#" @click="editRoom"><i class="material-icons">settings</i> Room settings</a>
               <div class="dropdown-divider"></div>               
             </span>
-            <a class="dropdown-item rounded bg-info mb-3" href="#" @click="showSettings"><i class="material-icons">face</i> User Profile</a>
+            <a class="dropdown-item rounded bg-info mb-3" href="#" @click="showSettings"><i class="material-icons">face</i> Your Profile</a>
             <a class="dropdown-item rounded bg-warning mb-3" href="#" @click="logoff"><i class="material-icons">power_settings_new</i> Logoff</a>
           </div>
 

@@ -1,8 +1,10 @@
 <template>
-  <span>
+  <nav
+      class="navbar fixed-bottom py-0 py-sm-1 py-md-2 navbar-light" style="background-color: #e3f2fd;"
+    >
 
       <small>
-        &copy; 2018 <a href="https://github.com/matthiku/chatter">Matthias Kuhs</a>
+        &copy; 2018 <a href="https://github.com/matthiku/chatter">M.Kuhs</a>
       </small>
 
       <small v-if="user.id === 1"
@@ -16,18 +18,18 @@
           class="float-right ml-2"
         >
         &bull; New version available: 
-        <a href="/home">Reload!</a>
+        <a href="/home" class="btn btn-sm btn-info" >Reload!</a>
       </small>
 
       <small
           v-if="!latestFrontendVersion || (latestFrontendVersion && latestFrontendVersion === frontendTimestamp)"
           class="float-right"
-          :title="'Last software update:' + $moment.unix(frontendTimestamp).format()"
+          :title="'Last software update: ' + $moment.unix(frontendTimestamp).format('YYYY-MM-DD H:mm')"
         >
-        Version: latest!
+        App is Latest!
       </small>
 
-  </span>
+  </nav>
 </template>
 
 
