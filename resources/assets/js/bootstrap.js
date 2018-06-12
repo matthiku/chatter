@@ -62,7 +62,7 @@ window.Echo = new Echo({
 })
 
 
-// test Service Worker
+// Try to enable Service Worker
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function () {
     navigator.serviceWorker.register('/sw.js').then(function (registration) {

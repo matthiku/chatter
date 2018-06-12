@@ -1,5 +1,5 @@
 /**
- * load all of this project's JavaScript dependencies which
+ * Load all of this project's JavaScript dependencies which
  * includes Vue and other libraries.
  */
 
@@ -12,7 +12,7 @@ import router from './router'
 Vue.config.productionTip = false
 Vue.config.devtools = true
 
-// provide the moment library to all components
+// Provide the moment library to all components
 import moment from 'moment-timezone'
 moment.tz.setDefault('UTC')
 // add moment to the Vue prototype, so that we can use it in all components!
@@ -22,13 +22,14 @@ Object.defineProperty(Vue.prototype, '$moment', {
   }
 })
 
-// central Vuex store
+// Central Vuex store
 import { store } from './store'
 
-// single component files
+// Register all Single File Components
 import sharedComponents from './sharedComponents'
 sharedComponents()
 
+// Load values from the document into the store
 import startUpActions from './startUpActions'
 
 new Vue({

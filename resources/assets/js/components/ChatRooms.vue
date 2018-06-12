@@ -172,6 +172,21 @@ export default {
               if (e.user.id !== this.user.id) {
                 this.$store.commit('addToNewMessagesArrived', msg)
                 // TODO: play a sound!
+                // add background notification!
+                if (! ('Notification' in window)) {
+                  alert('Web Notification is not supported')
+                } else {
+                  Notification.requestPermission( permission => {
+                    let notification = new Notification(
+                      'New message from ' + msg.user.username,
+                      { body: `Room: ${msg.room.name},\nText: ${msg.message}` }
+                    )
+                    notification.onclick = () => {
+                      // TODO: open this specific room!
+                      window.open(window.location.href)
+                    }
+                  })
+                }
               }
               this.$store.commit('sortRooms') // make sure the room list is refreshed
             } else {
