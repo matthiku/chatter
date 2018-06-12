@@ -19,11 +19,11 @@ export default new Router({
   routes: [
     {
       path: '/',
-      component: ChatRooms
+      redirect: '/home'
     },
     {
       path: '/index.php',
-      component: ChatRooms
+      redirect: '/home'
     },
     {
       path: '/home',
