@@ -28,7 +28,6 @@ export default new Router({
     {
       path: '/home',
       component: ChatRooms,
-      meta: 'hometa'
     },
   ]
 })

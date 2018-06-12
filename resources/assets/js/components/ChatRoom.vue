@@ -23,9 +23,9 @@
           </span>
 
           <!-- show room members inline on wider screens -->
-          <chat-show-room-members class="d-none d-md-inline"
+          <ShowRoomMembers class="d-none d-md-inline"
               :room="room" :user="user"
-            ></chat-show-room-members>
+            ></ShowRoomMembers>
 
         <!-- show messages counter -->
         <span class="nowrap overflow-hidden">
@@ -37,9 +37,9 @@
       </div>
 
       <!-- show room members on extra line on smaller screens -->
-      <chat-show-room-members class="d-md-none d-block d-flex flex-nowrap justify-content-center overflow-hidden"
+      <ShowRoomMembers class="d-md-none d-block d-flex flex-nowrap justify-content-center overflow-hidden"
           :room="room" :user="user"
-        ></chat-show-room-members>
+        ></ShowRoomMembers>
 
     </div>
 
@@ -57,11 +57,11 @@
           tabindex="-1"
           class="card-body chat-room-body p-0 p-sm-1 p-md-2 p-lg-3 p-xl-4">
 
-        <chat-log 
+        <ChatLog 
             v-if="room.id !== 0"
             @close-all-chats="closeAllChats"
             :room="room">
-        </chat-log>
+        </ChatLog>
 
         <div v-else
             class="text-center"

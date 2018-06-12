@@ -1,28 +1,34 @@
 /**
- * central registration of all Vue components
+ * Central registration of all Vue components
+ * 
+ * (
+ *  see https: //github.com/chrisvfritz/7-secret-patterns
+ * and https: //www.youtube.com/watch?v=7lpemgMhi0k
+ * )
  *
  * (C) 2018 Matthias Kuhs
  */
 import Vue from 'vue'
+import upperFirst from 'lodash/upperFirst'
+import camelCase from 'lodash/camelCase'
+
+// Get a list of all components
+const requireComponent = require.context(
+  './components', true, /^.*\.vue$/
+)
 
 export default function sharedComponents() {
-  Vue.component('user-settings', require('./components/User/Settings.vue'))
+  requireComponent.keys().forEach(filename => {
+    // Get component config
+    const componentConfig = requireComponent(filename)
 
-  Vue.component('chat-log', require('./components/ChatLog.vue'))
-  Vue.component('chat-room', require('./components/ChatRoom.vue'))
-  Vue.component('chat-rooms', require('./components/ChatRooms.vue'))
-  
-  Vue.component('chat-edit-message', require('./components/Edit/ComposeMessage.vue'))
-  Vue.component('chat-room-properties', require('./components/Edit/editRoomProperties.vue'))
+    // Get PascalCase name of component
+    const componentName = upperFirst(
+      camelCase(filename.replace(/^\.\//, '').replace(/\.\w+$/, ''))
+    )
 
-  Vue.component('chat-insert-files', require('./components/Insert/Files.vue'))
-  Vue.component('chat-insert-emoticons', require('./components/Insert/Emoticons.vue'))
-
-  Vue.component('chat-show-images', require('./components/Show/Slideshow.vue'))
-  Vue.component('chat-show-message', require('./components/Show/Message.vue'))
-  Vue.component('chat-show-page-header', require('./components/Show/PageHeader.vue'))
-  Vue.component('chat-show-page-footer', require('./components/Show/PageFooter.vue'))
-  Vue.component('chat-show-room-members', require('./components/Show/RoomMembers.vue'))
-  Vue.component('chat-show-online-members', require('./components/Show/OnlineMembers.vue'))
-  Vue.component('chat-show-reading-progress', require('./components/Show/ReadingProgress.vue'))
+    // Register each component globally
+    window.console.log('Registering Vue component -', componentName)
+    Vue.component(componentName, componentConfig.default || componentConfig)
+  })
 }

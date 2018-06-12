@@ -2,13 +2,13 @@
   <div class="chat-log">
 
 
-    <chat-show-message
+    <ShowMessage
         v-for="(message, index) in room.messages"
         :key="index"
         :index="index"
         :message="message"
         :room="room"
-      ></chat-show-message>
+      ></ShowMessage>
 
 
     <div
@@ -19,15 +19,15 @@
     </div>
 
 
-    <chat-edit-message 
+    <EditComposeMessage 
         :room="room"
         @close-all-chats="closeAllChats"
-      ></chat-edit-message>
+      ></EditComposeMessage>
 
 
-    <chat-show-images
+    <ShowSlideshow
         :messages="room.messages"
-      ></chat-show-images>
+      ></ShowSlideshow>
 
   </div>  
 </template>

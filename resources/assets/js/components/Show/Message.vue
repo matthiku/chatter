@@ -2,12 +2,12 @@
   <span>
 
     <!-- show names of members depending on their reading progress -->
-    <chat-show-reading-progress
+    <ShowReadingProgress
         simple="true"
         :index="index"
         :room="room"
         :message="message"
-      ></chat-show-reading-progress>
+      ></ShowReadingProgress>
 
     <div :class="{
           'text-right' : message.user_id === user.id,
@@ -84,11 +84,11 @@
     </div>
 
     <!-- show names of members depending on their reading progress -->
-    <chat-show-reading-progress
+    <ShowReadingProgress
         :index="index"
         :room="room"
         :message="message"
-      ></chat-show-reading-progress>
+      ></ShowReadingProgress>
 
   </span>
 </template>

@@ -1,6 +1,9 @@
 /**
  * startUpActions is called from (or imported into) the main.js module
  * and used in the Vue launch block.
+ * 
+ * It reads data from the global variables set in app.blade.php 
+ * and puts them into our Vuex store
  *
  * (C) 2018 Matthias Kuhs
  *

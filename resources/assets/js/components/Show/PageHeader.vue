@@ -48,10 +48,10 @@
       </span>
 
       <!-- show online users -->
-      <chat-show-online-members
+      <ShowOnlineMembers
           class="all-rooms-title"
           :onlineUsers="onlineUsers" :user="user">
-      </chat-show-online-members>
+      </ShowOnlineMembers>
 
       <button @click="launchNewRoomModal()"
           title="create a new chat room"

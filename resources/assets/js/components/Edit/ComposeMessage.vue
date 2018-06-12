@@ -40,14 +40,14 @@
       </div>
     </div>
 
-    <chat-insert-emoticons
+    <InsertEmoticons
         v-on:insert-emo="insertEmo"
-      ></chat-insert-emoticons>
+      ></InsertEmoticons>
 
-    <chat-insert-files
+    <InsertFiles
         :room="room"
         :capture="capture"
-      ></chat-insert-files>
+      ></InsertFiles>
 
   </div>  
 </template>

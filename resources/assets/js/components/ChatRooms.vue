@@ -3,17 +3,17 @@
     <div class="col-xl-8 col-lg-10 col-md-12 mw-1k px-0 px-sm-1">
       <div class="card shadow-sm">
 
-        <chat-show-page-header
+        <ShowPageHeader
             :activeRoom="activeRoom"
             @open-new-message="openNewMessage"
             @close-all-chats="closeAllChats"
-          ></chat-show-page-header>
+          ></ShowPageHeader>
 
         <div class="card-body chatroom-canvas p-0 p-sm-1 p-md-2 p-lg-3 p-xl-4">
 
           <div class="accordion shadow" id="chatrooms">
 
-            <chat-room
+            <ChatRoom
                 v-for="(room, index) in rooms"
                 v-if="activeRoom === null || activeRoom === room.id"
                 :key="index"
@@ -23,24 +23,24 @@
                 @set-active-room="setActiveRoom"
                 @user-read-all-messages="userReadAllMessages"
                 class="card mb-1 mb-sm-2 every-chatrooms-card"
-              ></chat-room>
+              ></ChatRoom>
 
           </div>
         </div>
 
       </div>
 
-      <chat-show-page-footer
+      <ShowPageFooter
           v-if="!activeRoom"
-        ></chat-show-page-footer>
+        ></ShowPageFooter>
 
     </div>
 
     <!-- modal for user settings -->
-    <user-settings></user-settings>
+    <UserSettings></UserSettings>
 
     <!-- modal dialog to edit chat room properties or create a new room -->
-    <chat-room-properties></chat-room-properties>
+    <EditRoomProperties></EditRoomProperties>
 
   </div>
 </template>

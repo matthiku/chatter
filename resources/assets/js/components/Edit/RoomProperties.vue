@@ -74,10 +74,10 @@
           <!-- Show member list -->
           <div v-else-if="room">
             <label for="membersList">Members:</label>
-            <chat-show-room-members
+            <ShowRoomMembers
                 :room="room"
                 :user="user"
-              ></chat-show-room-members>
+              ></ShowRoomMembers>
           </div>
 
         </div>
