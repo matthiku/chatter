@@ -10,6 +10,7 @@ import Router from 'vue-router'
 // import AuthGuard from './auth-guard'
 
 import ChatRooms from '../components/ChatRooms'
+import UserLogin from '../components/User/Login'
 
 Vue.use(Router)
 
@@ -28,6 +29,10 @@ export default new Router({
     {
       path: '/home',
       component: ChatRooms,
+    },
+    {
+      path: '/logi',
+      component: UserLogin,
     },
   ]
 })
