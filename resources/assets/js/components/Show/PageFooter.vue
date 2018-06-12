@@ -26,7 +26,7 @@
           class="float-right"
           :title="'Last software update: ' + $moment.unix(frontendTimestamp).format('YYYY-MM-DD H:mm')"
         >
-        App is Latest!
+        App is up2date!
       </small>
 
   </nav>
